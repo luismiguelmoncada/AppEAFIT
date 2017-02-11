@@ -35,21 +35,14 @@ dependencies {
     compile 'com.android.support:support-v4:24.2.1'
     compile 'com.android.support:support-fragment:24.2.1'
 
-    compile 'com.squareup.picasso:picasso:2.5.2'
-    compile 'de.hdodenhof:circleimageview:2.1.0'
-    compile 'com.zoonref:simple-view-behavior:1.0'
-    compile 'com.jakewharton:butterknife:6.1.0'
+    compile 'com.jakewharton:butterknife:8.4.0'
+    annotationProcessor 'com.jakewharton:butterknife-compiler:8.4.0'
+
+    compile 'com.android.support.constraint:constraint-layout:1.0.0-beta4'
 
     compile 'com.squareup.retrofit2:retrofit:2.0.0'
     compile 'com.squareup.retrofit2:converter-gson:2.0.0'
     compile 'com.google.code.gson:gson:2.6.1'
-
-    compile 'com.squareup.retrofit:retrofit:1.9.0'
-
-    compile 'com.android.support.constraint:constraint-layout:1.0.0-beta4'
-
-    compile 'com.google.firebase:firebase-core:10.0.1'
-    compile 'com.google.firebase:firebase-messaging:10.0.1'
 
 
 }

@@ -8,8 +8,10 @@
     <!-- margenes y tamaños login -->
     <dimen name="dimens_loginform">300dp</dimen>
     <dimen name="dimens_loginform1">150dp</dimen>
-    <dimen name="edit_text_size">22sp
-    </dimen> <!-- Muy conveniente usar medidas en sp para textos -->
+    <dimen name="edit_text_size">22sp</dimen>
+    <dimen name="button_size">34dp</dimen>
+    <dimen name="dimens_logo_eafit">250dp</dimen>
+    <!-- Muy conveniente usar medidas en sp para textos -->
     <dimen name="text_size_noaccount">16sp</dimen>
     <dimen name="dimens_loginform_marginbutton">10dp</dimen>
     <dimen name="top_marginbutton">50dp</dimen>

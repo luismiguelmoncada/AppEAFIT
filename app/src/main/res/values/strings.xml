@@ -3,24 +3,23 @@
     <string name="action_settings">Settings</string>
 
     <!-- Strings related to login -->
-    <string name="hint_username">Nombre de Usuario</string>
+    <!-- Strings related to LoginActivity View -->
+    <string name="hint_user">Usuario</string>
     <string name="hint_password">Contraseña</string>
     <string name="button_ingresar">INGRESAR</string>
-    <string name="button_registrar">REGISTRARME</string>
     <string name="text_no_account">¿No tienes cuenta?,</string>
     <string name="text_create_account"><u>Crea una aqui</u></string>
-    <string name="error_invalid_email">Ingrese un Email valido</string>
-    <string name="error_invalid_password">Ingrese una Contraseña valida</string>
-    <string name="error_incorrect_password">Contraseña Erronea</string>
+    <string name="logo_descrip">logo</string>
+    <string name="error_invalid_email">Ingrese un email valido</string>
+    <string name="error_invalid_password">Ingrese una contraseña valida</string>
+    <string name="error_incorrect_password">Contraseña Incorrecta</string>
     <string name="error_field_required">Este campo es necesario</string>
 
-    <!-- Strings related to registre-->
+    <!-- Strings related to RegistreActivity View-->
     <string name="toolbar_titulo">Registro de Usuarios</string>
-    <string name="name">Name</string>
-    <string name="username">User Name</string>
-    <string name="password">Password</string>
-    <string name="email">Email</string>
-    <string name="button_registre">REGISTRE</string>
+    <string name="hint_username">Nombre de Usuario</string>
+    <string name="hint_email">Email</string>
+    <string name="button_register">REGISTRARSE</string>
 
     <!-- Activity Names and Descriptions -->
     <string name="desc_in_activity_splash">BIENVENIDO</string>
@@ -30,5 +29,9 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="transition_name">transition1</string>
     <string name="title_activity_constraint">ConstraintActivity</string>
+    <string name="title_activity_navigation_drawer">NavigationDrawerActivity</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
 
 </resources>
