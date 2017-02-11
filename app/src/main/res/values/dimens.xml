@@ -1,0 +1,37 @@
+<resources>
+    <!-- Default screen margins, per the Android Design guidelines. -->
+    <dimen name="activity_horizontal_margin">16dp</dimen>
+    <dimen name="activity_vertical_margin">16dp</dimen>
+    <dimen name="fab_margin">16dp</dimen>
+    <dimen name="activity_horizontal_margin1">32dp</dimen>
+
+    <!-- margenes y tamaños login -->
+    <dimen name="dimens_loginform">300dp</dimen>
+    <dimen name="dimens_loginform1">150dp</dimen>
+    <dimen name="edit_text_size">22sp
+    </dimen> <!-- Muy conveniente usar medidas en sp para textos -->
+    <dimen name="text_size_noaccount">16sp</dimen>
+    <dimen name="dimens_loginform_marginbutton">10dp</dimen>
+    <dimen name="top_marginbutton">50dp</dimen>
+    <dimen name="text_size_label_login">20sp</dimen>
+
+    <!-- margenes y tamaños registre -->
+    <dimen name="edittext_margin_createaccount">10dp</dimen>
+    <dimen name="text_view_size">20dp</dimen>
+
+    <dimen name="app_bar_height">180dp</dimen>
+    <dimen name="text_margin">10dp</dimen>
+    <!-- Default screen margins, per the Android Design guidelines. -->
+
+
+    <dimen name="nav_header_vertical_spacing">16dp</dimen>
+    <dimen name="nav_header_height">160dp</dimen>
+
+    <!-- card view -->
+    <dimen name="height_card_view">200dp</dimen>
+    <dimen name="cornerradius_card_view">8dp</dimen>
+    <dimen name="marginbuttom_card_view">10dp</dimen>
+
+
+    <dimen name="appbarlayout_height">256dp</dimen>
+</resources>
