@@ -11,7 +11,6 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.universidadeafit.appeafit.MainActivity;
 import com.universidadeafit.appeafit.R;
 import com.universidadeafit.appeafit.ApiRest.ApiClient;
 import com.universidadeafit.appeafit.ApiRest.ServerResponse;

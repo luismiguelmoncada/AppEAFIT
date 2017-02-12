@@ -1,4 +1,4 @@
-package com.universidadeafit.appeafit;
+package com.universidadeafit.appeafit.Views;
 
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -9,24 +9,33 @@ import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 
-public class MainActivity extends AppCompatActivity {
+import com.universidadeafit.appeafit.R;
+
+public class AsistenteActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+        setContentView(R.layout.activity_asistente);
+        verToolbar("Asistente",true);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+                Snackbar.make(view, "¡No te preocupes! Es sencillo, solo debes seleccionar el tipo de solicitud.", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
             }
         });
     }
+
+    public  void verToolbar(String titulo,Boolean UpButton){
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setTitle(titulo);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(UpButton);
+    }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

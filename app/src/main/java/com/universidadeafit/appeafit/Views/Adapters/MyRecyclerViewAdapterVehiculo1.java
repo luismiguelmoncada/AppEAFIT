@@ -1,4 +1,4 @@
-package com.universidadeafit.appeafit.Views;
+package com.universidadeafit.appeafit.Views.Adapters;
 
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -16,8 +16,8 @@ import java.util.ArrayList;
 /**
  * Created by HP on 01/03/2016.
  */
-public class MyRecyclerViewAdapterVehiculo extends RecyclerView
-        .Adapter<MyRecyclerViewAdapterVehiculo
+public class MyRecyclerViewAdapterVehiculo1 extends RecyclerView
+        .Adapter<MyRecyclerViewAdapterVehiculo1
         .DataObjectHolder> {
     private static String LOG_TAG = "MyRecyclerViewAdapter";
     private ArrayList<DataObject> mDataset;
@@ -57,7 +57,7 @@ public class MyRecyclerViewAdapterVehiculo extends RecyclerView
         this.myClickListener = myClickListener;
     }
 
-    public MyRecyclerViewAdapterVehiculo(ArrayList<DataObject> myDataset) {
+    public MyRecyclerViewAdapterVehiculo1(ArrayList<DataObject> myDataset) {
         mDataset = myDataset;
     }
 

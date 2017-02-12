@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.universidadeafit.appeafit.R;
+import com.universidadeafit.appeafit.Views.Adapters.MyRecyclerViewAdapterVehiculo;
 import com.universidadeafit.appeafit.Views.Adapters.ViewPagerAdapter;
 
 import java.util.ArrayList;

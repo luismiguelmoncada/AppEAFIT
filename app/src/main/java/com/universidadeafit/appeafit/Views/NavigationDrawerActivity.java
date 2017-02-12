@@ -7,7 +7,6 @@ import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -17,11 +16,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Toast;
 
-import com.universidadeafit.appeafit.MainActivity;
 import com.universidadeafit.appeafit.Model.DataObject;
 import com.universidadeafit.appeafit.R;
+import com.universidadeafit.appeafit.Views.Adapters.MyRecyclerViewAdapterVehiculo;
 import com.universidadeafit.appeafit.Views.Adapters.ViewPagerAdapter;
 
 import java.util.ArrayList;
@@ -42,7 +40,6 @@ public class NavigationDrawerActivity extends AppCompatActivity
             R.drawable.ic_email
     };
 
-
     ArrayList<DataObject> Perfil = new ArrayList<>();
     ArrayList<DataObject> Noticias = new ArrayList<>();
     ArrayList<DataObject> Mas = new ArrayList<>();
@@ -55,8 +52,6 @@ public class NavigationDrawerActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle("APP EAFIT");
-
-        DataObject dataObject = new DataObject();
 
         Perfil.add(new DataObject("Mi Perfil", " Usuario", R.drawable.ic_menu_camera, " ", " "));
         Perfil.add(new DataObject("Materias", " 1", R.drawable.ic_menu_manage, " ", " "));
@@ -144,8 +139,7 @@ public class NavigationDrawerActivity extends AppCompatActivity
                 .MyClickListener() {
             @Override
             public void onItemClick(int position, View v) {
-
-                Intent i = new Intent(NavigationDrawerActivity.this, MainActivity.class);
+                Intent i = new Intent(NavigationDrawerActivity.this, DetalleVehiculos.class);
                 i.putExtra("placa",((MyRecyclerViewAdapterVehiculo) mAdapter).getObjeto(position).getPlaca());
                 startActivity(i);
                 //finish(); // Es necesario que las clases objetos o entidades que se usan en esta clase

@@ -10,6 +10,7 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+
         <activity
             android:name=".Views.Splash"
             android:label="@string/app_name">
@@ -19,7 +20,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <activity android:name=".Views.LoginActivity" />
+
         <activity
             android:name=".Views.RegisterActivity"
             android:parentActivityName=".Views.LoginActivity">
@@ -27,7 +30,6 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".Views.LoginActivity" />
         </activity>
-        <activity android:name=".MainActivity" />
 
         <activity
             android:name=".Views.NavigationDrawerActivity"
@@ -46,6 +48,20 @@
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".Views.NavigationDrawerActivity" />
+        </activity>
+
+        <activity android:name=".Views.DetalleVehiculos"
+            android:parentActivityName=".Views.NavigationDrawerActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".Views.NavigationDrawerActivity" />
+        </activity>
+
+        <activity android:name=".Views.AsistenteActivity"
+            android:parentActivityName=".Views.SolicitudActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".Views.SolicitudActivity" />
         </activity>
 
     </application>

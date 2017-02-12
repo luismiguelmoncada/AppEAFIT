@@ -9,10 +9,6 @@ public class DataObject implements Serializable {
     String tipo;
     String color;
 
-    public DataObject() {
-
-    }
-
     public DataObject(String placa, String marcaRef, int photoId, String tipo, String color) {
         this.placa = placa;
         this.marca = marcaRef;
