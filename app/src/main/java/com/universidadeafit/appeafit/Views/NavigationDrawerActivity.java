@@ -7,6 +7,7 @@ import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -16,6 +17,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.universidadeafit.appeafit.MainActivity;
 import com.universidadeafit.appeafit.Model.DataObject;
@@ -40,6 +42,7 @@ public class NavigationDrawerActivity extends AppCompatActivity
             R.drawable.ic_email
     };
 
+
     ArrayList<DataObject> Perfil = new ArrayList<>();
     ArrayList<DataObject> Noticias = new ArrayList<>();
     ArrayList<DataObject> Mas = new ArrayList<>();
@@ -52,6 +55,8 @@ public class NavigationDrawerActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle("APP EAFIT");
+
+        DataObject dataObject = new DataObject();
 
         Perfil.add(new DataObject("Mi Perfil", " Usuario", R.drawable.ic_menu_camera, " ", " "));
         Perfil.add(new DataObject("Materias", " 1", R.drawable.ic_menu_manage, " ", " "));
@@ -114,6 +119,8 @@ public class NavigationDrawerActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
 
     }
+
+
     private void setupTabIcons() {
         tabLayout.getTabAt(0).setIcon(tabIcons[0]);
         tabLayout.getTabAt(1).setIcon(tabIcons[1]);
@@ -128,17 +135,22 @@ public class NavigationDrawerActivity extends AppCompatActivity
         onResume(Perfil);// se debe ingresar el primer arreglo para el primer fragment, los otros se asignan cada vez que se mueve el tablayout
     }//es necesario para que el metodo que devuelve la posicion lo haga del fragment cvorrecto
 
+
     protected void onResume(ArrayList  carros) {
         super.onResume();
+
         mAdapter = new MyRecyclerViewAdapterVehiculo(carros);
         ((MyRecyclerViewAdapterVehiculo) mAdapter).setOnItemClickListener(new MyRecyclerViewAdapterVehiculo
                 .MyClickListener() {
             @Override
             public void onItemClick(int position, View v) {
+
                 Intent i = new Intent(NavigationDrawerActivity.this, MainActivity.class);
                 i.putExtra("placa",((MyRecyclerViewAdapterVehiculo) mAdapter).getObjeto(position).getPlaca());
                 startActivity(i);
-                //finish();
+                //finish(); // Es necesario que las clases objetos o entidades que se usan en esta clase
+                //se implementen como Serializable (public class xxx implments Serializable)
+                //Toast.makeText(NavigationDrawerActivity.this, " Clicked on  " + ((MyRecyclerViewAdapterVehiculo) mAdapter).getObjeto(position).getPlaca(), Toast.LENGTH_LONG).show();
                 //Log.i(LOG_TAG, " Clicked on  " + ((MyRecyclerViewAdapterVehiculo) mAdapter).getObjeto(position).getPlaca());
             }
         });
@@ -189,14 +201,13 @@ public class NavigationDrawerActivity extends AppCompatActivity
         } else if (id == R.id.nav_solicitud) {
             Intent i = new Intent(NavigationDrawerActivity.this, SolicitudActivity.class);
             startActivity(i);
-            finish();//revisar porque se finaliza el drawer
+
         } else if (id == R.id.nav_gallery) {
 
         } else if (id == R.id.nav_slideshow) {
 
         } else if (id == R.id.nav_manage) {
-            Intent i = new Intent(NavigationDrawerActivity.this, PerfilActivity.class);
-            startActivity(i);
+
         } else if (id == R.id.nav_share) {
 
         } else if (id == R.id.nav_send) {

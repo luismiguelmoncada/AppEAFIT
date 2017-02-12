@@ -1,11 +1,17 @@
 package com.universidadeafit.appeafit.Model;
 
-public class DataObject {
+import java.io.Serializable;
+
+public class DataObject implements Serializable {
     String placa;
     String marca;
     int photoId;
     String tipo;
     String color;
+
+    public DataObject() {
+
+    }
 
     public DataObject(String placa, String marcaRef, int photoId, String tipo, String color) {
         this.placa = placa;
