@@ -5,36 +5,40 @@
 
         <item
             android:id="@+id/nav_perfil"
-            android:icon="@drawable/ic_user_48"
+            android:icon="@drawable/ic_user_edit_profile"
             android:title="Perfil" />
         <item
             android:id="@+id/nav_solicitud"
-            android:icon="@drawable/ic_menu_camera"
+            android:icon="@drawable/ic_solicitud_icon"
             android:title="Solicitudes" />
         <item
 
             android:id="@+id/nav_gallery"
-            android:icon="@drawable/ic_menu_gallery"
+            android:icon="@drawable/ic_campus_icon"
             android:title="Campus" />
         <item
             android:id="@+id/nav_slideshow"
-            android:icon="@drawable/ic_menu_slideshow"
-            android:title="Informacion" />
+            android:icon="@drawable/ic_informacion_icon"
+            android:title="Información" />
         <item
             android:id="@+id/nav_manage"
-            android:icon="@drawable/ic_menu_share"
-            android:title="Contactanos" />
+            android:icon="@drawable/ic_contacto_icon"
+            android:title="Contacto" />
     </group>
 
     <item android:title="Herramientas">
         <menu>
             <item
+                android:id="@+id/nav_config"
+                android:icon="@drawable/ic_configuracion_icon"
+                android:title="Ajustes" />
+            <item
                 android:id="@+id/nav_share"
-                android:icon="@drawable/ic_menu_manage"
+                android:icon="@drawable/ic_menu_share"
                 android:title="Compartir" />
             <item
                 android:id="@+id/nav_send"
-                android:icon="@drawable/ic_menu_send"
+                android:icon="@drawable/ic_cerrarsesion_icon"
                 android:title="Cerrar Sesion" />
         </menu>
     </item>

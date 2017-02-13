@@ -39,8 +39,6 @@ public class SolicitudActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-
                     new AlertDialog.Builder(SolicitudActivity.this)
                             .setIcon(R.drawable.ic_face_asistent)
                             .setTitle("Tu Asistente Personal")
