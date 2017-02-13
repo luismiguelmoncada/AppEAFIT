@@ -10,8 +10,8 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 
-import com.universidadeafit.appeafit.ApiRest.ApiClient;
-import com.universidadeafit.appeafit.ApiRest.ServerResponse;
+import com.universidadeafit.appeafit.Adapters.ApiRest.ApiClient;
+import com.universidadeafit.appeafit.Adapters.ApiRest.ServerResponse;
 import com.universidadeafit.appeafit.Model.Constants;
 import com.universidadeafit.appeafit.Model.Usuario;
 import com.universidadeafit.appeafit.R;

@@ -19,8 +19,8 @@ import android.view.MenuItem;
 
 import com.universidadeafit.appeafit.Model.DataObject;
 import com.universidadeafit.appeafit.R;
-import com.universidadeafit.appeafit.Views.Adapters.MyRecyclerViewAdapterVehiculo;
-import com.universidadeafit.appeafit.Views.Adapters.ViewPagerAdapter;
+import com.universidadeafit.appeafit.Adapters.MyRecyclerViewAdapterVehiculo;
+import com.universidadeafit.appeafit.Adapters.ViewPagerAdapter;
 
 import java.util.ArrayList;
 
@@ -53,8 +53,8 @@ public class NavigationDrawerActivity extends AppCompatActivity
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle("APP EAFIT");
 
-        Perfil.add(new DataObject("Mi Perfil", " Usuario", R.drawable.ic_menu_camera, " ", " "));
-        Perfil.add(new DataObject("Materias", " 1", R.drawable.ic_menu_manage, " ", " "));
+        Perfil.add(new DataObject("Galeria", " Biblioteca", R.drawable.ic_menu_camera, " Fotos", " Enero 2017"));
+        Perfil.add(new DataObject("Materias", " Registradas: 1", R.drawable.ic_menu_manage, " Semestre: 2017-1", " Creditos: 4"));
 
         Noticias.add(new DataObject("Lo Nuevo", " Noticia 1", R.drawable.ic_menu_slideshow, " ", " "));
         Mas.add(new DataObject("Nuevo", " Nuevo 1", R.drawable.ic_menu_share, " ", " "));
@@ -123,7 +123,7 @@ public class NavigationDrawerActivity extends AppCompatActivity
     }*/
     private void setupViewPager(ViewPager viewPager) {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
-        adapter.addFragment(OneFragment.newInstance(Perfil), "PERFIL"); //se pasan los carros para el fragment
+        adapter.addFragment(OneFragment.newInstance(Perfil), "INICIO"); //se pasan los carros para el fragment
         adapter.addFragment(OneFragment.newInstance(Noticias), "NOTICIAS");
         adapter.addFragment(OneFragment.newInstance(Mas), "MAS");
         viewPager.setAdapter(adapter);

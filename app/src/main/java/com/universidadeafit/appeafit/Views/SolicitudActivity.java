@@ -12,7 +12,7 @@ import android.view.View;
 
 import com.universidadeafit.appeafit.Model.DataObject;
 import com.universidadeafit.appeafit.R;
-import com.universidadeafit.appeafit.Views.Adapters.MyRecyclerViewAdapterVehiculo1;
+import com.universidadeafit.appeafit.Adapters.MyRecyclerViewAdapterVehiculo1;
 
 import java.util.ArrayList;
 

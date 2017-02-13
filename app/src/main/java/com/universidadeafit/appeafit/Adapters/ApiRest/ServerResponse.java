@@ -1,4 +1,4 @@
-package com.universidadeafit.appeafit.ApiRest;
+package com.universidadeafit.appeafit.Adapters.ApiRest;
 
 
 import com.universidadeafit.appeafit.Model.Usuario;

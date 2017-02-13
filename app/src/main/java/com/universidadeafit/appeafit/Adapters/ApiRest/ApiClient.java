@@ -1,4 +1,4 @@
-package com.universidadeafit.appeafit.ApiRest;
+package com.universidadeafit.appeafit.Adapters.ApiRest;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
