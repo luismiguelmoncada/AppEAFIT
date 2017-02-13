@@ -106,7 +106,11 @@ public class LoginActivity extends AppCompatActivity {
             // form field with an error.
             focusView.requestFocus();
         } else {
-            ValidarUsuario(email,password);
+
+            Intent mainIntent = new Intent(LoginActivity.this, NavigationDrawerActivity.class);
+            LoginActivity.this.startActivity(mainIntent);
+            LoginActivity.this.finish();
+            //ValidarUsuario(email,password);
         }
     }
 

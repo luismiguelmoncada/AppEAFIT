@@ -47,7 +47,7 @@ public class SolicitudActivity extends AppCompatActivity {
                             {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
-                                    Intent i = new Intent(SolicitudActivity.this, AsistenteActivity.class);
+                                    Intent i = new Intent(SolicitudActivity.this, MainActivity.class);
                                     startActivity(i);
                                 }
                             })

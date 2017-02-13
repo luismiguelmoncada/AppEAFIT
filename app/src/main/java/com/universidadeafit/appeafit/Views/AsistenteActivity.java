@@ -8,16 +8,32 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.EditText;
+import android.widget.Toast;
 
 import com.universidadeafit.appeafit.R;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
+
+
+
 public class AsistenteActivity extends AppCompatActivity {
+
+    String solicitud;
+    @BindView(R.id.editTextSolicitud)
+    EditText Solicitud;
+
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_asistente);
         verToolbar("Asistente",true);
+        ButterKnife.bind(this);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -29,6 +45,12 @@ public class AsistenteActivity extends AppCompatActivity {
         });
     }
 
+    @OnClick(R.id.buttonConsultar)
+    public void Procesar(){
+        solicitud = Solicitud.getText().toString();
+        ProcesarTexto(solicitud);
+    }
+
     public  void verToolbar(String titulo,Boolean UpButton){
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -36,6 +58,14 @@ public class AsistenteActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(UpButton);
     }
 
+    public void ProcesarTexto(String texto) {
+        Toast.makeText(AsistenteActivity.this,texto, Toast.LENGTH_LONG).show();
+
+
+
+
+
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
