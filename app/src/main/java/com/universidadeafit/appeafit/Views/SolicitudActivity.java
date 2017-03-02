@@ -47,13 +47,21 @@ public class SolicitudActivity extends AppCompatActivity {
                             {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
-                                    Intent i = new Intent(SolicitudActivity.this, MainActivity.class);
+                                    Intent i = new Intent(SolicitudActivity.this, WatsonActivity.class);
                                     startActivity(i);
                                 }
                             })
                             .setNegativeButton("Volver", null)
                             .show();
                 }
+        });
+        com.github.clans.fab.FloatingActionButton fab1 = (com.github.clans.fab.FloatingActionButton) findViewById(R.id.menu_item_1);
+        fab1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(SolicitudActivity.this, AsistenteActivity.class);
+                startActivity(i);
+            }
         });
     }
 

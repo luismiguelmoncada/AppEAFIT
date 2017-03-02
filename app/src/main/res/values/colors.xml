@@ -7,4 +7,5 @@
     <color name="editTextColorBlack">#000000</color>
 
     <color name="icons">#FFFFFF</color>
+    <color name="bg_bubble_self">#E1E1E1</color>
 </resources>

@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingLeft="8dp"
+    android:paddingRight="8dp"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context="com.universidadeafit.appeafit.Views.WatsonActivity"
+    tools:showIn="@layout/activity_watson">
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recycler_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:scrollbars="vertical"
+        android:layout_marginBottom="@dimen/item_recicler_chat"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true">
+
+        <EditText android:id="@+id/message"
+            android:layout_height="40dp"
+            android:layout_width="0dp"
+            android:hint="@string/what_s_on_your_mind"
+            android:background="@drawable/bg_bubble_write"
+            android:paddingLeft="@dimen/item_margin_chat"
+            android:layout_marginRight="@dimen/item_margin_chat"
+            android:lines="1"
+            android:layout_weight="7"
+            android:layout_gravity="center"
+            />
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/btn_send"
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_menu_send"
+            android:layout_marginTop="3dp"
+            android:layout_marginBottom="3dp"
+            android:layout_marginRight="3dp"
+            android:paddingLeft="10dp" />
+
+    </LinearLayout>
+
+</RelativeLayout>

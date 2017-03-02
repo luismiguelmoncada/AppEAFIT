@@ -25,9 +25,6 @@ public class AsistenteActivity extends AppCompatActivity {
     @BindView(R.id.editTextSolicitud)
     EditText Solicitud;
 
-
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
