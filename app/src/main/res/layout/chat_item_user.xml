@@ -2,7 +2,8 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
 android:layout_width="match_parent"
 android:layout_height="wrap_content"
-android:orientation="horizontal">
+android:orientation="horizontal"
+    android:background="#E1E1E1">
 
 
 <android.support.v7.widget.AppCompatImageView
@@ -21,23 +22,41 @@ android:orientation="horizontal">
     android:layout_marginLeft="@dimen/item_margin_chat"
     android:layout_marginBottom="1dp"
     android:textIsSelectable="true"
+    android:clickable="true"
     android:background="@drawable/bg_bubble_gray"
     android:textSize="@dimen/item_textsize_chat"
     android:fontFamily="sans-serif"
     android:textColor="@android:color/black" />
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/message">
 
-        <TextView
+        <ImageView
+            android:id="@+id/icon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="2017-03-03 11:28 am"
+            android:layout_marginBottom="@dimen/item_margin_chat"
+            android:src="@drawable/ic_plus_add"/>
+
+        <TextView
+            android:id="@+id/add"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Agregar pregunta"
+            android:layout_toRightOf="@+id/icon"
+            android:layout_marginLeft="2dp"
             android:layout_marginBottom="@dimen/item_margin_chat"
             />
 
-    </LinearLayout>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="11:28 am"
+            android:layout_alignParentEnd="true"
+            android:layout_marginBottom="@dimen/item_margin_chat"
+            />
+    </RelativeLayout>
 
 </RelativeLayout>

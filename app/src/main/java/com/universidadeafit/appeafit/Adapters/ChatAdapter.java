@@ -15,18 +15,30 @@ import com.universidadeafit.appeafit.R;
 
 import java.util.ArrayList;
 
-public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ViewHolder> {
 
     private int SELF = 100;
     private ArrayList<Message> messageArrayList;
+    private static MyClickListener myClickListener;
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    public class ViewHolder extends RecyclerView.ViewHolder implements View
+            .OnClickListener{
         TextView message;
 
         public ViewHolder(View view) {
             super(view);
             message = (TextView) itemView.findViewById(R.id.message);
+            view.setOnClickListener(this);
         }
+
+        @Override
+        public void onClick(View v) {
+            myClickListener.onItemClick(getAdapterPosition(), v);
+        }
+    }
+
+    public void setOnItemClickListener(MyClickListener myClickListener) {
+        this.myClickListener = myClickListener;
     }
 
     public ChatAdapter(ArrayList<Message> messageArrayList) {
@@ -34,15 +46,15 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     }
 
     @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View itemView;
 
         // view type is to identify where to render the chat message
         // left or right
         if (viewType == SELF) {
-            // self message
+            // user message
             itemView = LayoutInflater.from(parent.getContext())
-                    .inflate(R.layout.chat_item_self, parent, false);
+                    .inflate(R.layout.chat_item_user, parent, false);
         } else {
             // WatBot message
             itemView = LayoutInflater.from(parent.getContext())
@@ -50,6 +62,14 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         }
         return new ViewHolder(itemView);
     }
+
+    @Override
+    public void onBindViewHolder(ViewHolder holder, int position) {
+        Message message = messageArrayList.get(position);
+        message.setMessage(message.getMessage());
+        holder.message.setText(message.getMessage());
+    }
+
 
     @Override
     public int getItemViewType(int position) {
@@ -62,14 +82,17 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     }
 
     @Override
-    public void onBindViewHolder(final RecyclerView.ViewHolder holder, int position) {
-        Message message = messageArrayList.get(position);
-        message.setMessage(message.getMessage());
-        ((ViewHolder) holder).message.setText(message.getMessage());
-    }
-
-    @Override
     public int getItemCount() {
         return messageArrayList.size();
+    }
+
+
+    public Message getObjeto(int position) {
+        return messageArrayList.get(position);
+    }
+
+
+    public interface MyClickListener {
+        public void onItemClick(int position, View v);
     }
 }

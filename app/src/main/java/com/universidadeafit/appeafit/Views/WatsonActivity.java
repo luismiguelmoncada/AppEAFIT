@@ -1,6 +1,7 @@
 package com.universidadeafit.appeafit.Views;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -23,6 +24,7 @@ import com.ibm.watson.developer_cloud.conversation.v1.model.MessageRequest;
 import com.ibm.watson.developer_cloud.conversation.v1.model.MessageResponse;
 
 import com.universidadeafit.appeafit.Adapters.ChatAdapter;
+import com.universidadeafit.appeafit.Adapters.MyRecyclerViewAdapterVehiculo;
 import com.universidadeafit.appeafit.Model.Message;
 import com.universidadeafit.appeafit.R;
 
@@ -139,6 +141,24 @@ public class WatsonActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        mAdapter.setOnItemClickListener(new ChatAdapter
+                .MyClickListener() {
+            @Override
+            public void onItemClick(int position, View v) {
+
+               if(mAdapter.getObjeto(position).getId()=="1"){
+                   Toast.makeText(WatsonActivity.this, " Clicked on  " + mAdapter.getObjeto(position).getMessage(), Toast.LENGTH_LONG).show();
+               }else{
+                   Toast.makeText(WatsonActivity.this, " Clicked on  " + mAdapter.getObjeto(position).getMessage(), Toast.LENGTH_LONG).show();
+               }
+
+            }
+        });
+    }
+
     private boolean checkInternetConnection() {
         // get Connectivity Manager object to check connection
         ConnectivityManager cm =
@@ -153,7 +173,7 @@ public class WatsonActivity extends AppCompatActivity {
             return true;
         }
         else {
-            Toast.makeText(this, " No Internet Connection available ", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, " No tienes conexion a Internet ", Toast.LENGTH_LONG).show();
             return false;
         }
 

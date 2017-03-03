@@ -33,11 +33,22 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="2017-03-03 11:28 am"
-            android:layout_alignParentEnd="true"
+            android:text="11:28 am"
             android:layout_marginBottom="@dimen/item_margin_chat"
             />
+        <TextView
+            android:id="@+id/edit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Proponer otra respuesta"
+            android:layout_marginLeft="2dp"
+            android:layout_alignParentEnd="true"/>
 
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="20dp"
+            android:src="@drawable/ic_edit_respuesta"
+            android:layout_toLeftOf="@+id/edit"/>
     </RelativeLayout>
 
 </RelativeLayout>
