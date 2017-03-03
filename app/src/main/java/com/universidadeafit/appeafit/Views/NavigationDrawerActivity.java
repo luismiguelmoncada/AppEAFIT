@@ -16,6 +16,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.universidadeafit.appeafit.Model.DataObject;
 import com.universidadeafit.appeafit.R;
@@ -199,7 +200,7 @@ public class NavigationDrawerActivity extends AppCompatActivity
         } else if (id == R.id.nav_gallery) {
 
         } else if (id == R.id.nav_slideshow) {
-
+            Toast.makeText(NavigationDrawerActivity.this, " about icons8 https://icons8.com/web-app/5764/Message", Toast.LENGTH_LONG).show();
         } else if (id == R.id.nav_manage) {
 
         } else if (id == R.id.nav_share) {

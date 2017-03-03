@@ -5,7 +5,7 @@
 
     <!-- view background color -->
     <solid
-        android:color="@color/bg_bubble_self" >
+        android:color="#BDBDBD" >
     </solid>
 
 
@@ -13,9 +13,9 @@
     <!-- If you want to add some padding -->
     <padding
         android:left="10dp"
-        android:top="4dp"
+        android:top="13dp"
         android:right="10dp"
-        android:bottom="4dp"    >
+        android:bottom="13dp"    >
     </padding>
 
     <!-- Here is the corner radius -->

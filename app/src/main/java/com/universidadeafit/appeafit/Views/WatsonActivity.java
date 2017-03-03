@@ -1,14 +1,18 @@
 package com.universidadeafit.appeafit.Views;
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.view.menu.MenuBuilder;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -40,7 +44,7 @@ public class WatsonActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_watson);
-        verToolbar("Watson Conversation",true);
+        verToolbar(" Usuario Nombre",true);
 
         inputMessage = (EditText) findViewById(R.id.message);
         btnSend = (ImageButton) findViewById(R.id.btn_send);
@@ -71,6 +75,7 @@ public class WatsonActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle(titulo);
+        getSupportActionBar().setIcon(R.drawable.ic_user_hombre);
         getSupportActionBar().setDisplayHomeAsUpEnabled(UpButton);
     }
 
@@ -150,6 +155,39 @@ public class WatsonActivity extends AppCompatActivity {
         else {
             Toast.makeText(this, " No Internet Connection available ", Toast.LENGTH_LONG).show();
             return false;
+        }
+
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_chat, menu);
+
+        if(menu instanceof MenuBuilder){
+            MenuBuilder m = (MenuBuilder) menu;
+            m.setOptionalIconsVisible(true);
+        }
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        switch (item.getItemId()) {
+
+            case R.id.action_search:
+                Toast.makeText(this, "Buscar", Toast.LENGTH_LONG ).show();
+                return true;
+            case R.id.action_Guardar:
+                Toast.makeText(this, "Guardar", Toast.LENGTH_LONG ).show();
+                return true;
+            case R.id.action_Limpiar:
+                Toast.makeText(this, "Limpiar", Toast.LENGTH_LONG ).show();
+                return true;
+
+            default:
+                return super.onOptionsItemSelected(item);
         }
 
     }

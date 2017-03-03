@@ -59,9 +59,6 @@ public class AsistenteActivity extends AppCompatActivity {
         Toast.makeText(AsistenteActivity.this,texto, Toast.LENGTH_LONG).show();
 
 
-
-
-
     }
 
     @Override
