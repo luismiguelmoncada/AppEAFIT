@@ -1,14 +1,11 @@
 package com.universidadeafit.appeafit.Views;
 
 import android.content.Context;
-import android.content.Intent;
-import android.graphics.drawable.Drawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.view.menu.MenuBuilder;
-import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -23,8 +20,7 @@ import com.ibm.watson.developer_cloud.conversation.v1.ConversationService;
 import com.ibm.watson.developer_cloud.conversation.v1.model.MessageRequest;
 import com.ibm.watson.developer_cloud.conversation.v1.model.MessageResponse;
 
-import com.universidadeafit.appeafit.Adapters.ChatAdapter;
-import com.universidadeafit.appeafit.Adapters.MyRecyclerViewAdapterVehiculo;
+import com.universidadeafit.appeafit.Adapters.MyRecyclerViewChatAdapter;
 import com.universidadeafit.appeafit.Model.Message;
 import com.universidadeafit.appeafit.R;
 
@@ -34,9 +30,10 @@ import java.util.Map;
 
 public class WatsonActivity extends AppCompatActivity {
 
-
     private RecyclerView recyclerView;
-    private ChatAdapter mAdapter;
+    private RecyclerView.LayoutManager mLayoutManager;
+
+    private MyRecyclerViewChatAdapter mAdapter;
     private ArrayList messageArrayList;
     private EditText inputMessage;
     private ImageButton btnSend;
@@ -46,21 +43,19 @@ public class WatsonActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_watson);
-        verToolbar(" Usuario Nombre",true);
+        verToolbar("Usuario",true);
 
         inputMessage = (EditText) findViewById(R.id.message);
         btnSend = (ImageButton) findViewById(R.id.btn_send);
 
+        messageArrayList = new ArrayList<>();
+
 
         recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
-
-        messageArrayList = new ArrayList<>();
-        mAdapter = new ChatAdapter(messageArrayList);
-
-        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
-        layoutManager.setStackFromEnd(true);
-        recyclerView.setLayoutManager(layoutManager);
-        recyclerView.setItemAnimator(new DefaultItemAnimator());
+        recyclerView.setHasFixedSize(true);
+        mLayoutManager = new LinearLayoutManager(this);
+        recyclerView.setLayoutManager(mLayoutManager);
+        mAdapter = new MyRecyclerViewChatAdapter(messageArrayList);
         recyclerView.setAdapter(mAdapter);
 
         btnSend.setOnClickListener(new View.OnClickListener(){
@@ -71,6 +66,7 @@ public class WatsonActivity extends AppCompatActivity {
                 }
             }
         });
+
     };
 
     public  void verToolbar(String titulo,Boolean UpButton){
@@ -79,6 +75,7 @@ public class WatsonActivity extends AppCompatActivity {
         getSupportActionBar().setTitle(titulo);
         getSupportActionBar().setIcon(R.drawable.ic_user_hombre);
         getSupportActionBar().setDisplayHomeAsUpEnabled(UpButton);
+
     }
 
     // Sending a message to Watson Conversation Service
@@ -90,11 +87,9 @@ public class WatsonActivity extends AppCompatActivity {
         messageArrayList.add(inputMessage);
         this.inputMessage.setText("");
         mAdapter.notifyDataSetChanged();
-
         Thread thread = new Thread(new Runnable(){
             public void run() {
                 try {
-
                     ConversationService service = new ConversationService(ConversationService.VERSION_DATE_2016_09_20);
                     service.setUsernameAndPassword("f5eda796-e9ad-4589-b3a0-cadd73b732c3", "mym035f6rZlD");
                     MessageRequest newMessage = new MessageRequest.Builder().inputText(inputmessage).context(context).build();
@@ -104,47 +99,38 @@ public class WatsonActivity extends AppCompatActivity {
                     {
                         context.clear();
                         context = response.getContext();
-
                     }
                     Message outMessage=new Message();
                     if(response!=null)
                     {
                         if(response.getOutput()!=null && response.getOutput().containsKey("text"))
                         {
-
                             final String outputmessage = response.getOutput().get("text").toString().replace("[","").replace("]","");
                             outMessage.setMessage(outputmessage);
                             outMessage.setId("2");
                             messageArrayList.add(outMessage);
                         }
-
                         runOnUiThread(new Runnable() {
                             public void run() {
                                 mAdapter.notifyDataSetChanged();
                                 if (mAdapter.getItemCount() > 1) {
                                     recyclerView.getLayoutManager().smoothScrollToPosition(recyclerView, null, mAdapter.getItemCount()-1);
-
                                 }
-
                             }
                         });
-
-
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
         });
-
         thread.start();
-
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        mAdapter.setOnItemClickListener(new ChatAdapter
+        mAdapter.setOnItemClickListener(new MyRecyclerViewChatAdapter
                 .MyClickListener() {
             @Override
             public void onItemClick(int position, View v) {
@@ -154,7 +140,6 @@ public class WatsonActivity extends AppCompatActivity {
                }else{
                    Toast.makeText(WatsonActivity.this, " Clicked on  " + mAdapter.getObjeto(position).getMessage(), Toast.LENGTH_LONG).show();
                }
-
             }
         });
     }
@@ -167,7 +152,6 @@ public class WatsonActivity extends AppCompatActivity {
         NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
         boolean isConnected = activeNetwork != null &&
                 activeNetwork.isConnectedOrConnecting();
-
         // Check for network connections
         if (isConnected){
             return true;
@@ -176,7 +160,6 @@ public class WatsonActivity extends AppCompatActivity {
             Toast.makeText(this, " No tienes conexion a Internet ", Toast.LENGTH_LONG).show();
             return false;
         }
-
     }
 
     @Override
@@ -205,10 +188,8 @@ public class WatsonActivity extends AppCompatActivity {
             case R.id.action_Limpiar:
                 Toast.makeText(this, "Limpiar", Toast.LENGTH_LONG ).show();
                 return true;
-
             default:
                 return super.onOptionsItemSelected(item);
         }
-
     }
 }

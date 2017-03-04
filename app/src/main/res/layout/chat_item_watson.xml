@@ -2,7 +2,8 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="horizontal">
+    android:orientation="horizontal"
+    android:layout_marginBottom="5dp">
 
     <android.support.v7.widget.AppCompatImageView
         android:id="@+id/image"
@@ -20,7 +21,7 @@
         android:layout_marginLeft="@dimen/item_margin_chat"
         android:layout_marginBottom="1dp"
         android:textIsSelectable="true"
-        android:background="@drawable/bg_bubble_white"
+        android:background="@drawable/bg_bubble_blue"
         android:textSize="@dimen/item_textsize_chat"
         android:fontFamily="sans-serif"
         android:textColor="@android:color/white" />

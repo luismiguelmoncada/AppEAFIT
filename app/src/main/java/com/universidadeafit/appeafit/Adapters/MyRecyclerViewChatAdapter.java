@@ -15,7 +15,7 @@ import com.universidadeafit.appeafit.R;
 
 import java.util.ArrayList;
 
-public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ViewHolder> {
+public class MyRecyclerViewChatAdapter extends RecyclerView.Adapter<MyRecyclerViewChatAdapter.ViewHolder> {
 
     private int SELF = 100;
     private ArrayList<Message> messageArrayList;
@@ -41,7 +41,7 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ViewHolder> {
         this.myClickListener = myClickListener;
     }
 
-    public ChatAdapter(ArrayList<Message> messageArrayList) {
+    public MyRecyclerViewChatAdapter(ArrayList<Message> messageArrayList) {
         this.messageArrayList=messageArrayList;
     }
 
@@ -51,7 +51,7 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ViewHolder> {
 
         // view type is to identify where to render the chat message
         // left or right
-        if (viewType == SELF) {
+        if (viewType == SELF ) {
             // user message
             itemView = LayoutInflater.from(parent.getContext())
                     .inflate(R.layout.chat_item_user, parent, false);

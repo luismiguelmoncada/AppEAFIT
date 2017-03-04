@@ -1,9 +1,9 @@
 package com.universidadeafit.appeafit.Views;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.RecyclerView;
@@ -18,9 +18,11 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
-import com.universidadeafit.appeafit.Model.DataObject;
+import com.universidadeafit.appeafit.Adapters.MyRecyclerViewAdapterSolicitudes;
+import com.universidadeafit.appeafit.Model.Solicitud;
+import com.universidadeafit.appeafit.Model.Usuario;
+import com.universidadeafit.appeafit.Model.UsuariosSQLiteHelper;
 import com.universidadeafit.appeafit.R;
-import com.universidadeafit.appeafit.Adapters.MyRecyclerViewAdapterVehiculo;
 import com.universidadeafit.appeafit.Adapters.ViewPagerAdapter;
 
 import java.util.ArrayList;
@@ -35,15 +37,26 @@ public class NavigationDrawerActivity extends AppCompatActivity
     private ViewPager viewPager;
     private ViewPagerAdapter viewPagerAdapter;
 
+    ArrayList<Usuario> usuario = new ArrayList<>();
+
+    String ip = "";
+    String Ubicacion = "Itagui";
+    String Telefono = "3007667836";
+    String carros = "0";
+    String numnotificaciones = "0";
+    String numalertas="2";
+
+    private UsuariosSQLiteHelper mydb ;
+
     private int[] tabIcons = {
             R.drawable.ic_user_white,
             R.drawable.ic_user_general_white,
             R.drawable.ic_email
     };
 
-    ArrayList<DataObject> Perfil = new ArrayList<>();
-    ArrayList<DataObject> Noticias = new ArrayList<>();
-    ArrayList<DataObject> Mas = new ArrayList<>();
+    ArrayList<Solicitud> Perfil = new ArrayList<>();
+    ArrayList<Solicitud> Noticias = new ArrayList<>();
+    ArrayList<Solicitud> Mas = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,11 +67,11 @@ public class NavigationDrawerActivity extends AppCompatActivity
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle("APP EAFIT");
 
-        Perfil.add(new DataObject("Galeria", " Biblioteca", R.drawable.ic_menu_camera, " Fotos", " Enero 2017"));
-        Perfil.add(new DataObject("Materias", " Registradas: 1", R.drawable.ic_menu_manage, " Semestre: 2017-1", " Creditos: 4"));
+        Perfil.add(new Solicitud("Galeria", " Biblioteca", R.drawable.ic_menu_camera, " Fotos", " Enero 2017"));
+        Perfil.add(new Solicitud("Materias", " Registradas: 1", R.drawable.ic_menu_manage, " Semestre: 2017-1", " Creditos: 4"));
 
-        Noticias.add(new DataObject("Lo Nuevo", " Noticia 1", R.drawable.ic_menu_slideshow, " ", " "));
-        Mas.add(new DataObject("Nuevo", " Nuevo 1", R.drawable.ic_menu_share, " ", " "));
+        Noticias.add(new Solicitud("Lo Nuevo", " Noticia 1", R.drawable.ic_menu_slideshow, " ", " "));
+        Mas.add(new Solicitud("Nuevo", " Nuevo 1", R.drawable.ic_menu_share, " ", " "));
 
 
         viewPager = (ViewPager) findViewById(R.id.viewpager);
@@ -96,15 +109,34 @@ public class NavigationDrawerActivity extends AppCompatActivity
             }
         });
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        com.github.clans.fab.FloatingActionButton fab = (com.github.clans.fab.FloatingActionButton) findViewById(R.id.menu_item);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                new AlertDialog.Builder(NavigationDrawerActivity.this)
+                        .setIcon(R.drawable.ic_face_asistent)
+                        .setTitle("Tu Asistente Personal")
+                        .setMessage("Hola, bienvenido. Soy Javier y te ayudaré a resolver todas tus inquietudes respecto a la U. ¡Fresco!")
+                        .setPositiveButton("Continuar", new DialogInterface.OnClickListener()
+                        {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                Intent i = new Intent(NavigationDrawerActivity.this, WatsonActivity.class);
+                                startActivity(i);
+                            }
+                        })
+                        .setNegativeButton("Volver", null)
+                        .show();
             }
         });
-
+        com.github.clans.fab.FloatingActionButton fab1 = (com.github.clans.fab.FloatingActionButton) findViewById(R.id.menu_item_1);
+        fab1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(NavigationDrawerActivity.this, AsistenteActivity.class);
+                startActivity(i);
+            }
+        });
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -135,18 +167,18 @@ public class NavigationDrawerActivity extends AppCompatActivity
     protected void onResume(ArrayList  carros) {
         super.onResume();
 
-        mAdapter = new MyRecyclerViewAdapterVehiculo(carros);
-        ((MyRecyclerViewAdapterVehiculo) mAdapter).setOnItemClickListener(new MyRecyclerViewAdapterVehiculo
+        mAdapter = new MyRecyclerViewAdapterSolicitudes(carros);
+        ((MyRecyclerViewAdapterSolicitudes) mAdapter).setOnItemClickListener(new MyRecyclerViewAdapterSolicitudes
                 .MyClickListener() {
             @Override
             public void onItemClick(int position, View v) {
                 Intent i = new Intent(NavigationDrawerActivity.this, DetalleVehiculos.class);
-                i.putExtra("placa",((MyRecyclerViewAdapterVehiculo) mAdapter).getObjeto(position).getPlaca());
+                i.putExtra("placa",((MyRecyclerViewAdapterSolicitudes) mAdapter).getObjeto(position).getPlaca());
                 startActivity(i);
                 //finish(); // Es necesario que las clases objetos o entidades que se usan en esta clase
                 //se implementen como Serializable (public class xxx implments Serializable)
-                //Toast.makeText(NavigationDrawerActivity.this, " Clicked on  " + ((MyRecyclerViewAdapterVehiculo) mAdapter).getObjeto(position).getPlaca(), Toast.LENGTH_LONG).show();
-                //Log.i(LOG_TAG, " Clicked on  " + ((MyRecyclerViewAdapterVehiculo) mAdapter).getObjeto(position).getPlaca());
+                //Toast.makeText(NavigationDrawerActivity.this, " Clicked on  " + ((MyRecyclerViewAdapterSolicitudes) mAdapter).getObjeto(position).getPlaca(), Toast.LENGTH_LONG).show();
+                //Log.i(LOG_TAG, " Clicked on  " + ((MyRecyclerViewAdapterSolicitudes) mAdapter).getObjeto(position).getPlaca());
             }
         });
     }
@@ -197,15 +229,18 @@ public class NavigationDrawerActivity extends AppCompatActivity
             Intent i = new Intent(NavigationDrawerActivity.this, SolicitudActivity.class);
             startActivity(i);
 
-        } else if (id == R.id.nav_gallery) {
-
-        } else if (id == R.id.nav_slideshow) {
+        } else if (id == R.id.nav_informacion) {
             Toast.makeText(NavigationDrawerActivity.this, " about icons8 https://icons8.com/web-app/5764/Message", Toast.LENGTH_LONG).show();
-        } else if (id == R.id.nav_manage) {
+        } else if (id == R.id.nav_contacto) {
+
+        } else if (id == R.id.nav_mas) {
+
+
+        } else if (id == R.id.nav_config) {
 
         } else if (id == R.id.nav_share) {
 
-        } else if (id == R.id.nav_send) {
+        } else if (id == R.id.nav_cerrarsesion) {
 
         }
 

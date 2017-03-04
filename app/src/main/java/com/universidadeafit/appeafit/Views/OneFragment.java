@@ -9,8 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.universidadeafit.appeafit.R;
-import com.universidadeafit.appeafit.Adapters.MyRecyclerViewAdapterVehiculo;
-import com.universidadeafit.appeafit.Adapters.ViewPagerAdapter;
+import com.universidadeafit.appeafit.Adapters.MyRecyclerViewAdapterSolicitudes;
 
 import java.util.ArrayList;
 
@@ -20,18 +19,13 @@ import java.util.ArrayList;
 public class OneFragment extends Fragment {
 
     private RecyclerView mRecyclerView;
-    private RecyclerView.LayoutManager mLayoutManager;
-
     private View view;
-    private static String LOG_TAG = "CardViewActivity";
-    private static final String KEY_CARROS = "carros";
-    private ViewPagerAdapter viewPagerAdapter;
+    private static final String KEY_SOLICITUDES = "solicitudes";
 
-    public static OneFragment newInstance(ArrayList  vehiculos) {
-
+    public static OneFragment newInstance(ArrayList  solicitudes) {
         OneFragment fragment = new OneFragment();
         Bundle args = new Bundle();
-        args.putStringArrayList(KEY_CARROS, vehiculos);
+        args.putStringArrayList(KEY_SOLICITUDES, solicitudes);
         fragment.setArguments(args);
         return fragment;
     }
@@ -49,7 +43,7 @@ public class OneFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        ArrayList Carros = getArguments().getStringArrayList(KEY_CARROS);
+        ArrayList Solicitudes = getArguments().getStringArrayList(KEY_SOLICITUDES);
 
         view = inflater.inflate(R.layout.fragment_one, container, false); // Inflate the layout for this fragment
         mRecyclerView = (RecyclerView) view
@@ -59,10 +53,9 @@ public class OneFragment extends Fragment {
         mRecyclerView
                 .setLayoutManager(new LinearLayoutManager(getActivity()));//Linear Items
 
-        RecyclerView.Adapter mAdapter = new MyRecyclerViewAdapterVehiculo(Carros);// recibe el arreglo de carros de  la clase vehiculos
+        RecyclerView.Adapter mAdapter = new MyRecyclerViewAdapterSolicitudes(Solicitudes);// recibe el arreglo de carros de  la clase vehiculos
         mRecyclerView.setAdapter(mAdapter);
 
         return view;
     }
-
 }

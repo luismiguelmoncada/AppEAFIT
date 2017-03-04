@@ -7,7 +7,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 
-import com.universidadeafit.appeafit.Model.DataObject;
+import com.universidadeafit.appeafit.Model.Solicitud;
 import com.universidadeafit.appeafit.R;
 import com.universidadeafit.appeafit.Adapters.MyRecyclerViewAdapterVehiculo1;
 
@@ -56,9 +56,9 @@ public class DetalleVehiculos extends AppCompatActivity {
         });
     }
 
-    private ArrayList<DataObject> getDataSet() {
-        ArrayList<DataObject> persons = new ArrayList<>();
-        persons.add(new DataObject(placa, "23 years old", R.drawable.im_logo_eafit_55,"Descripcion","Material is the metaphor.\n\n"+
+    private ArrayList<Solicitud> getDataSet() {
+        ArrayList<Solicitud> persons = new ArrayList<>();
+        persons.add(new Solicitud(placa, "23 years old", R.drawable.im_logo_eafit_55,"Descripcion","Material is the metaphor.\n\n"+
 
                 "A material metaphor is the unifying theory of a rationalized space and a system of motion."+
                 "The material is grounded in tactile reality, inspired by the study of paper and ink, yet "+
@@ -70,8 +70,8 @@ public class DetalleVehiculos extends AppCompatActivity {
                 "The fundamentals of light, surface, and movement are key to conveying how objects move, "+
                 "interact, and exist in space and in relation to each other. Realistic lighting shows "+
                 "seams, divides space, and indicates moving parts.\n\n"));
-        persons.add(new DataObject("Lavery Maiss", "25 years old", R.drawable.im_logo_eafit_55, "Vendo", "Vendo paisaje"));
-        persons.add(new DataObject("Lillie Watts", "35 years old", R.drawable.im_logo_eafit_55, "Vendo", "Vendo paisaje"));
+        persons.add(new Solicitud("Lavery Maiss", "25 years old", R.drawable.im_logo_eafit_55, "Vendo", "Vendo paisaje"));
+        persons.add(new Solicitud("Lillie Watts", "35 years old", R.drawable.im_logo_eafit_55, "Vendo", "Vendo paisaje"));
         return persons;
     }
 

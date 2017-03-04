@@ -2,14 +2,14 @@ package com.universidadeafit.appeafit.Model;
 
 import java.io.Serializable;
 
-public class DataObject implements Serializable {
+public class Solicitud implements Serializable {
     String placa;
     String marca;
     int photoId;
     String tipo;
     String color;
 
-    public DataObject(String placa, String marcaRef, int photoId, String tipo, String color) {
+    public Solicitud(String placa, String marcaRef, int photoId, String tipo, String color) {
         this.placa = placa;
         this.marca = marcaRef;
         this.photoId = photoId;

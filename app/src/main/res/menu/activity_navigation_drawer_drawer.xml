@@ -10,20 +10,20 @@
         <item
             android:id="@+id/nav_solicitud"
             android:icon="@drawable/ic_solicitud_icon"
-            android:title="Solicitudes" />
-        <item
+            android:title="Mis Solicitudes" />
 
-            android:id="@+id/nav_gallery"
-            android:icon="@drawable/ic_campus_icon"
-            android:title="Campus" />
         <item
-            android:id="@+id/nav_slideshow"
+            android:id="@+id/nav_informacion"
             android:icon="@drawable/ic_informacion_icon"
             android:title="Información" />
         <item
-            android:id="@+id/nav_manage"
+            android:id="@+id/nav_contacto"
             android:icon="@drawable/ic_contacto_icon"
             android:title="Contacto" />
+        <item
+            android:id="@+id/nav_mas"
+            android:icon="@drawable/ic_more_menu_icon"
+            android:title="Mas" />
     </group>
 
     <item android:title="Herramientas">
@@ -34,11 +34,11 @@
                 android:title="Ajustes" />
             <item
                 android:id="@+id/nav_share"
-                android:icon="@drawable/ic_menu_share"
+                android:icon="@drawable/ic_share_icon_menu"
                 android:title="Compartir" />
             <item
-                android:id="@+id/nav_send"
-                android:icon="@drawable/ic_cerrarsesion_icon"
+                android:id="@+id/nav_cerrarsesion"
+                android:icon="@drawable/ic_logout_icon_menu"
                 android:title="Cerrar Sesion" />
         </menu>
     </item>

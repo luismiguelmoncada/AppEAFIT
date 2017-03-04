@@ -1,8 +1,5 @@
 package com.universidadeafit.appeafit.Views;
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
-import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -10,7 +7,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 
-import com.universidadeafit.appeafit.Model.DataObject;
+import com.universidadeafit.appeafit.Model.Solicitud;
 import com.universidadeafit.appeafit.R;
 import com.universidadeafit.appeafit.Adapters.MyRecyclerViewAdapterVehiculo1;
 
@@ -35,34 +32,7 @@ public class SolicitudActivity extends AppCompatActivity {
         mAdapter = new MyRecyclerViewAdapterVehiculo1(getDataSet());
         mRecyclerView.setAdapter(mAdapter);
 
-        com.github.clans.fab.FloatingActionButton fab = (com.github.clans.fab.FloatingActionButton) findViewById(R.id.menu_item);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                    new AlertDialog.Builder(SolicitudActivity.this)
-                            .setIcon(R.drawable.ic_face_asistent)
-                            .setTitle("Tu Asistente Personal")
-                            .setMessage("Hola, bienvenido. Soy Javier y te ayudaré a resolver todas tus inquietudes respecto a la U. ¡Fresco!")
-                            .setPositiveButton("Continuar", new DialogInterface.OnClickListener()
-                            {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    Intent i = new Intent(SolicitudActivity.this, WatsonActivity.class);
-                                    startActivity(i);
-                                }
-                            })
-                            .setNegativeButton("Volver", null)
-                            .show();
-                }
-        });
-        com.github.clans.fab.FloatingActionButton fab1 = (com.github.clans.fab.FloatingActionButton) findViewById(R.id.menu_item_1);
-        fab1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent i = new Intent(SolicitudActivity.this, AsistenteActivity.class);
-                startActivity(i);
-            }
-        });
+
     }
 
     public  void verToolbar(String titulo,Boolean UpButton){
@@ -84,11 +54,11 @@ public class SolicitudActivity extends AppCompatActivity {
         });
     }
 
-    private ArrayList<DataObject> getDataSet() {
-        ArrayList<DataObject> persons = new ArrayList<>();
-        persons.add(new DataObject("Solicitud 1", "Fecha Solicitud1", R.drawable.im_logo_eafit_55,"Descripcion1","Descripcion sobre solicitud 1"));
-        persons.add(new DataObject("Solicitud 2", "Fecha Solicitud2", R.drawable.im_logo_eafit_55, "Descripcion1", "Descripcion sobre solicitud 1"));
-        persons.add(new DataObject("Solicitud 3", "Fecha Solicitud3", R.drawable.im_logo_eafit_55, "Descripcion1", "Descripcion sobre solicitud 1"));
+    private ArrayList<Solicitud> getDataSet() {
+        ArrayList<Solicitud> persons = new ArrayList<>();
+        persons.add(new Solicitud("Solicitud 1", "Fecha Solicitud1", R.drawable.im_logo_eafit_55,"Descripcion1","Descripcion sobre solicitud 1"));
+        persons.add(new Solicitud("Solicitud 2", "Fecha Solicitud2", R.drawable.im_logo_eafit_55, "Descripcion1", "Descripcion sobre solicitud 1"));
+        persons.add(new Solicitud("Solicitud 3", "Fecha Solicitud3", R.drawable.im_logo_eafit_55, "Descripcion1", "Descripcion sobre solicitud 1"));
         return persons;
     }
 }

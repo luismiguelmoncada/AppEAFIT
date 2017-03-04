@@ -8,7 +8,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.universidadeafit.appeafit.Model.DataObject;
+import com.universidadeafit.appeafit.Model.Solicitud;
 import com.universidadeafit.appeafit.R;
 
 import java.util.ArrayList;
@@ -16,11 +16,11 @@ import java.util.ArrayList;
 /**
  * Created by HP on 01/03/2016.
  */
-public class MyRecyclerViewAdapterVehiculo extends RecyclerView
-        .Adapter<MyRecyclerViewAdapterVehiculo
+public class MyRecyclerViewAdapterSolicitudes extends RecyclerView
+        .Adapter<MyRecyclerViewAdapterSolicitudes
         .DataObjectHolder> {
     private static String LOG_TAG = "MyRecyclerViewAdapter";
-    private ArrayList<DataObject> mDataset;
+    private ArrayList<Solicitud> mDataset;
     private static MyClickListener myClickListener;
 
     public static class DataObjectHolder extends RecyclerView.ViewHolder
@@ -57,7 +57,7 @@ public class MyRecyclerViewAdapterVehiculo extends RecyclerView
         this.myClickListener = myClickListener;
     }
 
-    public MyRecyclerViewAdapterVehiculo(ArrayList<DataObject> myDataset) {
+    public MyRecyclerViewAdapterSolicitudes(ArrayList<Solicitud> myDataset) {
         mDataset = myDataset;
     }
 
@@ -80,7 +80,7 @@ public class MyRecyclerViewAdapterVehiculo extends RecyclerView
         holder.color.setText(mDataset.get(position).getColor());
     }
 
-    public void addItem(DataObject dataObj, int index) {
+    public void addItem(Solicitud dataObj, int index) {
         mDataset.add(index, dataObj);
         notifyItemInserted(index);
     }
@@ -95,7 +95,7 @@ public class MyRecyclerViewAdapterVehiculo extends RecyclerView
         return mDataset.size();
     }
 
-    public DataObject getObjeto(int position) {
+    public Solicitud getObjeto(int position) {
         return mDataset.get(position);
     }
 
