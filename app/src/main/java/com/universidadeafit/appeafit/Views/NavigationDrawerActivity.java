@@ -21,7 +21,6 @@ import android.widget.Toast;
 
 import com.universidadeafit.appeafit.Adapters.MyRecyclerViewAdapterSolicitudes;
 import com.universidadeafit.appeafit.Model.Solicitud;
-import com.universidadeafit.appeafit.Model.Usuario;
 import com.universidadeafit.appeafit.Model.UsuariosSQLiteHelper;
 import com.universidadeafit.appeafit.R;
 import com.universidadeafit.appeafit.Adapters.ViewPagerAdapter;
@@ -32,28 +31,17 @@ public class NavigationDrawerActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     private RecyclerView.Adapter mAdapter;
-    private static String LOG_TAG = "CardViewActivity";
-    private Toolbar toolbar;
     private TabLayout tabLayout;
     private ViewPager viewPager;
-    private ViewPagerAdapter viewPagerAdapter;
 
-    ArrayList<Usuario> usuario = new ArrayList<>();
-
-    String ip = "";
-    String Ubicacion = "Itagui";
-    String Telefono = "3007667836";
-    String carros = "0";
-    String numnotificaciones = "0";
-    String numalertas="2";
+    int id = 1;
+    String nombreusuario;
+    String nombres;
+    String apellidos;
+    String email;
+    String password;
 
     private UsuariosSQLiteHelper mydb ;
-
-    private int[] tabIcons = {
-            R.drawable.ic_user_white,
-            R.drawable.ic_user_general_white,
-            R.drawable.ic_email
-    };
 
     ArrayList<Solicitud> resumen = new ArrayList<>();
     ArrayList<Solicitud> frecuentes = new ArrayList<>();
@@ -63,8 +51,13 @@ public class NavigationDrawerActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_navigation_drawer);
-
         mydb = new UsuariosSQLiteHelper(this);
+        boolean aux;
+        aux = mydb.HayUsuarios(id);
+        if (aux) {
+            Cursor rs = mydb.ObtenerDatos(id);
+            nombres = rs.getString(2);
+        }
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -72,16 +65,13 @@ public class NavigationDrawerActivity extends AppCompatActivity
 
         resumen.add(new Solicitud("Galeria", " Biblioteca", R.drawable.ic_menu_camera, " Fotos", " Enero 2017"));
         resumen.add(new Solicitud("Materias", " Registradas: 1", R.drawable.ic_menu_manage, " Semestre: 2017-1", " Creditos: 4"));
-
         frecuentes.add(new Solicitud("Lo Nuevo", " Noticia 1", R.drawable.ic_menu_slideshow, " ", " "));
         sinresponder.add(new Solicitud("Nuevo", " Nuevo 1", R.drawable.ic_menu_share, " ", " "));
-
 
         viewPager = (ViewPager) findViewById(R.id.viewpager);
         setupViewPager(viewPager);
         tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(viewPager);
-        //setupTabIcons();
 
         tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
@@ -116,22 +106,11 @@ public class NavigationDrawerActivity extends AppCompatActivity
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                new AlertDialog.Builder(NavigationDrawerActivity.this)
-                        .setIcon(R.drawable.ic_face_asistent)
-                        .setTitle("Tu Asistente Personal")
-                        .setMessage("Hola, bienvenido. Soy Javier y te ayudaré a resolver todas tus inquietudes respecto a la U. ¡Fresco!")
-                        .setPositiveButton("Continuar", new DialogInterface.OnClickListener()
-                        {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                Intent i = new Intent(NavigationDrawerActivity.this, WatsonActivity.class);
-                                startActivity(i);
-                            }
-                        })
-                        .setNegativeButton("Volver", null)
-                        .show();
+               Intent i = new Intent(NavigationDrawerActivity.this, WatsonActivity.class);
+               startActivity(i);
             }
         });
+
         com.github.clans.fab.FloatingActionButton fab1 = (com.github.clans.fab.FloatingActionButton) findViewById(R.id.menu_item_1);
         fab1.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -148,42 +127,8 @@ public class NavigationDrawerActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-        consultarSQL();
     }
 
-    public void consultarSQL(){
-        int id = 1;
-        String Usuario = "";
-        String Nombres = "";
-        String Apellidos = "";
-        String Pass = "";
-        String Email = "";
-
-
-        boolean aux;
-        aux = mydb.UsuarioNuevo(id);
-
-        if (aux) {
-        Cursor rs = mydb.ObtenerDatos(id);
-        Usuario = rs.getString(1);
-        Nombres = rs.getString(2);
-        Apellidos = rs.getString(3);
-        Pass = rs.getString(4);
-        Email = rs.getString(5);
-
-        Toast.makeText(getApplicationContext(),"Sqlite" + Email, Toast.LENGTH_SHORT).show();
-
-        } else {
-            Toast.makeText(getApplicationContext(), "No hay base de datos sqlite", Toast.LENGTH_SHORT).show();
-        }
-    }
-
-/*
-    private void setupTabIcons() {
-        tabLayout.getTabAt(0).setIcon(tabIcons[0]);
-        tabLayout.getTabAt(1).setIcon(tabIcons[1]);
-        tabLayout.getTabAt(2).setIcon(tabIcons[2]);
-    }*/
     private void setupViewPager(ViewPager viewPager) {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
         adapter.addFragment(FragmentDrawer.newInstance(resumen), "INICIO"); //se pasan los carros para el fragment
@@ -192,7 +137,6 @@ public class NavigationDrawerActivity extends AppCompatActivity
         viewPager.setAdapter(adapter);
         onResume(resumen);// se debe ingresar el primer arreglo para el primer fragment, los otros se asignan cada vez que se mueve el tablayout
     }//es necesario para que el metodo que devuelve la posicion lo haga del fragment cvorrecto
-
 
     protected void onResume(ArrayList  solicitudes) {
         super.onResume();
@@ -212,7 +156,6 @@ public class NavigationDrawerActivity extends AppCompatActivity
             }
         });
     }
-
 
     @Override
     public void onBackPressed() {
@@ -242,7 +185,6 @@ public class NavigationDrawerActivity extends AppCompatActivity
         if (id == R.id.action_settings) {
             return true;
         }
-
         return super.onOptionsItemSelected(item);
     }
 
@@ -258,22 +200,50 @@ public class NavigationDrawerActivity extends AppCompatActivity
         } else if (id == R.id.nav_solicitud) {
             Intent i = new Intent(NavigationDrawerActivity.this, MisSolicitudesActivity.class);
             startActivity(i);
-
         } else if (id == R.id.nav_informacion) {
             Toast.makeText(NavigationDrawerActivity.this, " about icons8 https://icons8.com/web-app/5764/Message", Toast.LENGTH_LONG).show();
         } else if (id == R.id.nav_contacto) {
 
         } else if (id == R.id.nav_mas) {
 
-
         } else if (id == R.id.nav_config) {
 
         } else if (id == R.id.nav_share) {
 
         } else if (id == R.id.nav_cerrarsesion) {
+            // Validacion para cerrar sesion usando la base de datos y el registro de usuaio
+            new AlertDialog.Builder(this)
+                    .setIcon(android.R.drawable.ic_dialog_alert)
+                    .setTitle("Saliendo...")
+                    .setMessage("¿" + nombres + ", segur@ que deseas cerrar tu Sesión? ")
+                    .setPositiveButton("Confirmar", new DialogInterface.OnClickListener()
+                    {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
 
+                        //se obtiene el numero de vehiculos ingresados por el usuario
+                            boolean aux;
+                            aux=mydb.HayCarros();
+                            //aux es un vallor de tipo boolean y devuelve si hay vehiculos registrados o no
+                            if(aux) {
+                                int numero=mydb.HayCaarros();
+                                boolean numVehiculos = mydb.CLean(numero);
+                                if (numVehiculos) {
+                                    Toast.makeText(getApplicationContext(), "¡Bye "+nombres+", Hasta pronto!", Toast.LENGTH_SHORT).show();
+                                }
+                            }else{//para borrar solo el usuario si no tiene vehiculos
+                                boolean user = mydb.CLeanUsers();
+                                if (user) {
+                                    Toast.makeText(getApplicationContext(), "¡Bye "+nombres+", Hasta pronto!", Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                            finish();
+                        }
+
+                    })
+                    .setNegativeButton("Volver", null)
+                    .show();
         }
-
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;

@@ -29,7 +29,7 @@ import retrofit2.Response;
 
 public class LoginActivity extends AppCompatActivity {
 
-    static EditText Email; //Para acceder a el desde RegisterActivity @BindView(R.id.email) EditText Email;
+    static EditText Email; //Para acceder a el desde RegisterActivity @BindView(R.id.email) EditText email;
     private UsuariosSQLiteHelper mydb ;
     //libreria para evitar usar tanto codigo especialmente con los onclic, puedo hacer injeccion de codigo
     @BindView(R.id.password) EditText Password;
@@ -46,10 +46,9 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
         ButterKnife.bind(this);
         Email = (EditText) findViewById(R.id.email);
-        Email.setText("luis05247@gmail.com");
+        Email.setText("lmoncad1@eafit.edu.co");
         Password.setText("1234567890");
         mydb = new UsuariosSQLiteHelper(this);
-
     }
 
     @OnClick(R.id.CreateAccount)
@@ -57,7 +56,6 @@ public class LoginActivity extends AppCompatActivity {
         //Toast.makeText(LoginActivity.this, "Prueba libreria JakeWharton", Toast.LENGTH_SHORT).show();
         Intent i = new Intent(LoginActivity.this, RegisterActivity.class);
         startActivity(i);
-
     }
 
     @OnClick(R.id.login)
@@ -65,9 +63,7 @@ public class LoginActivity extends AppCompatActivity {
         Login();
     }
 
-
     public EditText retornarEmail()    {
-
         return this.Email;
     }
 
@@ -76,7 +72,10 @@ public class LoginActivity extends AppCompatActivity {
         Email.setError(null);
         Password.setError(null);
 
-        // Store values at the time of the login attempt.
+        // estos valores se asignan despues de validar el login y se traen del servidor
+        String usuario = "lmoncad1";
+        String nombres = "Luis Miguel";
+        String apellidos = "Moncada Ocampo";
         String email = Email.getText().toString();
         String password = Password.getText().toString();
 
@@ -105,22 +104,23 @@ public class LoginActivity extends AppCompatActivity {
             cancel = true;
         }
         if (cancel) {
-            // There was an error; don't attempt login and focus the first
-            // form field with an error.
             focusView.requestFocus();
         } else {
-
-            InsertarSQlite(1, "Luis Usuario", "Luis M", "Apellidos", password, email);
             Intent mainIntent = new Intent(LoginActivity.this, NavigationDrawerActivity.class);
             LoginActivity.this.startActivity(mainIntent);
+            InsertarSQlite(1, usuario, nombres, apellidos, password, email);
             LoginActivity.this.finish();
             //ValidarUsuario(email,password);
         }
     }
 
+    public void InsertarSQlite(Integer id, String nombre, String  NombreCompleto, String apellidos, String pass, String  email) {
+        mydb.InsertarUsuario(id, nombre.toString(), NombreCompleto.toString(), apellidos.toString(), pass.toString(), email.toString());
+    }
+
     private void ValidarUsuario(String email, String contraseña){
 
-        Usuario usuario=new Usuario();
+        Usuario usuario = new Usuario();
         usuario.setEmail(email);
         usuario.setPassword(contraseña);
         Call<ServerResponse> call = ApiClient.get().obtenerUsuario(usuario);
@@ -173,9 +173,7 @@ public class LoginActivity extends AppCompatActivity {
 
     }
 
-    public void InsertarSQlite(Integer id, String nombre, String  NombreCompleto, String apellidos, String pass, String  email) {
-        mydb.AgregarUsuario(id, nombre.toString(), NombreCompleto.toString(), apellidos.toString(), pass.toString(), email.toString());
-    }
+
 
     private boolean isEmailValid(String email) {
         //TODO: Replace this with your own logic

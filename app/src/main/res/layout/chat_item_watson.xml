@@ -3,8 +3,10 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
-    android:background="@drawable/bg_bubble_gray"
-    android:layout_marginBottom="5dp">
+    android:background="@drawable/bg_bubble_blue_wat"
+    android:layout_marginTop="5dp"
+    android:layout_marginLeft="5dp"
+    android:layout_marginRight="5dp">
 
     <android.support.v7.widget.AppCompatImageView
         android:id="@+id/image"
@@ -12,7 +14,6 @@
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:src="@drawable/ic_face_asistent"
-        android:layout_marginBottom="1dp"
         android:layout_marginLeft="@dimen/item_margin_chat"/>
     <TextView
         android:id="@+id/message"
@@ -36,7 +37,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="11:28 am"
-            android:layout_marginBottom="@dimen/item_margin_chat"
             />
         <TextView
             android:id="@+id/edit"

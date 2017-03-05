@@ -25,14 +25,14 @@ import retrofit2.Response;
 
 public class RegisterActivity extends AppCompatActivity {
 
-    String nombre,nombreusuario,email,contraseña,message,result;
+    String nombre, apellidos,email,contraseña,message,result;
 
     //Se usa la libreria jakewharton:butterknife para injeccion de vistas
     @BindView(R.id.editTextName)
     EditText Nombre;
 
     @BindView(R.id.editTextUsername)
-    EditText NombreUsuario;
+    EditText Apellidos;
 
     @BindView(R.id.editTextPassword)
     EditText Contraseña;
@@ -66,7 +66,7 @@ public class RegisterActivity extends AppCompatActivity {
     private void IngresarUsuarioNuevo(){
 
         Nombre.setError(null);
-        NombreUsuario.setError(null);
+        Apellidos.setError(null);
         Email.setError(null);
         Contraseña.setError(null);
 
@@ -74,7 +74,7 @@ public class RegisterActivity extends AppCompatActivity {
         View focusView = null;
 
          nombre = Nombre.getText().toString();
-         nombreusuario = NombreUsuario.getText().toString();
+         apellidos = Apellidos.getText().toString();
          email = Email.getText().toString();
          contraseña = Contraseña.getText().toString();
 
@@ -83,9 +83,9 @@ public class RegisterActivity extends AppCompatActivity {
             Nombre.setError(getString(R.string.error_field_required));
             focusView = Nombre;
             cancel = true;
-        }else if (TextUtils.isEmpty(nombreusuario)) {
-            NombreUsuario.setError(getString(R.string.error_field_required));
-            focusView = NombreUsuario;
+        }else if (TextUtils.isEmpty(apellidos)) {
+            Apellidos.setError(getString(R.string.error_field_required));
+            focusView = Apellidos;
             cancel = true;
         }else if (TextUtils.isEmpty(email)) {
             Email.setError(getString(R.string.error_field_required));
@@ -109,7 +109,7 @@ public class RegisterActivity extends AppCompatActivity {
             // form field with an error.
             focusView.requestFocus();
         } else {
-            RegistrarUsuario(nombre,nombreusuario,contraseña,email);
+            RegistrarUsuario(nombre, apellidos,contraseña,email);
         }
     }
 
