@@ -16,21 +16,21 @@ import java.util.ArrayList;
 /**
  * Created by LUISM on 26/09/2016.
  */
-public class OneFragment extends Fragment {
+public class FragmentDrawer extends Fragment {
 
     private RecyclerView mRecyclerView;
     private View view;
     private static final String KEY_SOLICITUDES = "solicitudes";
 
-    public static OneFragment newInstance(ArrayList  solicitudes) {
-        OneFragment fragment = new OneFragment();
+    public static FragmentDrawer newInstance(ArrayList  solicitudes) {
+        FragmentDrawer fragment = new FragmentDrawer();
         Bundle args = new Bundle();
         args.putStringArrayList(KEY_SOLICITUDES, solicitudes);
         fragment.setArguments(args);
         return fragment;
     }
 
-    public OneFragment() {
+    public FragmentDrawer() {
         // Required empty public constructor
     }
 

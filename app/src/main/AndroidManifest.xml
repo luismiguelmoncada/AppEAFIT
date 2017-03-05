@@ -44,30 +44,30 @@
                 android:value=".Views.NavigationDrawerActivity" />
         </activity>
         <activity
-            android:name=".Views.SolicitudActivity"
+            android:name=".Views.MisSolicitudesActivity"
             android:parentActivityName=".Views.NavigationDrawerActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".Views.NavigationDrawerActivity" />
         </activity>
         <activity
-            android:name=".Views.DetalleVehiculos"
+            android:name=".Views.DetalleSolicitud"
             android:parentActivityName=".Views.NavigationDrawerActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".Views.NavigationDrawerActivity" />
         </activity>
         <activity
-            android:name=".Views.AsistenteActivity"
-            android:parentActivityName=".Views.SolicitudActivity">
+            android:name=".Views.IngresarSolicitud"
+            android:parentActivityName=".Views.MisSolicitudesActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".Views.SolicitudActivity" />
+                android:value=".Views.MisSolicitudesActivity" />
         </activity>
         <activity android:name=".Views.WatsonActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".Views.SolicitudActivity" />
+                android:value=".Views.MisSolicitudesActivity" />
         </activity>
     </application>
 

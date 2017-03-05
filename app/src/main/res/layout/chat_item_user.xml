@@ -3,7 +3,7 @@
 android:layout_width="match_parent"
 android:layout_height="wrap_content"
 android:orientation="horizontal"
-android:background="@drawable/bg_bubble_gradient_bluee"
+android:background="@drawable/bg_bubble_gray"
 android:layout_marginBottom="5dp">
 
 
@@ -24,7 +24,7 @@ android:layout_marginBottom="5dp">
     android:layout_marginBottom="1dp"
     android:textIsSelectable="true"
     android:clickable="true"
-    android:background="@drawable/bg_bubble_gray"
+    android:background="@drawable/bg_bubble_red"
     android:textSize="@dimen/item_textsize_chat"
     android:fontFamily="sans-serif"
     android:textColor="@android:color/black" />

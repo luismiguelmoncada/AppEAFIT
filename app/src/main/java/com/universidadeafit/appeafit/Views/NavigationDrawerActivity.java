@@ -3,6 +3,7 @@ package com.universidadeafit.appeafit.Views;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
@@ -54,24 +55,26 @@ public class NavigationDrawerActivity extends AppCompatActivity
             R.drawable.ic_email
     };
 
-    ArrayList<Solicitud> Perfil = new ArrayList<>();
-    ArrayList<Solicitud> Noticias = new ArrayList<>();
-    ArrayList<Solicitud> Mas = new ArrayList<>();
+    ArrayList<Solicitud> resumen = new ArrayList<>();
+    ArrayList<Solicitud> frecuentes = new ArrayList<>();
+    ArrayList<Solicitud> sinresponder = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_navigation_drawer);
 
+        mydb = new UsuariosSQLiteHelper(this);
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle("APP EAFIT");
+        getSupportActionBar().setTitle("EAFIT INTERACTIVA");
 
-        Perfil.add(new Solicitud("Galeria", " Biblioteca", R.drawable.ic_menu_camera, " Fotos", " Enero 2017"));
-        Perfil.add(new Solicitud("Materias", " Registradas: 1", R.drawable.ic_menu_manage, " Semestre: 2017-1", " Creditos: 4"));
+        resumen.add(new Solicitud("Galeria", " Biblioteca", R.drawable.ic_menu_camera, " Fotos", " Enero 2017"));
+        resumen.add(new Solicitud("Materias", " Registradas: 1", R.drawable.ic_menu_manage, " Semestre: 2017-1", " Creditos: 4"));
 
-        Noticias.add(new Solicitud("Lo Nuevo", " Noticia 1", R.drawable.ic_menu_slideshow, " ", " "));
-        Mas.add(new Solicitud("Nuevo", " Nuevo 1", R.drawable.ic_menu_share, " ", " "));
+        frecuentes.add(new Solicitud("Lo Nuevo", " Noticia 1", R.drawable.ic_menu_slideshow, " ", " "));
+        sinresponder.add(new Solicitud("Nuevo", " Nuevo 1", R.drawable.ic_menu_share, " ", " "));
 
 
         viewPager = (ViewPager) findViewById(R.id.viewpager);
@@ -87,15 +90,15 @@ public class NavigationDrawerActivity extends AppCompatActivity
                 switch (tab.getPosition()) {
                     case 0:
                         //Log.e("TAG", "TAB1");
-                        onResume(Perfil);
+                        onResume(resumen);
                         break;
                     case 1:
                         //Log.e("TAG", "TAB2");
-                        onResume(Noticias);
+                        onResume(frecuentes);
                         break;
                     case 2:
                         //Log.e("TAG", "TAB3");
-                        onResume(Mas);
+                        onResume(sinresponder);
                         break;
                 }
             }
@@ -133,7 +136,7 @@ public class NavigationDrawerActivity extends AppCompatActivity
         fab1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i = new Intent(NavigationDrawerActivity.this, AsistenteActivity.class);
+                Intent i = new Intent(NavigationDrawerActivity.this, IngresarSolicitud.class);
                 startActivity(i);
             }
         });
@@ -145,7 +148,34 @@ public class NavigationDrawerActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+        consultarSQL();
+    }
 
+    public void consultarSQL(){
+        int id = 1;
+        String Usuario = "";
+        String Nombres = "";
+        String Apellidos = "";
+        String Pass = "";
+        String Email = "";
+
+
+        boolean aux;
+        aux = mydb.UsuarioNuevo(id);
+
+        if (aux) {
+        Cursor rs = mydb.ObtenerDatos(id);
+        Usuario = rs.getString(1);
+        Nombres = rs.getString(2);
+        Apellidos = rs.getString(3);
+        Pass = rs.getString(4);
+        Email = rs.getString(5);
+
+        Toast.makeText(getApplicationContext(),"Sqlite" + Email, Toast.LENGTH_SHORT).show();
+
+        } else {
+            Toast.makeText(getApplicationContext(), "No hay base de datos sqlite", Toast.LENGTH_SHORT).show();
+        }
     }
 
 /*
@@ -156,23 +186,23 @@ public class NavigationDrawerActivity extends AppCompatActivity
     }*/
     private void setupViewPager(ViewPager viewPager) {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
-        adapter.addFragment(OneFragment.newInstance(Perfil), "INICIO"); //se pasan los carros para el fragment
-        adapter.addFragment(OneFragment.newInstance(Noticias), "NOTICIAS");
-        adapter.addFragment(OneFragment.newInstance(Mas), "MAS");
+        adapter.addFragment(FragmentDrawer.newInstance(resumen), "INICIO"); //se pasan los carros para el fragment
+        adapter.addFragment(FragmentDrawer.newInstance(frecuentes), "FRECUENTE");
+        adapter.addFragment(FragmentDrawer.newInstance(sinresponder), "MAS");
         viewPager.setAdapter(adapter);
-        onResume(Perfil);// se debe ingresar el primer arreglo para el primer fragment, los otros se asignan cada vez que se mueve el tablayout
+        onResume(resumen);// se debe ingresar el primer arreglo para el primer fragment, los otros se asignan cada vez que se mueve el tablayout
     }//es necesario para que el metodo que devuelve la posicion lo haga del fragment cvorrecto
 
 
-    protected void onResume(ArrayList  carros) {
+    protected void onResume(ArrayList  solicitudes) {
         super.onResume();
 
-        mAdapter = new MyRecyclerViewAdapterSolicitudes(carros);
+        mAdapter = new MyRecyclerViewAdapterSolicitudes(solicitudes);
         ((MyRecyclerViewAdapterSolicitudes) mAdapter).setOnItemClickListener(new MyRecyclerViewAdapterSolicitudes
                 .MyClickListener() {
             @Override
             public void onItemClick(int position, View v) {
-                Intent i = new Intent(NavigationDrawerActivity.this, DetalleVehiculos.class);
+                Intent i = new Intent(NavigationDrawerActivity.this, DetalleSolicitud.class);
                 i.putExtra("placa",((MyRecyclerViewAdapterSolicitudes) mAdapter).getObjeto(position).getPlaca());
                 startActivity(i);
                 //finish(); // Es necesario que las clases objetos o entidades que se usan en esta clase
@@ -226,7 +256,7 @@ public class NavigationDrawerActivity extends AppCompatActivity
             Intent i = new Intent(NavigationDrawerActivity.this, PerfilActivity.class);
             startActivity(i);
         } else if (id == R.id.nav_solicitud) {
-            Intent i = new Intent(NavigationDrawerActivity.this, SolicitudActivity.class);
+            Intent i = new Intent(NavigationDrawerActivity.this, MisSolicitudesActivity.class);
             startActivity(i);
 
         } else if (id == R.id.nav_informacion) {

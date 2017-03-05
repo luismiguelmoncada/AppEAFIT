@@ -19,7 +19,7 @@ import butterknife.OnClick;
 
 
 
-public class AsistenteActivity extends AppCompatActivity {
+public class IngresarSolicitud extends AppCompatActivity {
 
     String solicitud;
     @BindView(R.id.editTextSolicitud)
@@ -56,7 +56,7 @@ public class AsistenteActivity extends AppCompatActivity {
     }
 
     public void ProcesarTexto(String texto) {
-        Toast.makeText(AsistenteActivity.this,texto, Toast.LENGTH_LONG).show();
+        Toast.makeText(IngresarSolicitud.this,texto, Toast.LENGTH_LONG).show();
 
 
     }

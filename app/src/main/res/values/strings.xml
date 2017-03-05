@@ -4,7 +4,7 @@
 
     <!-- Strings related to login -->
     <!-- Strings related to LoginActivity View -->
-    <string name="hint_user">Usuario</string>
+    <string name="hint_user">Email</string>
     <string name="hint_password">Contraseña</string>
     <string name="button_ingresar">INGRESAR</string>
     <string name="text_no_account">¿No tienes cuenta?,</string>
@@ -17,7 +17,7 @@
 
     <!-- Strings related to RegistreActivity View-->
     <string name="toolbar_titulo">Registro de Usuarios</string>
-    <string name="hint_username">Nombre de Usuario</string>
+    <string name="hint_username">Nombre Completo</string>
     <string name="hint_email">Email</string>
     <string name="button_register">REGISTRARSE</string>
 

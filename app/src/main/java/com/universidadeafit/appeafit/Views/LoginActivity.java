@@ -11,6 +11,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.universidadeafit.appeafit.Model.UsuariosSQLiteHelper;
 import com.universidadeafit.appeafit.R;
 import com.universidadeafit.appeafit.Adapters.ApiRest.ApiClient;
 import com.universidadeafit.appeafit.Adapters.ApiRest.ServerResponse;
@@ -29,7 +30,7 @@ import retrofit2.Response;
 public class LoginActivity extends AppCompatActivity {
 
     static EditText Email; //Para acceder a el desde RegisterActivity @BindView(R.id.email) EditText Email;
-
+    private UsuariosSQLiteHelper mydb ;
     //libreria para evitar usar tanto codigo especialmente con los onclic, puedo hacer injeccion de codigo
     @BindView(R.id.password) EditText Password;
 
@@ -47,6 +48,8 @@ public class LoginActivity extends AppCompatActivity {
         Email = (EditText) findViewById(R.id.email);
         Email.setText("luis05247@gmail.com");
         Password.setText("1234567890");
+        mydb = new UsuariosSQLiteHelper(this);
+
     }
 
     @OnClick(R.id.CreateAccount)
@@ -107,6 +110,7 @@ public class LoginActivity extends AppCompatActivity {
             focusView.requestFocus();
         } else {
 
+            InsertarSQlite(1, "Luis Usuario", "Luis M", "Apellidos", password, email);
             Intent mainIntent = new Intent(LoginActivity.this, NavigationDrawerActivity.class);
             LoginActivity.this.startActivity(mainIntent);
             LoginActivity.this.finish();
@@ -167,6 +171,10 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    public void InsertarSQlite(Integer id, String nombre, String  NombreCompleto, String apellidos, String pass, String  email) {
+        mydb.AgregarUsuario(id, nombre.toString(), NombreCompleto.toString(), apellidos.toString(), pass.toString(), email.toString());
     }
 
     private boolean isEmailValid(String email) {

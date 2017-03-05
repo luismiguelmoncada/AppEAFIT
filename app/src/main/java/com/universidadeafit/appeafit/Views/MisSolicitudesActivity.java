@@ -7,13 +7,13 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 
+import com.universidadeafit.appeafit.Adapters.MyRecyclerViewAdapterSolicitudes;
 import com.universidadeafit.appeafit.Model.Solicitud;
 import com.universidadeafit.appeafit.R;
-import com.universidadeafit.appeafit.Adapters.MyRecyclerViewAdapterVehiculo1;
 
 import java.util.ArrayList;
 
-public class SolicitudActivity extends AppCompatActivity {
+public class MisSolicitudesActivity extends AppCompatActivity {
 
     private RecyclerView mRecyclerView;
     private RecyclerView.LayoutManager mLayoutManager;
@@ -22,17 +22,15 @@ public class SolicitudActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_solicitud);
-        verToolbar("Solicitudes",true);
+        setContentView(R.layout.activity_missolicitudes);
+        verToolbar("Mis Solicitudes",true);
 
         mRecyclerView = (RecyclerView) findViewById(R.id.my_recycler_view);
         mRecyclerView.setHasFixedSize(true);
         mLayoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(mLayoutManager);
-        mAdapter = new MyRecyclerViewAdapterVehiculo1(getDataSet());
+        mAdapter = new MyRecyclerViewAdapterSolicitudes(getDataSet());
         mRecyclerView.setAdapter(mAdapter);
-
-
     }
 
     public  void verToolbar(String titulo,Boolean UpButton){
@@ -45,7 +43,7 @@ public class SolicitudActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        ((MyRecyclerViewAdapterVehiculo1) mAdapter).setOnItemClickListener(new MyRecyclerViewAdapterVehiculo1
+        ((MyRecyclerViewAdapterSolicitudes) mAdapter).setOnItemClickListener(new MyRecyclerViewAdapterSolicitudes
                 .MyClickListener() {
             @Override
             public void onItemClick(int position, View v) {
