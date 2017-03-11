@@ -17,6 +17,8 @@ import com.universidadeafit.appeafit.Model.SendMail;
 import com.universidadeafit.appeafit.Model.Usuario;
 import com.universidadeafit.appeafit.R;
 
+import java.util.Random;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -48,10 +50,6 @@ public class RegisterActivity extends AppCompatActivity {
         setContentView(R.layout.activity_register);
         verToolbar(getResources().getString(R.string.toolbar_titulo),true);
         ButterKnife.bind(this);
-
-
-        contraseña="12345";
-
     }
 
     public  void verToolbar(String titulo,Boolean UpButton){
@@ -71,15 +69,15 @@ public class RegisterActivity extends AppCompatActivity {
         Nombre.setError(null);
         Apellidos.setError(null);
         Email.setError(null);
-
-
         boolean cancel = false;
         View focusView = null;
-
-         nombre = Nombre.getText().toString();
-         apellidos = Apellidos.getText().toString();
-         email = Email.getText().toString();
-
+        nombre = Nombre.getText().toString();
+        apellidos = Apellidos.getText().toString();
+        email = Email.getText().toString();
+        String cadena = getCadenaAlfanumAleatoria (4);
+        String nombreusu = email.replace("@eafit.edu.co","");
+        contraseña = nombreusu+cadena;// se genera una contraseña
+        //Toast.makeText(RegisterActivity.this,nombreusu+cadena, Toast.LENGTH_LONG).show();
 
         // Check for a valid input parametres.
         if (TextUtils.isEmpty(nombre)) {
@@ -100,38 +98,21 @@ public class RegisterActivity extends AppCompatActivity {
             cancel = true;
         }
         if (cancel) {
-            // There was an error; don't attempt login and focus the first
-            // form field with an error.
             focusView.requestFocus();
         } else {
-
            //sendEmail(nombre,apellidos,email,contraseña);
            RegistrarUsuario(nombre, apellidos,contraseña,email);
         }
     }
 
-    private void sendEmail(String nombre, String apellidos,String email,String contraseña) {
-        //Getting content for email
-        String subject = "[AppEAFIT] - Confirmación de Registro";
-        String message = "Hola "+nombre+". AppEAFIT te da la bienvenida."+"\n"+"\n"+"Recuerda que con nuestra aplicación puedes resolver todas tus inquietudes respecto " +
-                "al funcionamiento de EAFIT Interactiva. Conversa con nuestro Bot en su primera versión y ayúdanos a mejorarlo."+ "\n"+ "\n" +
-                "Tus credenciales de ingreso son:"+ "\n"+ "\n" +"Usuario: "+email+"\n"+"Contraseña: "+contraseña+"\n"+"\n"+"Este es un proyecto realizado " +
-                "por estudiantes del programa de Ingeniería de Sistemas de la universidad EAFIT en la materia Proyecto Integrador 2."+ "\n"+ "\n"+"\n"+ "\n"+ "\n"+"\n";
-
-        //Creating SendMail object
-        SendMail sm = new SendMail(this, email, subject, message);
-        //Executing sendmail to send email
-        sm.execute();
-    }
     private void RegistrarUsuario(String nombre,String apellidos,String contraseña,String email){
+        final String nombreLog = nombre;
+        final String apellidosLog = apellidos;
+        final String contraseñaLog = contraseña;
+        final String emailLog = email;
 
         Usuario usuario = new Usuario(nombre,apellidos,contraseña,email);
-        final String nombreLog =nombre;
-        final String apellidosLog =apellidos;
-        final String contraseñaLog =contraseña;
-        final String emailLog =email;
         Call<ServerResponse> call = ApiClient.get().createUser(usuario);
-
         call.enqueue(new Callback<ServerResponse>() {
             @Override
             public void onResponse(Call<ServerResponse> call, Response<ServerResponse> response) {
@@ -153,17 +134,42 @@ public class RegisterActivity extends AppCompatActivity {
                 Toast.makeText(RegisterActivity.this," No tienes conexión a Internet ", Toast.LENGTH_LONG).show();
             }
         });
+    }
+    private void sendEmail(String nombre, String apellidos,String email,String contraseña) {
+        //Getting content for email
+        String subject = "[AppEAFIT] - Confirmación de Registro";
+        String message = "Hola "+nombre+". AppEAFIT te da la bienvenida."+"\n"+"\n"+"Recuerda que con nuestra aplicación puedes resolver todas tus inquietudes respecto " +
+                "al funcionamiento de EAFIT Interactiva. Conversa con nuestro Bot en su primera versión y ayúdanos a mejorarlo."+ "\n"+ "\n" +
+                "Tus credenciales de ingreso son:"+ "\n"+ "\n" +"Usuario: "+email+"\n"+"Contraseña: "+contraseña+"\n"+"\n"+"Este es un proyecto realizado " +
+                "por estudiantes del programa de Ingeniería de Sistemas de la universidad EAFIT en la materia Proyecto Integrador 2 con el apoyo de sus profesores a cargo."+ "\n"+ "\n"+"\n"+ "\n"+ "\n"+"\n";
 
+        //Creating SendMail object
+        SendMail sm = new SendMail(this, email, subject, message);
+        //Executing sendmail to send email
+        sm.execute();
     }
 
+    String getCadenaAlfanumAleatoria (int longitud){
+        String cadenaAleatoria = "";
+        long milis = new java.util.GregorianCalendar().getTimeInMillis();
+        Random r = new Random(milis);
+        int i = 0;
+        while ( i < longitud){
+            char c = (char)r.nextInt(255);
+            if ( (c >= '0' && c <='9') || (c >='A' && c <='Z') ){
+                cadenaAleatoria += c;
+                i ++;
+            }
+        }
+        return cadenaAleatoria;
+    }
     private boolean isEmailValid(String email) {
         //TODO: Replace this with your own logic
-        return email.contains("@");
+        return email.contains("@eafit.edu.co");
     }
 
     private boolean isPasswordValid(String password) {
         //TODO: Replace this with your own logic
         return password.length() > 4;
     }
-
 }

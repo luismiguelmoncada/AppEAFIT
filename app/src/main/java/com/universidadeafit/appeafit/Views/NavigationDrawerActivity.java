@@ -5,9 +5,11 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.os.StrictMode;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Layout;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -17,6 +19,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.universidadeafit.appeafit.Adapters.MyRecyclerViewAdapterSolicitudes;
@@ -26,6 +29,9 @@ import com.universidadeafit.appeafit.R;
 import com.universidadeafit.appeafit.Adapters.ViewPagerAdapter;
 
 import java.util.ArrayList;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
 public class NavigationDrawerActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -59,6 +65,7 @@ public class NavigationDrawerActivity extends AppCompatActivity
             email = rs.getString(5);
         }
 
+        //Toast.makeText(getApplicationContext(), nombres+email, Toast.LENGTH_SHORT).show();
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle("EAFIT INTERACTIVA");
@@ -127,6 +134,15 @@ public class NavigationDrawerActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+        //Para poder acceder al textview del header en navigation drawer
+        View hView =  navigationView.getHeaderView(0);
+        TextView nav_username = (TextView)hView.findViewById(R.id.nombre);
+        nav_username.setText(nombres +" "+ apellidos);
+        TextView nav_useremail = (TextView)hView.findViewById(R.id.email);
+        nav_useremail.setText(email);
+
+        //TextView NombreNav = (TextView) findViewById(R.id.nombre);
+        //TextView EmailNav = (TextView) findViewById(R.id.emailDrawer);
     }
 
     private void setupViewPager(ViewPager viewPager) {
