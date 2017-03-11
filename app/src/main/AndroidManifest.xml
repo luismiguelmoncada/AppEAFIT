@@ -69,6 +69,7 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".Views.MisSolicitudesActivity" />
         </activity>
+        <activity android:name=".Views.MainActivity"></activity>
     </application>
 
 </manifest>

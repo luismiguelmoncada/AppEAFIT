@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context="com.universidadeafit.appeafit.Email">
+
+    <LinearLayout
+        android:id="@+id/LinearLayout01"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_centerVertical="true"
+        android:layout_alignParentStart="true">
+        <LinearLayout android:id="@+id/LinearLayout02"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <TextView android:text="Para :"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/txtForEmail"/>
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:width="170dip"
+                android:id="@+id/etEmail">
+            </EditText>
+        </LinearLayout>
+
+        <LinearLayout android:id="@+id/LinearLayout03"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <TextView android:text="Asunto"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/txtForSubject"/>
+            <EditText
+                android:text="Autoalert"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:width="170dip"
+                android:id="@+id/etSubject">
+            </EditText>
+        </LinearLayout>
+        <LinearLayout android:id="@+id/LinearLayout04"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <TextView android:text="Mensaje"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/txtForBody"></TextView>
+            <EditText
+                android:text="Quisiera contactarme contigo!"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:lines="5"
+                android:width="300dip"
+                android:id="@+id/etBody">
+            </EditText>
+        </LinearLayout>
+        <Button
+            android:textColor="#FFFFFF"
+            android:background="@color/colorPrimary"
+            android:onClick="enviar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/btnSend"
+            android:text="Enviar"
+            android:layout_gravity="center"
+            android:width="150dip">
+        </Button>
+    </LinearLayout>
+</RelativeLayout>
