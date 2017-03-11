@@ -18,6 +18,7 @@ public class Constants {
     public static final String FAILURE = "failure";
     public static final String IS_LOGGED_IN = "isLoggedIn";
 
-    public static final String EMAIL ="luis05247@gmail.com";
-    public static final String PASSWORD ="luismi052477";
+    public static final String EMAIL ="proyectoappeafit@gmail.com";
+    public static final String PASSWORD ="appeafit2016";
+    //appeafit2016
 }

@@ -20,6 +20,8 @@
     <string name="hint_username">Nombre Completo</string>
     <string name="hint_email">Email</string>
     <string name="button_register">REGISTRARSE</string>
+    <string name="texthelp_register">Recuerda que debes ingresar una direccion de correo de EAFIT, a esta
+    direccion se enviara la contraseña de acceso y quedaras registrado en la aplicacion</string>
 
     <!-- Activity Names and Descriptions -->
     <string name="desc_in_activity_splash">BIENVENIDO</string>

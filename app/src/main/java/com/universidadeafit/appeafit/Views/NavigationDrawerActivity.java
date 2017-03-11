@@ -35,11 +35,9 @@ public class NavigationDrawerActivity extends AppCompatActivity
     private ViewPager viewPager;
 
     int id = 1;
-    String nombreusuario;
     String nombres;
     String apellidos;
     String email;
-    String password;
 
     private UsuariosSQLiteHelper mydb ;
 
@@ -57,6 +55,8 @@ public class NavigationDrawerActivity extends AppCompatActivity
         if (aux) {
             Cursor rs = mydb.ObtenerDatos(id);
             nombres = rs.getString(2);
+            apellidos = rs.getString(3);
+            email = rs.getString(5);
         }
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);

@@ -18,6 +18,12 @@ import com.universidadeafit.appeafit.Adapters.ApiRest.ServerResponse;
 import com.universidadeafit.appeafit.Model.Constants;
 import com.universidadeafit.appeafit.Model.Usuario;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -46,8 +52,8 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
         ButterKnife.bind(this);
         Email = (EditText) findViewById(R.id.email);
-        Email.setText("lmoncad1@eafit.edu.co");
-        Password.setText("1234567890");
+        //Email.setText("lmoncad1@eafit.edu.co");
+        //Password.setText("1234567890");
         mydb = new UsuariosSQLiteHelper(this);
     }
 
@@ -71,14 +77,8 @@ public class LoginActivity extends AppCompatActivity {
 
         Email.setError(null);
         Password.setError(null);
-
-        // estos valores se asignan despues de validar el login y se traen del servidor
-        String usuario = "lmoncad1";
-        String nombres = "Luis Miguel";
-        String apellidos = "Moncada Ocampo";
         String email = Email.getText().toString();
         String password = Password.getText().toString();
-
         boolean cancel = false;
         View focusView = null;
 
@@ -106,16 +106,9 @@ public class LoginActivity extends AppCompatActivity {
         if (cancel) {
             focusView.requestFocus();
         } else {
-            Intent mainIntent = new Intent(LoginActivity.this, NavigationDrawerActivity.class);
-            LoginActivity.this.startActivity(mainIntent);
-            InsertarSQlite(1, usuario, nombres, apellidos, password, email);
-            LoginActivity.this.finish();
-            //ValidarUsuario(email,password);
-        }
-    }
 
-    public void InsertarSQlite(Integer id, String nombre, String  NombreCompleto, String apellidos, String pass, String  email) {
-        mydb.InsertarUsuario(id, nombre.toString(), NombreCompleto.toString(), apellidos.toString(), pass.toString(), email.toString());
+            ValidarUsuario(email,password);
+        }
     }
 
     private void ValidarUsuario(String email, String contraseña){
@@ -123,19 +116,39 @@ public class LoginActivity extends AppCompatActivity {
         Usuario usuario = new Usuario();
         usuario.setEmail(email);
         usuario.setPassword(contraseña);
-        Call<ServerResponse> call = ApiClient.get().obtenerUsuario(usuario);
+        final String contraseñaLog = contraseña;
+        final String emailLog = email;
 
+        Call<ServerResponse> call = ApiClient.get().obtenerUsuario(usuario);
         call.enqueue(new Callback<ServerResponse>() {
             @Override
             public void onResponse(Call<ServerResponse> call, Response<ServerResponse> response) {
                 String message = response.body().getMessage();
                 String result = response.body().getResult();
-                Toast.makeText(LoginActivity.this, message, Toast.LENGTH_LONG).show();
+                List<Usuario> users =  response.body().getUser();
+                ArrayList<String> nombres = new ArrayList<>();
+                ArrayList<String> apellidos = new ArrayList<>();
 
                 if (result.equals(Constants.SUCCESS)){
+                    try {
+                        JSONArray jArray = new JSONArray(users);
+                        for (int i = 0; i < jArray.length(); i++) {
+                            JSONObject json = jArray.getJSONObject(i);
+                            nombres.add(json.getString("name"));
+                            apellidos.add(json.getString("username"));
+                        }
+                    }catch (JSONException e ){
+                        e.printStackTrace();
+                    }
+                    InsertarSQlite(1, "Usuario", nombres.get(0).trim(), apellidos.get(0).trim(), contraseñaLog, emailLog);
                     Intent mainIntent = new Intent(LoginActivity.this, NavigationDrawerActivity.class);
                     LoginActivity.this.startActivity(mainIntent);
                     LoginActivity.this.finish();
+                }
+                if(message.equals("Bienvenido")){
+                    Toast.makeText(LoginActivity.this, "¡"+" Hola " + nombres.get(0).trim() +" !", Toast.LENGTH_LONG).show();
+                }else{
+                    Toast.makeText(LoginActivity.this, message, Toast.LENGTH_LONG).show();
                 }
             }
             @Override
@@ -145,8 +158,11 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
-    private void LoginServerGET(){
+    public void InsertarSQlite(Integer id, String nombre, String  NombreCompleto, String apellidos, String pass, String  email) {
+        mydb.InsertarUsuario(id, nombre.toString(), NombreCompleto.toString(), apellidos.toString(), pass.toString(), email.toString());
+    }
 
+    private void LoginServerGET(){
         // Ejemplo para uso de get
         Call<List<Usuario>> call = ApiClient.get().getUsers();
 
@@ -163,7 +179,6 @@ public class LoginActivity extends AppCompatActivity {
                     Toast.makeText(LoginActivity.this, user.getName()+" , "+user.getEmail(), Toast.LENGTH_SHORT).show();
                 }
             }
-
             @Override
             public void onFailure(Call<List<Usuario>> call, Throwable t) {
                 Log.d("my_tag", "ERROR: " + t.getMessage());
@@ -172,8 +187,6 @@ public class LoginActivity extends AppCompatActivity {
         });
 
     }
-
-
 
     private boolean isEmailValid(String email) {
         //TODO: Replace this with your own logic

@@ -157,7 +157,7 @@ public class WatsonActivity extends AppCompatActivity {
             return true;
         }
         else {
-            Toast.makeText(this, " No tienes conexion a Internet ", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, " No tienes conexión a Internet ", Toast.LENGTH_LONG).show();
             return false;
         }
     }

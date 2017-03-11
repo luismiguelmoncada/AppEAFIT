@@ -29,16 +29,16 @@ public class Splash extends FragmentActivity {
                 boolean aux;
                 aux = mydb.HayUsuarios(id);
                 if (aux) {
-                    Toast.makeText(getApplicationContext(), "TRUE hay base de datos", Toast.LENGTH_SHORT).show();
+                   // Toast.makeText(getApplicationContext(), "TRUE hay base de datos", Toast.LENGTH_SHORT).show();
                     Cursor rs = mydb.ObtenerDatos(id);
                     nombres = rs.getString(2);
 
-                    Toast.makeText(Splash.this, "¡"+" Hola " + nombres + ", Bienvenid@" +" !", Toast.LENGTH_LONG).show();
+                    Toast.makeText(Splash.this, "¡"+" Hola " + nombres +" !", Toast.LENGTH_LONG).show();
                     Intent i = new Intent(Splash.this, NavigationDrawerActivity.class);
                     startActivity(i);
                     finish();
                 } else {
-                    Toast.makeText(getApplicationContext(), "No hay base de datos SQLite", Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(getApplicationContext(), "No hay base de datos SQLite", Toast.LENGTH_SHORT).show();
                     Intent mainIntent = new Intent(Splash.this, LoginActivity.class);
                     Splash.this.startActivity(mainIntent);
                     Splash.this.finish();
