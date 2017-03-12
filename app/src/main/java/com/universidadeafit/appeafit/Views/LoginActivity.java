@@ -140,13 +140,15 @@ public class LoginActivity extends AppCompatActivity {
                     }catch (JSONException e ){
                         e.printStackTrace();
                     }
-                    InsertarSQlite(1, "Usuario", nombres.get(0).trim(), apellidos.get(0).trim(), contraseñaLog, emailLog);
+                    Log.d("my_tag", users.toString() );
+                    //InsertarSQlite(1, "Usuario", nombres.get(0).trim(), apellidos.get(0).trim(), contraseñaLog, emailLog);
+                    InsertarSQlite(1, "Usuario", "Nombre Usuario", "Apellidos", contraseñaLog, emailLog);
                     Intent mainIntent = new Intent(LoginActivity.this, NavigationDrawerActivity.class);
                     LoginActivity.this.startActivity(mainIntent);
                     LoginActivity.this.finish();
                 }
                 if(message.equals("Bienvenido")){
-                    Toast.makeText(LoginActivity.this, "¡"+" Hola " + nombres.get(0).trim() +" !", Toast.LENGTH_LONG).show();
+                //    Toast.makeText(LoginActivity.this, "¡"+" Hola " + nombres.get(0).trim() +" !", Toast.LENGTH_LONG).show();
                 }else{
                     Toast.makeText(LoginActivity.this, message, Toast.LENGTH_LONG).show();
                 }
@@ -191,6 +193,7 @@ public class LoginActivity extends AppCompatActivity {
     private boolean isEmailValid(String email) {
         //TODO: Replace this with your own logic
         return email.contains("@eafit.edu.co");
+
     }
 
     private boolean isPasswordValid(String password) {
