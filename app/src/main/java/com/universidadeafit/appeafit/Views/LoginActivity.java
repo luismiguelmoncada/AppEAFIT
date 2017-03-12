@@ -11,19 +11,12 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.universidadeafit.appeafit.MainActivity;
 import com.universidadeafit.appeafit.Model.UsuariosSQLiteHelper;
 import com.universidadeafit.appeafit.R;
 import com.universidadeafit.appeafit.Adapters.ApiRest.ApiClient;
-import com.universidadeafit.appeafit.Adapters.ApiRest.ServerResponse;
-import com.universidadeafit.appeafit.Model.Constants;
 import com.universidadeafit.appeafit.Model.Usuario;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.lang.reflect.Array;
-import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -43,6 +36,9 @@ public class LoginActivity extends AppCompatActivity {
     @BindView(R.id.CreateAccount)
     TextView create_account;
 
+    @BindView(R.id.RememberAccount)
+    TextView remember_account;
+
     @BindView(R.id.login)
     Button button_login;
 
@@ -52,11 +48,14 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
         ButterKnife.bind(this);
         Email = (EditText) findViewById(R.id.email);
-        //Email.setText("lmoncad1@eafit.edu.co");
-        //Password.setText("1234567890");
         mydb = new UsuariosSQLiteHelper(this);
     }
 
+    @OnClick(R.id.RememberAccount)
+    public void RecordarCuenta(){
+        Intent i = new Intent(LoginActivity.this, RecordarCuentaActivity.class);
+        startActivity(i);
+    }
     @OnClick(R.id.CreateAccount)
     public void NuevaCuenta(){
         //Toast.makeText(LoginActivity.this, "Prueba libreria JakeWharton", Toast.LENGTH_SHORT).show();
@@ -72,6 +71,8 @@ public class LoginActivity extends AppCompatActivity {
     public EditText retornarEmail()    {
         return this.Email;
     }
+
+
 
     private void Login() {
 
@@ -106,11 +107,76 @@ public class LoginActivity extends AppCompatActivity {
         if (cancel) {
             focusView.requestFocus();
         } else {
-
-            ValidarUsuario(email,password);
+            ValidarUsuarioGET(email,password);
         }
     }
 
+    private void ValidarUsuarioGET(String email, String contraseña){
+        Call<List<Usuario>> call = ApiClient.get().getUsers(email,contraseña);
+        call.enqueue(new Callback<List<Usuario>>() {
+            @Override
+            public void onResponse(Call<List<Usuario>> call, Response<List<Usuario>> response) {
+                List<Usuario> users = response.body();
+
+                if(response.body().isEmpty()){
+                    Toast.makeText(LoginActivity.this,"Email o contraseña no validos", Toast.LENGTH_LONG).show();
+                }else {
+                    for (Usuario user : users) {
+                        //Toast.makeText(MainActivity.this, "OK", Toast.LENGTH_SHORT).show();
+                        InsertarSQlite(1, "Usuario", user.getName(), user.getUsername(), user.getPassword(), user.getEmail());
+                        Toast.makeText(LoginActivity.this, "¡" + " Hola " + user.getName() + " !", Toast.LENGTH_LONG).show();
+                        Intent mainIntent = new Intent(LoginActivity.this, NavigationDrawerActivity.class);
+                        LoginActivity.this.startActivity(mainIntent);
+                        LoginActivity.this.finish();
+                        //Toast.makeText(MainActivity.this, user.getName()+" , "+user.getEmail(), Toast.LENGTH_SHORT).show();
+                    }
+                }
+            }
+            @Override
+            public void onFailure(Call<List<Usuario>> call, Throwable t) {
+                //Log.d("my_tag", "ERROR: " + t.getMessage());
+                //Toast.makeText(LoginActivity.this, "Error: "+t.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(LoginActivity.this," No tienes conexión a Internet ", Toast.LENGTH_LONG).show();
+            }
+        });
+
+    }
+
+    public void InsertarSQlite(Integer id, String nombre, String  NombreCompleto, String apellidos, String pass, String  email) {
+        mydb.InsertarUsuario(id, nombre.toString(), NombreCompleto.toString(), apellidos.toString(), pass.toString(), email.toString());
+    }
+
+    private boolean isEmailValid(String email) {
+        String emailbuscar = "@";
+        int contador = 0;
+        String dominio = "@eafit.edu.co";
+        String buscardominio = "";
+        String emailaux = email;
+        //Controla que no hallan varios @ en el campo email
+        if(email.indexOf(emailbuscar) > -1) {
+            while (email.indexOf(emailbuscar) > -1) {
+                email = email.substring(email.indexOf(
+                        emailbuscar) + emailbuscar.length(), email.length());
+                contador++;
+            }
+            //Extrae toda la cedena despues de encontrar un @ y solo acepta si esa cedena es igual al dominio
+            buscardominio = emailaux.substring(emailaux.indexOf(emailbuscar),emailaux.length());
+            if(buscardominio.equals(dominio)){
+                return  true;
+            }
+            //Toast.makeText(LoginActivity.this,String.valueOf(buscardominio), Toast.LENGTH_LONG).show();
+        }
+        if(contador > 1){
+        return false;
+        }
+        return false;
+    }
+
+    private boolean isPasswordValid(String password) {
+        return password.length() > 5;
+    }
+
+    /*
     private void ValidarUsuario(String email, String contraseña){
 
         Usuario usuario = new Usuario();
@@ -160,10 +226,6 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
-    public void InsertarSQlite(Integer id, String nombre, String  NombreCompleto, String apellidos, String pass, String  email) {
-        mydb.InsertarUsuario(id, nombre.toString(), NombreCompleto.toString(), apellidos.toString(), pass.toString(), email.toString());
-    }
-
     private void LoginServerGET(){
         // Ejemplo para uso de get
         Call<List<Usuario>> call = ApiClient.get().getUsers();
@@ -188,16 +250,5 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
-    }
-
-    private boolean isEmailValid(String email) {
-        //TODO: Replace this with your own logic
-        return email.contains("@eafit.edu.co");
-
-    }
-
-    private boolean isPasswordValid(String password) {
-        //TODO: Replace this with your own logic
-        return password.length() > 4;
-    }
+    }*/
 }

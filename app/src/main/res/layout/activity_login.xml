@@ -73,6 +73,20 @@
                     android:layout_marginTop="@dimen/top_marginbutton"
                     style="@style/RaisedButtonDark"
                     />
+
+                <TextView
+                    android:id="@+id/RememberAccount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/text_remember_account"
+                    android:textColor="@android:color/white"
+                    android:textStyle="bold"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="20dp"
+                    android:textSize="13dp"
+                    android:layout_marginLeft="@dimen/text_margin"
+                    tools:ignore="RtlHardcoded" />
+
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -96,7 +110,10 @@
                         android:layout_toRightOf="@+id/NoAccount"
                         android:layout_marginLeft="@dimen/text_margin"
                         tools:ignore="RtlHardcoded" />
+
+
                 </RelativeLayout>
+
             </LinearLayout>
         </ScrollView>
     </LinearLayout>

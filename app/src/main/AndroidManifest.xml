@@ -32,6 +32,7 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".Views.LoginActivity" />
         </activity>
+
         <activity
             android:name=".Views.NavigationDrawerActivity"
             android:label="@string/title_activity_navigation_drawer"
@@ -43,6 +44,7 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".Views.NavigationDrawerActivity" />
         </activity>
+
         <activity
             android:name=".Views.MisSolicitudesActivity"
             android:parentActivityName=".Views.NavigationDrawerActivity">
@@ -50,6 +52,7 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".Views.NavigationDrawerActivity" />
         </activity>
+
         <activity
             android:name=".Views.DetalleSolicitud"
             android:parentActivityName=".Views.NavigationDrawerActivity">
@@ -57,6 +60,7 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".Views.NavigationDrawerActivity" />
         </activity>
+
         <activity
             android:name=".Views.IngresarSolicitud"
             android:parentActivityName=".Views.MisSolicitudesActivity">
@@ -64,11 +68,24 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".Views.MisSolicitudesActivity" />
         </activity>
+
         <activity android:name=".Views.WatsonActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".Views.MisSolicitudesActivity" />
         </activity>
+        <activity android:name=".MainActivity" />
+
+        <activity android:name=".Views.RecordarCuentaActivity"
+            android:label="Recordar Contraseña"
+            android:launchMode="singleInstance"
+            android:theme="@style/Theme.AppCompat.Light.Dialog">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
     </application>
 
 </manifest>

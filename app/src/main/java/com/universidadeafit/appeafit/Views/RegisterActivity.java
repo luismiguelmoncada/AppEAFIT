@@ -164,8 +164,29 @@ public class RegisterActivity extends AppCompatActivity {
         return cadenaAleatoria;
     }
     private boolean isEmailValid(String email) {
-        //TODO: Replace this with your own logic
-        return email.contains("@eafit.edu.co");
+        String emailbuscar = "@";
+        int contador = 0;
+        String dominio = "@eafit.edu.co";
+        String buscardominio = "";
+        String emailaux = email;
+        //Controla que no hallan varios @ en el campo email
+        if(email.indexOf(emailbuscar) > -1) {
+            while (email.indexOf(emailbuscar) > -1) {
+                email = email.substring(email.indexOf(
+                        emailbuscar) + emailbuscar.length(), email.length());
+                contador++;
+            }
+            //Extrae toda la cedena despues de encontrar un @ y solo acepta si esa cedena es igual al dominio
+            buscardominio = emailaux.substring(emailaux.indexOf(emailbuscar),emailaux.length());
+            if(buscardominio.equals(dominio)){
+                return  true;
+            }
+            //Toast.makeText(LoginActivity.this,String.valueOf(buscardominio), Toast.LENGTH_LONG).show();
+        }
+        if(contador > 1){
+            return false;
+        }
+        return false;
     }
 
     private boolean isPasswordValid(String password) {
