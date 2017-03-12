@@ -70,7 +70,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/button_ingresar"
-                    android:layout_marginTop="@dimen/top_marginbutton"
+                    android:layout_marginTop="20dp"
                     style="@style/RaisedButtonDark"
                     />
 
@@ -82,7 +82,8 @@
                     android:textColor="@android:color/white"
                     android:textStyle="bold"
                     android:layout_gravity="center"
-                    android:layout_marginTop="20dp"
+                    android:layout_marginTop="30dp"
+                    android:layout_marginBottom="20dp"
                     android:textSize="13dp"
                     android:layout_marginLeft="@dimen/text_margin"
                     tools:ignore="RtlHardcoded" />
