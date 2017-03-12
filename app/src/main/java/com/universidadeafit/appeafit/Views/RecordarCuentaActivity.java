@@ -79,8 +79,8 @@ public class RecordarCuentaActivity extends AppCompatActivity {
 
     public void EnviarEmail(String email){
 
-        Call<List<Usuario>> call = ApiClient.get().getRecordarUsers(email);
-        call.enqueue(new Callback<List<Usuario>>() {
+        Call<List<Usuario>> callrecord = ApiClient.get().getRecordarUsers(email);
+        callrecord.enqueue(new Callback<List<Usuario>>() {
             @Override
             public void onResponse(Call<List<Usuario>> call, Response<List<Usuario>> response) {
                 List<Usuario> users = response.body();
@@ -90,7 +90,7 @@ public class RecordarCuentaActivity extends AppCompatActivity {
                 }else {
                     for (Usuario user : users) {
                         sendEmail(user.getName(),user.getUsername(),user.getEmail(),user.getPassword());
-                        Toast.makeText(RecordarCuentaActivity.this, user.getName()+" , "+user.getEmail(), Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(RecordarCuentaActivity.this, user.getName()+" , "+user.getEmail(), Toast.LENGTH_SHORT).show();
                     }
                 }
             }
