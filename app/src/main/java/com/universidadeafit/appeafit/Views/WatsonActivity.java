@@ -1,6 +1,7 @@
 package com.universidadeafit.appeafit.Views;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.support.v7.app.AppCompatActivity;
@@ -139,7 +140,13 @@ public class WatsonActivity extends AppCompatActivity {
             public void onItemClick(int position, View v) {
 
                if(mAdapter.getObjeto(position).getId()=="1"){
-                   Toast.makeText(WatsonActivity.this, " Clicked on  " + mAdapter.getObjeto(position).getMessage(), Toast.LENGTH_LONG).show();
+
+                   Intent i = new Intent(WatsonActivity.this, GuardarSolicitudActivity.class);
+                   Bundle bundle = new Bundle();
+                   bundle.putString("pregunta",  mAdapter.getObjeto(position).getMessage());
+                   i.putExtras(bundle);
+                   startActivity(i);
+                   //Toast.makeText(WatsonActivity.this, " Clicked on  " + mAdapter.getObjeto(position).getMessage(), Toast.LENGTH_LONG).show();
                }else{
                    Toast.makeText(WatsonActivity.this, " Clicked on  " + mAdapter.getObjeto(position).getMessage(), Toast.LENGTH_LONG).show();
                }
