@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "178106985136",
+    "firebase_url": "https://appeafit.firebaseio.com",
+    "project_id": "appeafit",
+    "storage_bucket": "appeafit.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:178106985136:android:d8137814941735de",
+        "android_client_info": {
+          "package_name": "com.universidadeafit.appeafit"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "178106985136-836tule05skc7ht37suf8e4m83mv4l6o.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.universidadeafit.appeafit",
+            "certificate_hash": "8eee72500cc5e05a05b2c0a7da86c0c4ae82fd83"
+          }
+        },
+        {
+          "client_id": "178106985136-teasgjskc28o5b4jlldb6161m4retia0.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCQcqgshehVGReDCgL7VMkj3qI7RbOKoxI"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "178106985136-teasgjskc28o5b4jlldb6161m4retia0.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
