@@ -40,4 +40,15 @@
     <!-- Activity Names and Descriptions Watson-->
     <string name="what_s_on_your_mind">¿Como te puedo ayudar?</string>
 
+    <!-- Activity user type, list spinner-->
+
+    <string name="country_prompt">Seleccione un Rol</string>
+
+    <string-array name="country_arrays">
+        <item>ESTUDIANTE</item>
+        <item>DOCENTE</item>
+        <item>ADMINISTRACION</item>
+        <item>CEC</item>
+    </string-array>
+
 </resources>

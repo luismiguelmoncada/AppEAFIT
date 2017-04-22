@@ -23,7 +23,7 @@ public class UsuariosSQLiteHelper extends SQLiteOpenHelper {
     private static final String KEY_PASSWORD = "Contra";
     private static final String KEY_EMAIL = "Email";
 
-    //para tabla VEHICULOS
+    //para tabla SOLICITUD
     private static final String KEY_IDVEHI = "IdVehiculo";
     private static final String KEY_PLACA = "Placa";
     private static final String KEY_TIPO = "Tipo";
@@ -34,6 +34,13 @@ public class UsuariosSQLiteHelper extends SQLiteOpenHelper {
     private static final String KEY_COLOR = "Color";
     private static final String KEY_USER = "User";
 
+    // para tabla TIPO USUARIO
+    private static final String KEY_IDTIPOU = "IdTipoUsuario";
+    private static final String KEY_ROL = "Rol";
+    private static final String KEY_CODIGO_ESTUDIANTE = "Codigo";
+    private static final String KEY_TIPO_IDENTIFICACION = "TipoId";
+    private static final String KEY_IDENTIFICACION = "Identificacion";
+
     public UsuariosSQLiteHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
@@ -41,6 +48,7 @@ public class UsuariosSQLiteHelper extends SQLiteOpenHelper {
     interface Tablas{
         String TABLE_USUARIO = "PerfilUsuario";
         String TABLE_SOLICITUDES = "Vehiculos";
+        String TABLE_TIPO_USUARIO= "TipoUsuario";
     }
 
     interface Referencias{
@@ -66,8 +74,15 @@ public class UsuariosSQLiteHelper extends SQLiteOpenHelper {
                 + KEY_COLOR + " TEXT,"
                 + KEY_USER + " TEXT" + ")";
 
+        String CREATE_TIPOUSUARIO_TABLE = "CREATE TABLE " + Tablas.TABLE_TIPO_USUARIO + "("
+                + KEY_IDTIPOU + " INTEGER ," + KEY_ROL + " TEXT PRIMARY KEY,"
+                + KEY_CODIGO_ESTUDIANTE + " TEXT,"
+                + KEY_TIPO_IDENTIFICACION + " TEXT,"
+                + KEY_IDENTIFICACION + " TEXT" + ")";
+
         db.execSQL(CREATE_CONTACTS_TABLE);
         db.execSQL(CREATE_VEHICULOS_TABLE);
+        db.execSQL(CREATE_TIPOUSUARIO_TABLE);
     }
 
     @Override
@@ -75,6 +90,7 @@ public class UsuariosSQLiteHelper extends SQLiteOpenHelper {
         // Drop older table if existed
         db.execSQL("DROP TABLE IF EXISTS " + Tablas.TABLE_USUARIO);
         db.execSQL("DROP TABLE IF EXISTS " + Tablas.TABLE_SOLICITUDES);
+        db.execSQL("DROP TABLE IF EXISTS " + Tablas.TABLE_TIPO_USUARIO);
         // Creating tables again
         onCreate(db);
     }
@@ -92,7 +108,7 @@ public class UsuariosSQLiteHelper extends SQLiteOpenHelper {
     public void InsertarUsuario(Integer id, String usuario, String nombres, String apellidos, String password, String email) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
-        values.put(KEY_ID, id);
+        values.put(KEY_IDTIPOU, id);
         values.put(KEY_USUARIO, usuario); // Shop Name
         values.put(KEY_NOMBRES, nombres); // Shop Name
         values.put(KEY_APELLIDOS, apellidos);
@@ -100,6 +116,19 @@ public class UsuariosSQLiteHelper extends SQLiteOpenHelper {
         values.put(KEY_EMAIL, email); // Shop Phone Number
         // Inserting Row
         db.insert(Tablas.TABLE_USUARIO, null, values);
+        db.close(); // Closing database connection
+    }
+
+    public void InsertarTipoUsuario(Integer id, String rol, String codigo, String tipoid, String identificacion) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(KEY_ID, id);
+        values.put(KEY_ROL, rol); // Shop Name
+        values.put(KEY_CODIGO_ESTUDIANTE, codigo); // Shop Name
+        values.put(KEY_TIPO_IDENTIFICACION, tipoid);
+        values.put(KEY_IDENTIFICACION, identificacion);// Shop Name
+        // Inserting Row
+        db.insert(Tablas.TABLE_TIPO_USUARIO, null, values);
         db.close(); // Closing database connection
     }
 

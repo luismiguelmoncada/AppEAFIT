@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "178106985136-mfl6ja703luiuoigd9amdjmc4hdd6k7s.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.universidadeafit.appeafit",
+            "certificate_hash": "6456e55fd386ad751e616f5d60a1d4daf29ea03e"
+          }
+        },
+        {
           "client_id": "178106985136-836tule05skc7ht37suf8e4m83mv4l6o.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {

@@ -29,6 +29,13 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.ibm.mobilefirstplatform.clientsdk.android.core.api.*;
+import com.ibm.mobilefirstplatform.clientsdk.android.analytics.api.*;
+import com.ibm.mobilefirstplatform.clientsdk.android.logger.api.*;
+
+import org.json.JSONObject;
+
+
 public class WatsonActivity extends AppCompatActivity {
 
     private RecyclerView recyclerView;
@@ -45,6 +52,13 @@ public class WatsonActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_watson);
         verToolbar("usuario",true);
+
+        BMSClient.getInstance().initialize(getApplicationContext(), BMSClient.REGION_US_SOUTH); // Make sure that you point to your region
+        // In this code example, Analytics is configured to record lifecycle events.
+        Analytics.init(getApplication(), "AppEAFIT", "f364b59f-f7d2-4d30-ab6f-0053770c7720", false, Analytics.DeviceEvent.ALL);
+
+        Analytics.enable();
+        enviarAlalytics();//Envia el registro de conexion de usuarios al bot
 
         inputMessage = (EditText) findViewById(R.id.message);
         btnSend = (ImageButton) findViewById(R.id.btn_send);
@@ -81,6 +95,9 @@ public class WatsonActivity extends AppCompatActivity {
 
     // Sending a message to Watson Conversation Service
     private void sendMessage() {
+
+
+
         final String inputmessage = this.inputMessage.getText().toString().trim();
         Message inputMessage = new Message();
         inputMessage.setMessage(inputmessage);
@@ -109,6 +126,7 @@ public class WatsonActivity extends AppCompatActivity {
                     {
                         if(response.getOutput()!=null && response.getOutput().containsKey("text"))
                         {
+
                             final String outputmessage = response.getOutput().get("text").toString().replace("[","").replace("]","");
                             outMessage.setMessage(outputmessage);
                             outMessage.setId("2");
@@ -154,6 +172,22 @@ public class WatsonActivity extends AppCompatActivity {
         });
     }
 
+    private void enviarAlalytics(){
+        // Send recorded usage analytics to the Mobile Analytics Service
+        Analytics.send(new ResponseListener() {
+            @Override
+            public void onSuccess(Response response) {
+                // Handle Analytics send success here.
+            }
+
+            @Override
+            public void onFailure(Response response, Throwable throwable, JSONObject jsonObject) {
+                // Handle Analytics send failure here.
+            }
+        });
+
+        Analytics.send();
+    }
     private boolean checkInternetConnection() {
         // get Connectivity Manager object to check connection
         ConnectivityManager cm =

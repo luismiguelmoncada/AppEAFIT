@@ -7,11 +7,13 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.widget.Toast;
 
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.universidadeafit.appeafit.Model.UsuariosSQLiteHelper;
 import com.universidadeafit.appeafit.R;
 
 public class Splash extends FragmentActivity {
 
+    private FirebaseAnalytics mFirebaseAnalytics;
     private UsuariosSQLiteHelper mydb;
     int id = 1;
     String nombres = "";
@@ -21,8 +23,20 @@ public class Splash extends FragmentActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
+        mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
         mydb = new UsuariosSQLiteHelper(this);
-        new Handler().postDelayed(new Runnable() {
+
+        /*
+        try {
+            BMSClient.getInstance().initialize(this.getApplicationContext(), "", "", BMSClient.REGION_US_SOUTH);
+        }
+        catch (MalformedURLException e) {
+            //The Bluemix region provided is invalid
+        }
+
+         Analytics.init(getApplication(), "AppEAFIT", "f364b59f-f7d2-4d30-ab6f-0053770c7720", Analytics.DeviceEvent.LIFECYCLE);
+        */
+          new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
 
@@ -37,6 +51,8 @@ public class Splash extends FragmentActivity {
                     Intent i = new Intent(Splash.this, NavigationDrawerActivity.class);
                     startActivity(i);
                     finish();
+
+
                 } else {
                     //Toast.makeText(getApplicationContext(), "No hay base de datos SQLite", Toast.LENGTH_SHORT).show();
                     Intent mainIntent = new Intent(Splash.this, LoginActivity.class);

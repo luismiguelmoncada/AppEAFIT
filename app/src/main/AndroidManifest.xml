@@ -81,7 +81,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".Views.GuardarSolicitudActivity"
             android:label="Guardar"
@@ -92,8 +91,8 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
         </activity>
+        <activity android:name=".Views.TypeUserActivity"></activity>
     </application>
 
 </manifest>

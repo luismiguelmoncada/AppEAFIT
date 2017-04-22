@@ -72,8 +72,6 @@ public class LoginActivity extends AppCompatActivity {
         return this.Email;
     }
 
-
-
     private void Login() {
 
         Email.setError(null);
@@ -135,7 +133,7 @@ public class LoginActivity extends AppCompatActivity {
                         //Toast.makeText(MainActivity.this, "OK", Toast.LENGTH_SHORT).show();
                         InsertarSQlite(1, "Usuario", user.getName(), user.getUsername(), user.getPassword(), user.getEmail());
                         Toast.makeText(LoginActivity.this, "¡" + " Hola " + user.getName() + " !", Toast.LENGTH_LONG).show();
-                        Intent mainIntent = new Intent(LoginActivity.this, NavigationDrawerActivity.class);
+                        Intent mainIntent = new Intent(LoginActivity.this, TypeUserActivity.class);
                         LoginActivity.this.startActivity(mainIntent);
                         LoginActivity.this.finish();
                         //Toast.makeText(MainActivity.this, user.getName()+" , "+user.getEmail(), Toast.LENGTH_SHORT).show();

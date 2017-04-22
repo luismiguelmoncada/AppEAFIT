@@ -122,7 +122,8 @@ public class NavigationDrawerActivity extends AppCompatActivity
         fab1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i = new Intent(NavigationDrawerActivity.this, IngresarSolicitud.class);
+                //Intent i = new Intent(NavigationDrawerActivity.this, IngresarSolicitud.class);
+                Intent i = new Intent(NavigationDrawerActivity.this, TypeUserActivity.class);
                 startActivity(i);
             }
         });
