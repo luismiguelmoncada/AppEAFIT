@@ -5,11 +5,9 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
-import android.os.StrictMode;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.RecyclerView;
-import android.text.Layout;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -29,9 +27,6 @@ import com.universidadeafit.appeafit.R;
 import com.universidadeafit.appeafit.Adapters.ViewPagerAdapter;
 
 import java.util.ArrayList;
-
-import butterknife.BindView;
-import butterknife.ButterKnife;
 
 public class NavigationDrawerActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -253,10 +248,10 @@ public class NavigationDrawerActivity extends AppCompatActivity
 
                         //se obtiene el numero de vehiculos ingresados por el usuario
                             boolean aux;
-                            aux=mydb.HayCarros();
+                            aux = mydb.HayPreguntas();
                             //aux es un vallor de tipo boolean y devuelve si hay vehiculos registrados o no
                             if(aux) {
-                                int numero=mydb.HayCaarros();
+                                int numero = mydb.CantidadPreguntas();
                                 boolean numVehiculos = mydb.CLean(numero);
                                 if (numVehiculos) {
                                     Toast.makeText(getApplicationContext(), "¡Bye "+nombres+", Hasta pronto!", Toast.LENGTH_SHORT).show();

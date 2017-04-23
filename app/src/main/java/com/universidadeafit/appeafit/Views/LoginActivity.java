@@ -11,6 +11,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.analytics.FirebaseAnalytics;
+import com.google.firebase.crash.FirebaseCrash;
 import com.universidadeafit.appeafit.MainActivity;
 import com.universidadeafit.appeafit.Model.UsuariosSQLiteHelper;
 import com.universidadeafit.appeafit.R;
@@ -30,6 +32,7 @@ public class LoginActivity extends AppCompatActivity {
 
     static EditText Email; //Para acceder a el desde RegisterActivity @BindView(R.id.email) EditText email;
     private UsuariosSQLiteHelper mydb ;
+    private FirebaseAnalytics mFirebaseAnalytics;
     //libreria para evitar usar tanto codigo especialmente con los onclic, puedo hacer injeccion de codigo
     @BindView(R.id.password) EditText Password;
 
@@ -49,6 +52,7 @@ public class LoginActivity extends AppCompatActivity {
         ButterKnife.bind(this);
         Email = (EditText) findViewById(R.id.email);
         mydb = new UsuariosSQLiteHelper(this);
+        mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
     }
 
 
@@ -75,6 +79,10 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void Login() {
+
+
+
+
 
         Email.setError(null);
         Password.setError(null);
@@ -132,6 +140,14 @@ public class LoginActivity extends AppCompatActivity {
                     Toast.makeText(LoginActivity.this,"Email o contraseña no validos", Toast.LENGTH_LONG).show();
                 }else {
                     for (Usuario user : users) {
+
+                        //prueba enviar registro a firebase analytics
+                        Bundle bundle = new Bundle();
+                        bundle.putString(FirebaseAnalytics.Param.ITEM_ID, "activity_login");
+                        bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, "Login Succes");
+                        bundle.putString(FirebaseAnalytics.Param.CONTENT_TYPE, "image");
+                        mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
+
                         //Toast.makeText(MainActivity.this, "OK", Toast.LENGTH_SHORT).show();
                         InsertarSQlite(1, "Usuario", user.getName(), user.getUsername(), user.getPassword(), user.getEmail());
                         Toast.makeText(LoginActivity.this, "¡" + " Hola " + user.getName() + " !", Toast.LENGTH_LONG).show();
@@ -147,6 +163,7 @@ public class LoginActivity extends AppCompatActivity {
                 //Log.d("my_tag", "ERROR: " + t.getMessage());
                 //Toast.makeText(LoginActivity.this, "Error: "+t.getMessage(), Toast.LENGTH_SHORT).show();
                 Toast.makeText(LoginActivity.this," No tienes conexión a Internet ", Toast.LENGTH_LONG).show();
+
             }
         });
 

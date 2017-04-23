@@ -10,6 +10,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 
+import com.google.firebase.crash.FirebaseCrash;
 import com.universidadeafit.appeafit.Adapters.ApiRest.ApiClient;
 import com.universidadeafit.appeafit.Adapters.ApiRest.ServerResponse;
 import com.universidadeafit.appeafit.Model.Constants;
@@ -126,6 +127,9 @@ public class RegisterActivity extends AppCompatActivity {
                     EditText emailLogin = login.retornarEmail();
                     emailLogin.setText(emailLog);
                     //RegisterActivity.this.finish();   saca error si se finaliza
+                }else{
+                    //prueba de captura de error con firebase, cuando el usuario ya existe
+                    FirebaseCrash.report(new Exception("AppEAFIT: Register Error, User Exist"));
                 }
             }
             @Override

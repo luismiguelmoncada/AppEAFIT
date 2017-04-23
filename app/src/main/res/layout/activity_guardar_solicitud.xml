@@ -1,71 +1,108 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout
+xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:app="http://schemas.android.com/apk/res-auto"
 xmlns:tools="http://schemas.android.com/tools"
-android:id="@+id/activity_recordar_cuenta"
-android:layout_width="wrap_content"
-android:layout_height="wrap_content"
-android:paddingBottom="@dimen/activity_vertical_margin"
-android:paddingLeft="@dimen/activity_horizontal_margin"
-android:paddingRight="@dimen/activity_horizontal_margin"
-android:paddingTop="@dimen/activity_vertical_margin"
+android:layout_width="match_parent"
+android:layout_height="match_parent"
+android:fitsSystemWindows="true"
 tools:context="com.universidadeafit.appeafit.Views.GuardarSolicitudActivity">
 
-<RelativeLayout
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical" >
 
+            <ScrollView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:fillViewport="true">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:padding="@dimen/activity_horizontal_margin"
+                    tools:ignore="ScrollViewSize">
     <TextView
         android:id="@+id/txt_pregunta"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Tu Pregunta: "
+        android:layout_marginLeft="8dp"
         android:textColor="@android:color/black"/>
 
     <TextView
         android:id="@+id/pregunta"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/txt_pregunta"/>
+        android:layout_marginLeft="8dp"
+        android:textColor="@color/colorPrimary"
+        android:drawableRight="@drawable/ic_user_hombre"
+       />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Motivo:"
+        android:layout_marginLeft="8dp"
+        android:textColor="@android:color/black"
+        android:layout_marginBottom="2dp"/>
+    <Spinner
+        android:id="@+id/spinner_motivo_pregunta"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:entries="@array/motivo_notificacion"
+        android:popupBackground="#C5CAE9"
+        android:theme="@style/SpinnerText"
+        />
 
     <TextView
         android:id="@+id/txt_sugerencia"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Sugerencia: "
+        android:text="Observación: "
         android:textColor="@android:color/black"
-        android:layout_below="@+id/pregunta"/>
+        android:layout_marginLeft="8dp"/>
 
     <EditText
-        android:layout_below="@+id/txt_sugerencia"
-        android:id="@+id/recordar_cuenta_email"
+        android:id="@+id/observacion_pregunta"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:drawableRight="@drawable/ic_user_white"
+        android:layout_marginLeft="4dp"
+        android:textColorHint="@color/colorPrimary"
+        android:hint="Ingresa una nota si lo deseas"
+        android:drawableRight="@drawable/ic_nota"
+        android:theme="@style/SpinnerText"/>
 
-        android:hint="Escribe otras posibles formas de realizar la pregunta seleccionada"/>
+     <TextView
+         android:layout_width="match_parent"
+         android:layout_height="wrap_content"
+         android:gravity="center"
+         android:text="Gracias por ayudar a mejorar nuestra App"/>
 
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <Button
+                android:id="@+id/enviar"
+                android:layout_width="wrap_content"
+                android:layout_height="50dp"
+                android:text="Enviar"
+                android:layout_marginTop="10dp"
+                style="@style/RaisedButtonDark"/>
 
-    <Button
-        android:id="@+id/enviar"
-        android:layout_width="wrap_content"
-        android:layout_height="50dp"
-        android:text="Enviar"
-        android:layout_below="@+id/recordar_cuenta_email"
-        android:layout_marginTop="10dp"
-        style="@style/RaisedButtonDark"
-        />
+            <Button
+                android:id="@+id/volver_chat"
+                android:layout_width="wrap_content"
+                android:layout_height="50dp"
+                android:text="Volver"
+                android:layout_marginTop="10dp"
+                android:layout_alignParentRight="true"
+                style="@style/RaisedButtonDark"
+                />
+        </RelativeLayout>
 
-    <Button
-        android:id="@+id/volver_chat"
-        android:layout_width="wrap_content"
-        android:layout_height="50dp"
-        android:text="Volver"
-        android:layout_below="@+id/recordar_cuenta_email"
-        android:layout_marginTop="10dp"
-        android:layout_alignParentRight="true"
-        style="@style/RaisedButtonDark"
-        />
-
-</RelativeLayout>
-</RelativeLayout>
-
+</LinearLayout>
+    </ScrollView>
+    </LinearLayout>
+    </android.support.design.widget.CoordinatorLayout>

@@ -51,4 +51,10 @@
         <item>CEC</item>
     </string-array>
 
+    <string-array name="motivo_notificacion">
+        <item>RESPUESTA INCORRECTA</item>
+        <item>NO OBTUVE RESPUESTA</item>
+        <item>INCOHERENCIA EN LA RESPUESTA</item>
+    </string-array>
+
 </resources>
