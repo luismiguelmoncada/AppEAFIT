@@ -57,13 +57,18 @@ public class NavigationDrawerActivity extends AppCompatActivity
         setContentView(R.layout.activity_navigation_drawer);
         mydb = new UsuariosSQLiteHelper(this);
         boolean aux;
+        boolean auxtipousu;
         aux = mydb.HayUsuarios(id);
+        auxtipousu = mydb.HayTipoUsuarios(id);
+
         if (aux) {
             Cursor rs = mydb.ObtenerDatos(id);
             nombres = rs.getString(2);
             apellidos = rs.getString(3);
             email = rs.getString(5);
         }
+
+
 
         //Toast.makeText(getApplicationContext(), nombres+email, Toast.LENGTH_SHORT).show();
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -122,8 +127,7 @@ public class NavigationDrawerActivity extends AppCompatActivity
         fab1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //Intent i = new Intent(NavigationDrawerActivity.this, IngresarSolicitud.class);
-                Intent i = new Intent(NavigationDrawerActivity.this, TypeUserActivity.class);
+                Intent i = new Intent(NavigationDrawerActivity.this, IngresarSolicitud.class);
                 startActivity(i);
             }
         });
@@ -144,6 +148,15 @@ public class NavigationDrawerActivity extends AppCompatActivity
 
         //TextView NombreNav = (TextView) findViewById(R.id.nombre);
         //TextView EmailNav = (TextView) findViewById(R.id.emailDrawer);
+
+        if (auxtipousu) {
+
+        }else{
+            Intent mainIntent = new Intent(NavigationDrawerActivity.this, TypeUserActivity.class);
+            mainIntent.putExtra("email",email);
+            NavigationDrawerActivity.this.startActivity(mainIntent);
+        }
+
     }
 
     private void setupViewPager(ViewPager viewPager) {
@@ -250,8 +263,13 @@ public class NavigationDrawerActivity extends AppCompatActivity
                                 }
                             }else{//para borrar solo el usuario si no tiene vehiculos
                                 boolean user = mydb.CLeanUsers();
+                                boolean tipouser = mydb.CLeanTipoUsers();
                                 if (user) {
                                     Toast.makeText(getApplicationContext(), "¡Bye "+nombres+", Hasta pronto!", Toast.LENGTH_SHORT).show();
+                                }
+
+                                if (tipouser) {
+                                    //Toast.makeText(getApplicationContext(), "borro tipo user", Toast.LENGTH_SHORT).show();
                                 }
                             }
                             finish();

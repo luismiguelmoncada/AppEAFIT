@@ -18,6 +18,11 @@
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
 
+    <style name="NarrowDialog" parent="Theme.AppCompat.Light.Dialog.Alert">
+        <item name="windowFixedWidthMajor">70%</item>
+        <item name="windowFixedWidthMinor">70%</item>
+    </style>
+
 
     <style name="RaisedButtonDark" parent="Theme.AppCompat.Light">
         <item name="colorButtonNormal">@android:color/white</item>
@@ -33,7 +38,9 @@
     <style name="EditTextWhite" parent="TextAppearance.AppCompat">
         <item name="android:textColorHint">@color/editTextColorWhite</item>
         <item name="android:textColorPrimary">@color/editTextColorWhite</item>
+
         <item name="colorAccent">@color/editTextColorWhite</item>
+
         <item name="colorControlNormal">@color/editTextColorWhite</item>
         <item name="colorControlActivated">@color/editTextColorWhite</item>
         <item name="android:textColorHighlight">@color/editTextColorWhite</item>

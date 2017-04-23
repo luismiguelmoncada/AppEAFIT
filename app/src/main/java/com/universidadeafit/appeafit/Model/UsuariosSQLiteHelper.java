@@ -38,7 +38,6 @@ public class UsuariosSQLiteHelper extends SQLiteOpenHelper {
     private static final String KEY_IDTIPOU = "IdTipoUsuario";
     private static final String KEY_ROL = "Rol";
     private static final String KEY_CODIGO_ESTUDIANTE = "Codigo";
-    private static final String KEY_TIPO_IDENTIFICACION = "TipoId";
     private static final String KEY_IDENTIFICACION = "Identificacion";
 
     public UsuariosSQLiteHelper(Context context) {
@@ -77,7 +76,6 @@ public class UsuariosSQLiteHelper extends SQLiteOpenHelper {
         String CREATE_TIPOUSUARIO_TABLE = "CREATE TABLE " + Tablas.TABLE_TIPO_USUARIO + "("
                 + KEY_IDTIPOU + " INTEGER ," + KEY_ROL + " TEXT PRIMARY KEY,"
                 + KEY_CODIGO_ESTUDIANTE + " TEXT,"
-                + KEY_TIPO_IDENTIFICACION + " TEXT,"
                 + KEY_IDENTIFICACION + " TEXT" + ")";
 
         db.execSQL(CREATE_CONTACTS_TABLE);
@@ -95,20 +93,10 @@ public class UsuariosSQLiteHelper extends SQLiteOpenHelper {
         onCreate(db);
     }
 
-    public boolean HayUsuarios(Integer fieldValue) {
-        SQLiteDatabase sqldb = this.getReadableDatabase();
-        String Query = "Select * from " + Tablas.TABLE_USUARIO + " where " + KEY_ID + " = " + fieldValue;
-        Cursor cursor = sqldb.rawQuery(Query, null);
-        if(cursor.getCount() <= 0){
-            return false;
-        }
-        return true;
-    }
-
     public void InsertarUsuario(Integer id, String usuario, String nombres, String apellidos, String password, String email) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
-        values.put(KEY_IDTIPOU, id);
+        values.put(KEY_ID, id);
         values.put(KEY_USUARIO, usuario); // Shop Name
         values.put(KEY_NOMBRES, nombres); // Shop Name
         values.put(KEY_APELLIDOS, apellidos);
@@ -119,19 +107,48 @@ public class UsuariosSQLiteHelper extends SQLiteOpenHelper {
         db.close(); // Closing database connection
     }
 
-    public void InsertarTipoUsuario(Integer id, String rol, String codigo, String tipoid, String identificacion) {
+    public void InsertarTipoUsuario(Integer id, String rol, String codigo,String identificacion) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
-        values.put(KEY_ID, id);
+        values.put(KEY_IDTIPOU, id);
         values.put(KEY_ROL, rol); // Shop Name
         values.put(KEY_CODIGO_ESTUDIANTE, codigo); // Shop Name
-        values.put(KEY_TIPO_IDENTIFICACION, tipoid);
         values.put(KEY_IDENTIFICACION, identificacion);// Shop Name
         // Inserting Row
         db.insert(Tablas.TABLE_TIPO_USUARIO, null, values);
         db.close(); // Closing database connection
     }
 
+    public boolean HayUsuarios(Integer fieldValue) {
+        SQLiteDatabase sqldb = this.getReadableDatabase();
+        String Query = "Select * from " + Tablas.TABLE_USUARIO + " where " + KEY_ID + " = " + fieldValue;
+        Cursor cursor = sqldb.rawQuery(Query, null);
+        if(cursor.getCount() <= 0){
+            return false;
+        }
+        return true;
+    }
+
+    public boolean HayTipoUsuarios(Integer fieldValue) {
+        SQLiteDatabase sqldb = this.getReadableDatabase();
+        String Query = "Select * from " + Tablas.TABLE_TIPO_USUARIO + " where " + KEY_IDTIPOU + " = " + fieldValue;
+        Cursor cursor = sqldb.rawQuery(Query, null);
+        if(cursor.getCount() <= 0){
+            return false;
+        }
+        return true;
+    }
+    public boolean CLeanUsers() {
+        SQLiteDatabase sqldb = this.getReadableDatabase();
+        sqldb.delete(Tablas.TABLE_USUARIO, "IdAux=1", null);
+        return true;
+    }
+
+    public boolean CLeanTipoUsers() {
+        SQLiteDatabase sqldb = this.getReadableDatabase();
+        sqldb.delete(Tablas.TABLE_TIPO_USUARIO, "IdTipoUsuario=1", null);
+        return true;
+    }
     public boolean HayCarros() {
         // devuelve si hay por lo menos un registro en la tabla
         SQLiteDatabase sqldb = this.getReadableDatabase();
@@ -198,11 +215,7 @@ public class UsuariosSQLiteHelper extends SQLiteOpenHelper {
         return true;
     }
 
-    public boolean CLeanUsers() {
-        SQLiteDatabase sqldb = this.getReadableDatabase();
-        sqldb.delete(Tablas.TABLE_USUARIO, "IdAux=1", null);
-        return true;
-    }
+
 
     public int HayCaarros() {                    // devuelve si hay por lo menos un registro en la tabla
         SQLiteDatabase sqldb = this.getReadableDatabase();

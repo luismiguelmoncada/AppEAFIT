@@ -125,7 +125,7 @@ public class RegisterActivity extends AppCompatActivity {
                     LoginActivity login = new LoginActivity();
                     EditText emailLogin = login.retornarEmail();
                     emailLogin.setText(emailLog);
-                    //RegisterActivity.this.finish();
+                    //RegisterActivity.this.finish();   saca error si se finaliza
                 }
             }
             @Override

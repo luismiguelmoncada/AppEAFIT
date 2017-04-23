@@ -6,15 +6,12 @@ xmlns:tools="http://schemas.android.com/tools"
 android:layout_width="match_parent"
 android:layout_height="match_parent"
 android:fitsSystemWindows="true"
-android:background="@color/colorPrimary"
 tools:context="com.universidadeafit.appeafit.Views.TypeUserActivity">
 
 <LinearLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical" >
-
-    <include layout="@layout/actionbar_toolbar" />
 
     <ScrollView
         android:layout_width="match_parent"
@@ -27,69 +24,56 @@ tools:context="com.universidadeafit.appeafit.Views.TypeUserActivity">
             android:padding="@dimen/activity_horizontal_margin"
             tools:ignore="ScrollViewSize">
 
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Rol:"
+                android:layout_marginLeft="8dp"
+                android:layout_marginBottom="2dp"/>
             <Spinner
                 android:id="@+id/spinnerRol"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:entries="@array/country_arrays"
-                android:theme="@style/EditTextWhite"
-                android:popupBackground="@color/colorAccent"
-                android:prompt="@string/country_prompt" />
+                android:popupBackground="#C5CAE9"
+                />
 
-            <android.support.design.widget.TextInputLayout
+            <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:theme="@style/EditTextWhite">
-                <android.support.design.widget.TextInputEditText
-                    android:id="@+id/editTextName"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="@string/hint_username"
-                    android:textSize="@dimen/text_size_label_login"
-                    android:drawableRight="@drawable/ic_user_white"
-                    android:inputType="textPersonName"
-                    tools:ignore="RtlHardcoded" />
-            </android.support.design.widget.TextInputLayout>
+                android:text="Codigo:"
+                android:layout_marginLeft="8dp"/>
 
-            <android.support.design.widget.TextInputLayout
+            <EditText
+                android:id="@+id/codigo"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:theme="@style/EditTextWhite">
-                <android.support.design.widget.TextInputEditText
-                    android:id="@+id/editTextUsername"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="Apellidos"
-                    android:textSize="@dimen/text_size_label_login"
-                    android:drawableRight="@drawable/ic_user_general_white"
-                    android:inputType="textPersonName"
-                    tools:ignore="RtlHardcoded" />
-            </android.support.design.widget.TextInputLayout>
+                android:drawableRight="@drawable/ic_codigo"
+                android:inputType="number"
+                android:layout_marginLeft="3dp"
+                />
 
-            <android.support.design.widget.TextInputLayout
+            <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:theme="@style/EditTextWhite">
-                <android.support.design.widget.TextInputEditText
-                    android:id="@+id/editTextEmail"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="@string/hint_email"
-                    android:textSize="@dimen/text_size_label_login"
-                    android:drawableRight="@drawable/ic_email"
-                    android:inputType="textEmailAddress"
-                    tools:ignore="RtlHardcoded" />
-            </android.support.design.widget.TextInputLayout>
+                android:text="Identificación:"
+                android:layout_marginLeft="8dp"/>
+
+            <EditText
+                android:id="@+id/identificacion"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:drawableRight="@drawable/ic_identificacion"
+                android:layout_marginLeft="3dp"/>
 
             <Button
                 android:id="@+id/buttonini"
-                android:layout_width="match_parent"
+                android:layout_width="105dp"
                 android:layout_height="wrap_content"
-                android:text="@string/button_register"
-                android:layout_marginTop="@dimen/top_marginbutton"
+                android:text="CONTINUAR"
+                android:layout_gravity="center"
                 style="@style/RaisedButtonDark"
                 />
-
 
         </LinearLayout>
     </ScrollView>
