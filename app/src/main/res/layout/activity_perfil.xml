@@ -1,24 +1,104 @@
 <android.support.design.widget.CoordinatorLayout
-xmlns:android="http://schemas.android.com/apk/res/android"
-android:id="@+id/activity_perfil"
-xmlns:tools="http://schemas.android.com/tools"
-android:layout_width="match_parent"
-android:layout_height="match_parent"
-android:fitsSystemWindows="true"
-tools:context="com.universidadeafit.appeafit.Views.PerfilActivity">
-
-<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical" >
+    android:fitsSystemWindows="true"
+tools:context="com.universidadeafit.appeafit.Views.PerfilActivity">
 
-    <include layout="@layout/actionbar_toolbar" />
-
-    <ScrollView
+    <android.support.design.widget.AppBarLayout
+        android:id="@+id/app_bar"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:fillViewport="true">
+        android:layout_height="wrap_content"
+        android:fitsSystemWindows="true"
+        android:theme="@style/AppTheme.AppBarOverlay">
 
-    </ScrollView>
-</LinearLayout>
+        <android.support.design.widget.CollapsingToolbarLayout
+            android:id="@+id/toolbar_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fitsSystemWindows="true"
+            app:contentScrim="#9FA8DA"
+            app:statusBarScrim="#9FA8DA"
+            app:layout_scrollFlags="scroll|exitUntilCollapsed">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingTop="190dp"
+                android:paddingBottom="40dp"
+                android:layout_gravity="center|top"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:gravity="center">
+
+                <TextView
+                    android:id="@+id/text_nombrecompleto"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textStyle="bold"
+                    android:textColor="@android:color/white"
+                    android:textSize="20dp"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:gravity="center"
+                    android:text="Integrante de la comunidad EAFIT desde el año 2009. Ingenieria de Sistemas "/>
+
+            </LinearLayout>
+
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                app:layout_collapseMode="pin"
+                android:background="@color/colorPrimary"
+                app:popupTheme="@style/AppTheme.PopupOverlay"/>
+
+        </android.support.design.widget.CollapsingToolbarLayout>
+    </android.support.design.widget.AppBarLayout>
+
+    <include layout="@layout/content_perfil"/>
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        android:src="@drawable/image_paisaje"
+        android:layout_gravity="center|top"
+        android:layout_marginTop="50dp"
+        android:elevation="10dp"
+        app:civ_border_width="2dp"
+        app:civ_border_color="@color/editTextColorWhite"
+        app:layout_behavior="com.zoonref.SimpleViewBehavior"
+        app:dependsOn="@+id/app_bar"
+        app:dependType="y"
+        app:dependTargetY="-176dp"
+        app:targetX="50dp"
+        app:targetY="8dp"
+        app:targetWidth="40dp"
+        app:targetHeight="40dp"/>
+
+    <TextView
+        android:id="@+id/text_toolbar_nombre"
+        android:layout_width="wrap_content"
+        android:layout_height="?attr/actionBarSize"
+        android:textSize="18dp"
+        android:elevation="10dp"
+        android:layout_marginLeft="72dp"
+        android:layout_marginTop="-100dp"
+        android:gravity="center_vertical"
+        android:textColor="@android:color/white"
+        android:alpha="0"
+        app:layout_behavior="com.zoonref.SimpleViewBehavior"
+        app:dependsOn="@+id/app_bar"
+        app:dependType="y"
+        app:dependTargetY="-206dp"
+        app:targetX="100dp"
+        app:targetY="0dp"
+        app:targetAlpha="1"/>
+
 </android.support.design.widget.CoordinatorLayout>

@@ -29,7 +29,7 @@ public interface RestApi {
     Call<ServerResponse> insertarTipoUser(@Body Usuario Usuario);
 
     @POST("/Retrofit-Prueba/User_PreguntaInsertar.php")
-    Call<ServerResponse> insertarPregunta(@Body Usuario Usuario);
+    Call<ServerResponse> insertarPregunta(@Body Solicitud Solicitud);
 
     @GET("/Retrofit-Prueba/getData.php")
     Call<List<Usuario>> getUsers(

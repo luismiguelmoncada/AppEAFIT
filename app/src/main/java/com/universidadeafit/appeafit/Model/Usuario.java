@@ -19,14 +19,26 @@ public class Usuario {
     @SerializedName("email")
     private String email;
 
+    @SerializedName("rol")
+    private String rol;
+
+    @SerializedName("codigo")
+    private String codigo;
+
+    @SerializedName("identificacion")
+    private String identificacion;
+
     public Usuario() {
 
     }
-    public Usuario(String name, String username, String password, String email) {
+    public Usuario(String name, String username, String password, String email,String rol,String codigo,String identificacion) {
         this.name = name;
         this.username = username;
         this.password = password;
         this.email = email;
+        this.rol = rol;
+        this.codigo = codigo;
+        this.identificacion = identificacion;
     }
 
     public String getName() {
@@ -59,5 +71,29 @@ public class Usuario {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public String getRol() {
+        return rol;
+    }
+
+    public void setRol(String rol) {
+        this.rol = rol;
+    }
+
+    public String getCodigo() {
+        return codigo;
+    }
+
+    public void setCodigo(String codigo) {
+        this.codigo = codigo;
+    }
+
+    public String getIdentificacion() {
+        return identificacion;
+    }
+
+    public void setIdentificacion(String identificacion) {
+        this.identificacion = identificacion;
     }
 }

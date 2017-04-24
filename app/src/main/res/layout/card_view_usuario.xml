@@ -18,60 +18,38 @@
             android:padding="10dp"
             >
 
+            <ImageView
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:id="@+id/icon"
+                android:layout_marginRight="16dp"
+                />
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/vehiculo_name"
-                android:layout_alignParentTop="true"
+                android:id="@+id/item_user"
+                android:layout_toRightOf="@+id/icon"
                 android:textSize="15sp"
                 android:textColor="@color/colorPrimary"
                 />
 
-            <ImageView
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:id="@+id/fondo"
-                android:layout_marginRight="16dp"
-                android:layout_below="@+id/vehiculo_name"
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/item_user_value"
+                android:layout_toRightOf="@+id/icon"
+                android:textSize="11sp"
+                android:layout_below="@+id/item_user"
                 />
-
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/marca_vehiculo"
-                android:layout_toRightOf="@+id/fondo"
-                android:textSize="11sp"
-                android:layout_below="@+id/vehiculo_name"
-                />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/tipo_vehiculo"
-                android:layout_toRightOf="@+id/fondo"
-                android:textSize="11sp"
-                android:layout_below="@+id/marca_vehiculo" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/color_vehiculo"
-                android:layout_toRightOf="@+id/fondo"
-                android:textSize="11sp"
-                android:layout_below="@+id/tipo_vehiculo" />
 
             <ImageView
                 android:id="@+id/imageView"
                 android:layout_width="25dp"
                 android:layout_height="25dp"
-                android:src="@drawable/ic_menu_manage"
-                android:layout_alignBottom="@+id/color_vehiculo"
+                android:src="@drawable/ic_edit_respuesta"
                 android:layout_alignParentEnd="true" />
 
-
         </RelativeLayout>
-
     </android.support.v7.widget.CardView>
-
 </LinearLayout>

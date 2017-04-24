@@ -159,12 +159,14 @@ public class WatsonActivity extends AppCompatActivity {
 
                if(mAdapter.getObjeto(position).getId()=="1"){
 
+                   String respuestaWatson = (mAdapter.getObjeto(position + 1).getMessage());
                    Intent i = new Intent(WatsonActivity.this, GuardarSolicitudActivity.class);
                    Bundle bundle = new Bundle();
                    bundle.putString("pregunta",  mAdapter.getObjeto(position).getMessage());
+                   bundle.putString("respuestaWatson",  respuestaWatson);
                    i.putExtras(bundle);
                    startActivity(i);
-                   //Toast.makeText(WatsonActivity.this, " Clicked on  " + mAdapter.getObjeto(position).getMessage(), Toast.LENGTH_LONG).show();
+                   //Toast.makeText(WatsonActivity.this, " Clicked on  " + mAdapter.getObjeto(position).getMessage()+"respuesta"+respuestaWatson, Toast.LENGTH_LONG).show();
                }else{
                    Toast.makeText(WatsonActivity.this, " Clicked on  " + mAdapter.getObjeto(position).getMessage(), Toast.LENGTH_LONG).show();
                }

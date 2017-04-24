@@ -8,13 +8,15 @@ public class Solicitud implements Serializable {
     int photoId;
     String observacion;
     String fecha;
+    String respuesta;
 
-    public Solicitud(String pregunta, String motivo, int photoId, String observacion, String fecha) {
+    public Solicitud(String pregunta, String motivo, int photoId, String observacion, String fecha,String respuesta) {
         this.pregunta = pregunta;
         this.motivo = motivo;
         this.photoId = photoId;
         this.observacion = observacion;
         this.fecha = fecha;
+        this.respuesta = respuesta;
     }
 
     public String getPregunta()    {
@@ -35,6 +37,10 @@ public class Solicitud implements Serializable {
 
     public int getPhoto() {
         return photoId;
+    }
+
+    public String getRespuesta()    {
+        return respuesta;
     }
 
 }

@@ -78,7 +78,7 @@ public class MisSolicitudesActivity extends AppCompatActivity {
         preguntas = mydb.getCartList();
         for( int i = 0 ; i < preguntas.size() ; i++ ){
             //Toast.makeText(getApplicationContext(), preguntas.get( i ).getPregunta(), Toast.LENGTH_SHORT).show();
-            persons.add(new Solicitud("Pregunta " + String.valueOf(i+1) +": "+preguntas.get( i ).getPregunta(),"Fecha: "+ preguntas.get( i ).getFecha(), R.drawable.im_logo_eafit_55,"Motivo: "+preguntas.get( i ).getMotivo(),"Observacion: "+preguntas.get( i ).getObservacion()));
+            persons.add(new Solicitud("Pregunta " + String.valueOf(i+1) +": "+preguntas.get( i ).getPregunta(),"Fecha: "+ preguntas.get( i ).getFecha(), R.drawable.ic_missolicitudes,"Motivo: "+preguntas.get( i ).getMotivo(),"Observacion: "+preguntas.get( i ).getObservacion(),""));
         }
     }
 

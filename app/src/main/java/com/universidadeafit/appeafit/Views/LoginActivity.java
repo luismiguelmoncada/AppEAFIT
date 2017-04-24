@@ -14,6 +14,7 @@ import android.widget.Toast;
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.crash.FirebaseCrash;
 import com.universidadeafit.appeafit.MainActivity;
+import com.universidadeafit.appeafit.Model.Solicitud;
 import com.universidadeafit.appeafit.Model.UsuariosSQLiteHelper;
 import com.universidadeafit.appeafit.R;
 import com.universidadeafit.appeafit.Adapters.ApiRest.ApiClient;
@@ -80,17 +81,13 @@ public class LoginActivity extends AppCompatActivity {
 
     private void Login() {
 
-
-
-
-
         Email.setError(null);
         Password.setError(null);
-        //String email = Email.getText().toString();
-        //String password = Password.getText().toString();
+        String email = Email.getText().toString();
+        String password = Password.getText().toString();
 
-        String email = "lmoncad1@eafit.edu.co";
-        String password = "lmoncad1";
+        //String email = "lmoncad1@eafit.edu.co";
+        //String password = "lmoncad1";
 
         boolean cancel = false;
         View focusView = null;
@@ -120,6 +117,7 @@ public class LoginActivity extends AppCompatActivity {
             focusView.requestFocus();
         } else {
             ValidarUsuarioGET(email,password);
+            ValidarUsuarioPreguntasGET(email);
            /* InsertarSQlite(1, "Usuario", "Luis Miguel", "Moncada ocampo", "1234567890", "lmoncad1@eafit.edu.co");
             Toast.makeText(LoginActivity.this, "¡" + " Hola " + "Luis Miguel" + " !", Toast.LENGTH_LONG).show();
             Intent mainIntent = new Intent(LoginActivity.this, NavigationDrawerActivity.class);
@@ -148,13 +146,19 @@ public class LoginActivity extends AppCompatActivity {
                         bundle.putString(FirebaseAnalytics.Param.CONTENT_TYPE, "image");
                         mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
 
-                        //Toast.makeText(MainActivity.this, "OK", Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(LoginActivity.this, "OK", Toast.LENGTH_SHORT).show();
                         InsertarSQlite(1, "Usuario", user.getName(), user.getUsername(), user.getPassword(), user.getEmail());
+
+                        //Controla el ingreso y actualizacion del prefil del usuario  tipo de usuario
+                        if(user.getRol() !=""){
+                            InsertarSQliteTipoUsu(1, user.getRol(), user.getCodigo(), user.getIdentificacion());
+                        }
+
                         Toast.makeText(LoginActivity.this, "¡" + " Hola " + user.getName() + " !", Toast.LENGTH_LONG).show();
                         Intent mainIntent = new Intent(LoginActivity.this, NavigationDrawerActivity.class);
                         LoginActivity.this.startActivity(mainIntent);
                         LoginActivity.this.finish();
-                        //Toast.makeText(MainActivity.this, user.getName()+" , "+user.getEmail(), Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(LoginActivity.this, user.getEmail()+" "+user.getRol(), Toast.LENGTH_SHORT).show();
                     }
                 }
             }
@@ -172,6 +176,42 @@ public class LoginActivity extends AppCompatActivity {
     public void InsertarSQlite(Integer id, String nombre, String  NombreCompleto, String apellidos, String pass, String  email) {
         mydb.InsertarUsuario(id, nombre.toString(), NombreCompleto.toString(), apellidos.toString(), pass.toString(), email.toString());
     }
+
+    public void InsertarSQliteTipoUsu(Integer id, String rol, String codigo,String identificacion) {
+        mydb.InsertarTipoUsuario(id, rol.toString(), codigo.toString(), identificacion.toString());
+    }
+
+    private void ValidarUsuarioPreguntasGET(String email){
+        Call<List<Solicitud>> call = ApiClient.get().getPreguntas(email);
+        call.enqueue(new Callback<List<Solicitud>>() {
+            @Override
+            public void onResponse(Call<List<Solicitud>> call, Response<List<Solicitud>> response) {
+                List<Solicitud> preguntas = response.body();
+                if(response.body().isEmpty()){
+                    //Toast.makeText(NavigationDrawerActivity.this,"No hay preguntas en la nube", Toast.LENGTH_LONG).show();
+                }else {
+                    for (Solicitud user : preguntas) {
+                        //Toast.makeText(NavigationDrawerActivity.this, user.getPregunta()+"fecha : "+user.getFecha(), Toast.LENGTH_SHORT).show();
+                        InsertarSQlitePreguntas(user.getPregunta().toString(),user.getMotivo().toString(),user.getObservacion().toString(),user.getFecha());
+                    }
+                }
+            }
+            @Override
+            public void onFailure(Call<List<Solicitud>> call, Throwable t) {
+                //Log.d("my_tag", "ERROR: " + t.getMessage());
+                //Toast.makeText(LoginActivity.this, "Error: "+t.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(LoginActivity.this," No tienes conexión a Internet ", Toast.LENGTH_LONG).show();
+
+            }
+        });
+
+    }
+
+    public void InsertarSQlitePreguntas(String pregunta, String  motivo, String observacion, String fecha) {
+        mydb.InsertarPregunta(pregunta.toString(), motivo.toString(), observacion.toString(), fecha.toString());
+    }
+
+
 
     private boolean isEmailValid(String email) {
         String emailbuscar = "@";
@@ -194,7 +234,7 @@ public class LoginActivity extends AppCompatActivity {
             //Toast.makeText(LoginActivity.this,String.valueOf(buscardominio), Toast.LENGTH_LONG).show();
         }
         if(contador > 1){
-        return false;
+            return false;
         }
         return false;
     }
@@ -202,7 +242,6 @@ public class LoginActivity extends AppCompatActivity {
     private boolean isPasswordValid(String password) {
         return password.length() > 5;
     }
-
     /*
     private void ValidarUsuario(String email, String contraseña){
 

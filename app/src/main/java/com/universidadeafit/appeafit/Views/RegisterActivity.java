@@ -112,7 +112,7 @@ public class RegisterActivity extends AppCompatActivity {
         final String contraseñaLog = contraseña;
         final String emailLog = email;
 
-        Usuario usuario = new Usuario(nombre,apellidos,contraseña,email);
+        Usuario usuario = new Usuario(nombre,apellidos,contraseña,email,"","","");
         Call<ServerResponse> call = ApiClient.get().createUser(usuario);
         call.enqueue(new Callback<ServerResponse>() {
             @Override

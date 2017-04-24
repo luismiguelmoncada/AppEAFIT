@@ -204,6 +204,18 @@ public class UsuariosSQLiteHelper extends SQLiteOpenHelper {
         // return shop
     }
 
+    public Cursor ObtenerDatosTipoUsuario(Integer id) {
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        Cursor cursor = db.query(Tablas.TABLE_TIPO_USUARIO, new String[]{KEY_IDTIPOU,
+                        KEY_ROL, KEY_CODIGO_ESTUDIANTE, KEY_IDENTIFICACION}, KEY_IDTIPOU + "=?",
+                new String[]{String.valueOf(id)}, null, null, null, null);
+        if (cursor != null)
+            cursor.moveToFirst();
+        return cursor;
+        // return shop
+    }
+
     public Cursor ObtenerPreguntas(Integer id) {
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.query(Tablas.TABLE_PREGUNTAS, new String[]{KEY_IDPREGUNTA,
@@ -234,7 +246,8 @@ public class UsuariosSQLiteHelper extends SQLiteOpenHelper {
                         cursor.getString(cursor.getColumnIndex(KEY_MOTIVO)),
                         0,
                         cursor.getString(cursor.getColumnIndex(KEY_OBSERVACION)),
-                        cursor.getString(cursor.getColumnIndex(KEY_FECHA))
+                        cursor.getString(cursor.getColumnIndex(KEY_FECHA)),
+                        ""
                         ));
             }
 

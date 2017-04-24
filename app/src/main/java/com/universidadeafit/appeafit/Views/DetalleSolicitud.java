@@ -69,9 +69,9 @@ public class DetalleSolicitud extends AppCompatActivity {
                 "world, without breaking the rules of physics.\n" +
                 "The fundamentals of light, surface, and movement are key to conveying how objects move, "+
                 "interact, and exist in space and in relation to each other. Realistic lighting shows "+
-                "seams, divides space, and indicates moving parts.\n\n"));
-        persons.add(new Solicitud("Lavery Maiss", "25 years old", R.drawable.im_logo_eafit_55, "Vendo", "Vendo paisaje"));
-        persons.add(new Solicitud("Lillie Watts", "35 years old", R.drawable.im_logo_eafit_55, "Vendo", "Vendo paisaje"));
+                "seams, divides space, and indicates moving parts.\n\n",""));
+        persons.add(new Solicitud("Lavery Maiss", "25 years old", R.drawable.im_logo_eafit_55, "Vendo", "Vendo paisaje",""));
+        persons.add(new Solicitud("Lillie Watts", "35 years old", R.drawable.im_logo_eafit_55, "Vendo", "Vendo paisaje",""));
         return persons;
     }
 

@@ -89,7 +89,7 @@ public class TypeUserActivity extends AppCompatActivity {
 
     private void RegistrarTipoUsuario(String rol,String codigo,String identificacion,String email){
 
-        Usuario usuario = new Usuario(rol,codigo,identificacion,email);
+        Usuario usuario = new Usuario(rol,codigo,identificacion,email,"","","");
         Call<ServerResponse> call = ApiClient.get().insertarTipoUser(usuario);
         call.enqueue(new Callback<ServerResponse>() {
             @Override

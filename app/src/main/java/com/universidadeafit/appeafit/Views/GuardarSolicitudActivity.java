@@ -12,13 +12,16 @@ import android.widget.Toast;
 import com.universidadeafit.appeafit.Adapters.ApiRest.ApiClient;
 import com.universidadeafit.appeafit.Adapters.ApiRest.ServerResponse;
 import com.universidadeafit.appeafit.Model.Constants;
+import com.universidadeafit.appeafit.Model.Solicitud;
 import com.universidadeafit.appeafit.Model.Usuario;
 import com.universidadeafit.appeafit.Model.UsuariosSQLiteHelper;
 import com.universidadeafit.appeafit.R;
 
+import java.text.Normalizer;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
+import java.util.regex.Pattern;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -30,7 +33,7 @@ import retrofit2.Response;
 public class GuardarSolicitudActivity extends AppCompatActivity {
 
     private UsuariosSQLiteHelper mydb ;
-    String Pregunta_Usuario,email;
+    String Pregunta_Usuario,RespuestaWatson,email;
     String message,result;
     private Spinner spinnerMotivo;
 
@@ -57,6 +60,7 @@ public class GuardarSolicitudActivity extends AppCompatActivity {
 
         Bundle bundle =  this.getIntent().getExtras();
         Pregunta_Usuario = bundle.getString("pregunta");
+        RespuestaWatson = bundle.getString("respuestaWatson");
         Pregunta.setText(Pregunta_Usuario);
 
         mydb = new UsuariosSQLiteHelper(this);
@@ -66,7 +70,7 @@ public class GuardarSolicitudActivity extends AppCompatActivity {
             Cursor rs = mydb.ObtenerDatos(id);
             email = rs.getString(5);
         }
-        //Toast.makeText(GuardarSolicitudActivity.this,Pregunta_Usuario , Toast.LENGTH_LONG).show();
+       // Toast.makeText(GuardarSolicitudActivity.this,Pregunta_Usuario+cleanString(RespuestaWatson) , Toast.LENGTH_LONG).show();
     }
 
     @OnClick(R.id.volver_chat)
@@ -92,7 +96,7 @@ public class GuardarSolicitudActivity extends AppCompatActivity {
             //ActualizarDatos();// si es un usuario nuevo
         }
 
-        InsertarPreguntaUsuario(Pregunta_Usuario,String.valueOf(spinnerMotivo.getSelectedItem()),observacion,email);
+        InsertarPreguntaUsuario(Pregunta_Usuario,String.valueOf(spinnerMotivo.getSelectedItem()),observacion,email,cleanString(RespuestaWatson));
         GuardarSolicitudActivity.this.finish();
     }
 
@@ -100,10 +104,10 @@ public class GuardarSolicitudActivity extends AppCompatActivity {
         mydb.InsertarPregunta(pregunta.toString(), motivo.toString(), observacion.toString(), fecha.toString());
     }
 
-    private void InsertarPreguntaUsuario(String pregunta, String  motivo, String observacion, String email){
+    private void InsertarPreguntaUsuario(String pregunta, String  motivo, String observacion, String email,String respuesta){
 
-        Usuario usuario = new Usuario(pregunta,motivo,observacion,email);
-        Call<ServerResponse> call = ApiClient.get().insertarPregunta(usuario);
+        Solicitud solicitud = new Solicitud(pregunta,motivo,0,observacion,email,respuesta);
+        Call<ServerResponse> call = ApiClient.get().insertarPregunta(solicitud);
         call.enqueue(new Callback<ServerResponse>() {
             @Override
             public void onResponse(Call<ServerResponse> call, Response<ServerResponse> response) {
@@ -128,5 +132,11 @@ public class GuardarSolicitudActivity extends AppCompatActivity {
                 "yyyy-MM-dd HH:mm:ss", Locale.getDefault());
         Date date = new Date();
         return dateFormat.format(date);
+    }
+//para quitarle las tildes a la respuesta watson y guarden bn en mysql
+    public static String cleanString(String texto) {
+        texto = Normalizer.normalize(texto, Normalizer.Form.NFD);
+        texto = texto.replaceAll("[\\p{InCombiningDiacriticalMarks}]", "");
+        return texto;
     }
 }

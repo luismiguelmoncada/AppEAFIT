@@ -6,7 +6,7 @@
         <item
             android:id="@+id/nav_perfil"
             android:icon="@drawable/ic_user_edit_profile"
-            android:title="Perfil" />
+            android:title="Mi Perfil" />
         <item
             android:id="@+id/nav_solicitud"
             android:icon="@drawable/ic_solicitud_icon"

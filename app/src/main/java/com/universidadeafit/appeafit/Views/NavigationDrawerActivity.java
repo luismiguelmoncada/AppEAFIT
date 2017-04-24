@@ -68,27 +68,15 @@ public class NavigationDrawerActivity extends AppCompatActivity
             apellidos = rs.getString(3);
             email = rs.getString(5);
         }
-
-        boolean aux1;// los carros se ingresan desde la posicion cero y esto sirve para saber si hay por lo menos 1
-        aux1 = mydb.HayPreguntas();
-        //aux es un vallor de tipo boolean y devuelve s
-        if (aux1) {
-            //Toast.makeText(getApplicationContext(), "hay preguntas guardados en sqlite", Toast.LENGTH_SHORT).show();
-            //ConsultaNumeroRegistros();
-        } else {
-            //Toast.makeText(getApplicationContext(), " no hay preguntas guardados en sqlite", Toast.LENGTH_SHORT).show();
-            ValidarUsuarioGET(email);
-        }
-
         //Toast.makeText(getApplicationContext(), nombres+email, Toast.LENGTH_SHORT).show();
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle("EAFIT INTERACTIVA");
 
-        resumen.add(new Solicitud("Galeria", " Biblioteca", R.drawable.ic_menu_camera, " Fotos", " Enero 2017"));
-        resumen.add(new Solicitud("Materias", " Registradas: 1", R.drawable.ic_menu_manage, " Semestre: 2017-1", " Creditos: 4"));
-        frecuentes.add(new Solicitud("Lo Nuevo", " Noticia 1", R.drawable.ic_menu_slideshow, " ", " "));
-        sinresponder.add(new Solicitud("Nuevo", " Nuevo 1", R.drawable.ic_menu_share, " ", " "));
+        resumen.add(new Solicitud("Galeria", " Biblioteca", R.drawable.ic_menu_camera, " Fotos", " Enero 2017",""));
+        resumen.add(new Solicitud("Materias", " Registradas: 1", R.drawable.ic_menu_manage, " Semestre: 2017-1", " Creditos: 4",""));
+        frecuentes.add(new Solicitud("Lo Nuevo", " Noticia 1", R.drawable.ic_menu_slideshow, " ", " ",""));
+        sinresponder.add(new Solicitud("Nuevo", " Nuevo 1", R.drawable.ic_menu_share, " ", " ",""));
 
         viewPager = (ViewPager) findViewById(R.id.viewpager);
         setupViewPager(viewPager);
@@ -171,36 +159,8 @@ public class NavigationDrawerActivity extends AppCompatActivity
 
     }
 
-    private void ValidarUsuarioGET(String email){
-        Call<List<Solicitud>> call = ApiClient.get().getPreguntas(email);
-        call.enqueue(new Callback<List<Solicitud>>() {
-            @Override
-            public void onResponse(Call<List<Solicitud>> call, Response<List<Solicitud>> response) {
-                List<Solicitud> preguntas = response.body();
-                int i =0;
-                if(response.body().isEmpty()){
-                    //Toast.makeText(NavigationDrawerActivity.this,"No hay preguntas en la nube", Toast.LENGTH_LONG).show();
-                }else {
-                    for (Solicitud user : preguntas) {
-                        //Toast.makeText(NavigationDrawerActivity.this, user.getPregunta()+"fecha : "+user.getFecha(), Toast.LENGTH_SHORT).show();
-                        InsertarSQlite(user.getPregunta().toString(),user.getMotivo().toString(),user.getObservacion().toString(),user.getFecha());
-                    }
-                }
-            }
-            @Override
-            public void onFailure(Call<List<Solicitud>> call, Throwable t) {
-                //Log.d("my_tag", "ERROR: " + t.getMessage());
-                //Toast.makeText(LoginActivity.this, "Error: "+t.getMessage(), Toast.LENGTH_SHORT).show();
-                Toast.makeText(NavigationDrawerActivity.this," No tienes conexión a Internet ", Toast.LENGTH_LONG).show();
 
-            }
-        });
 
-    }
-
-    public void InsertarSQlite(String pregunta, String  motivo, String observacion, String fecha) {
-        mydb.InsertarPregunta(pregunta.toString(), motivo.toString(), observacion.toString(), fecha.toString());
-    }
 
     private void setupViewPager(ViewPager viewPager) {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());

@@ -51,6 +51,8 @@ dependencies {
     compile 'com.google.firebase:firebase-messaging:10.0.1'
     compile 'com.google.firebase:firebase-crash:10.0.1'
     compile 'com.ibm.mobilefirstplatform.clientsdk.android:analytics:1.+'
+    compile 'de.hdodenhof:circleimageview:2.1.0'
+    compile 'com.zoonref:simple-view-behavior:1.0'
     testCompile 'junit:junit:4.12'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.4.0'
 }
