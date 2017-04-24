@@ -86,11 +86,11 @@ public class LoginActivity extends AppCompatActivity {
 
         Email.setError(null);
         Password.setError(null);
-        String email = Email.getText().toString();
-        String password = Password.getText().toString();
+        //String email = Email.getText().toString();
+        //String password = Password.getText().toString();
 
-        //String email = "lmoncad1@eafit.edu.co";
-        //String password = "1234567890";
+        String email = "lmoncad1@eafit.edu.co";
+        String password = "lmoncad1";
 
         boolean cancel = false;
         View focusView = null;

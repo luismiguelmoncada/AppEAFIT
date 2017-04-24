@@ -2,6 +2,7 @@ package com.universidadeafit.appeafit.Adapters.ApiRest;
 
 
 
+import com.universidadeafit.appeafit.Model.Solicitud;
 import com.universidadeafit.appeafit.Model.Usuario;
 
 import java.util.List;
@@ -35,6 +36,9 @@ public interface RestApi {
             @Query("email") String email,
             @Query("password") String password
     );
+
+    @GET("/Retrofit-Prueba/Preguntas_Consultar.php")
+    Call<List<Solicitud>> getPreguntas(@Query("email") String email);
 
     @GET("/Retrofit-Prueba/getDataRecordarCuenta.php")
     Call<List<Usuario>> getRecordarUsers(@Query("email") String email);

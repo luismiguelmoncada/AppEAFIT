@@ -3,8 +3,12 @@ package com.universidadeafit.appeafit.Model;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
+import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
+
+import java.util.ArrayList;
 
 
 /**
@@ -67,7 +71,7 @@ public class UsuariosSQLiteHelper extends SQLiteOpenHelper {
                 + KEY_IDENTIFICACION + " TEXT" + ")";
 
         String CREATE_PREGUNTAS_TABLE = "CREATE TABLE " + Tablas.TABLE_PREGUNTAS + "("
-                + KEY_IDPREGUNTA + " INTEGER ," + KEY_PREGUNTA + " TEXT PRIMARY KEY,"
+                + KEY_IDPREGUNTA + " INTEGER PRIMARY KEY AUTOINCREMENT," + KEY_PREGUNTA + " TEXT,"
                 + KEY_MOTIVO + " TEXT,"
                 + KEY_OBSERVACION + " TEXT,"
                 + KEY_FECHA + " TEXT" + ")";
@@ -113,10 +117,10 @@ public class UsuariosSQLiteHelper extends SQLiteOpenHelper {
         db.close(); // Closing database connection
     }
 
-    public void InsertarPregunta(Integer idpregunta, String pregunta, String motivo, String oservacion, String fecha) {
+    public void InsertarPregunta(String pregunta, String motivo, String oservacion, String fecha) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
-        values.put(KEY_IDPREGUNTA, idpregunta);
+        //values.put(KEY_IDPREGUNTA, idpregunta);
         values.put(KEY_PREGUNTA, pregunta); // Shop Name
         values.put(KEY_MOTIVO, motivo);
         values.put(KEY_OBSERVACION, oservacion);
@@ -179,6 +183,15 @@ public class UsuariosSQLiteHelper extends SQLiteOpenHelper {
         return valor;
     }
 
+    public boolean PreguntaExiste(String pregunta) throws SQLException {
+        SQLiteDatabase sqldb = this.getReadableDatabase();
+        String Query = "Select * from " + Tablas.TABLE_PREGUNTAS + " where " + KEY_PREGUNTA + " = " + "'" +pregunta+ "'";
+        Cursor cursor = sqldb.rawQuery(Query, null);
+        if(cursor.getCount() <= 0){
+            return false;
+        }
+        return true;
+    }
     public Cursor ObtenerDatos(Integer id) {
         SQLiteDatabase db = this.getReadableDatabase();
 
@@ -203,15 +216,47 @@ public class UsuariosSQLiteHelper extends SQLiteOpenHelper {
 // return shop
     }
 
+    public ArrayList<Solicitud> getCartList() {
+
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        ArrayList<Solicitud> cartList = new ArrayList<>();
+
+        try {
+            String query = "SELECT * FROM " + Tablas.TABLE_PREGUNTAS + ";";
+
+            Cursor cursor = db.rawQuery(query, null);
+
+            for (cursor.moveToFirst(); !cursor.isAfterLast(); cursor.moveToNext()) {
+
+                cartList.add(new Solicitud(
+                        cursor.getString(cursor.getColumnIndex(KEY_PREGUNTA)),
+                        cursor.getString(cursor.getColumnIndex(KEY_MOTIVO)),
+                        0,
+                        cursor.getString(cursor.getColumnIndex(KEY_OBSERVACION)),
+                        cursor.getString(cursor.getColumnIndex(KEY_FECHA))
+                        ));
+            }
+
+            db.close();
+
+        } catch (SQLiteException e) {
+            db.close();
+        }
+        return cartList;
+    }
+
     public boolean CLean(Integer numeroVehiculos) {
         SQLiteDatabase sqldb = this.getReadableDatabase();
 
         //revisar ... es bueno pasar un parametro como user para poder eliminar tabn todos los vehiculos
-       for (int i = 0; i < numeroVehiculos;i++) {
+       for (int i = 1; i <= numeroVehiculos;i++) {
             String consulta = KEY_IDPREGUNTA + "=" + i ;
             sqldb.delete(Tablas.TABLE_PREGUNTAS, consulta, null);
         }
-        sqldb.delete(Tablas.TABLE_USUARIO, "IdAux=1", null);
+        sqldb.delete(Tablas.TABLE_USUARIO, "IdAux=1", null);//borra los datos de usuario en caso de tener preguntas guardadas
+
+        sqldb.delete(Tablas.TABLE_PREGUNTAS, null, null);
         return true;
     }
 

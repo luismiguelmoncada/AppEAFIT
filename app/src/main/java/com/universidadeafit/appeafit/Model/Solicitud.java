@@ -3,34 +3,34 @@ package com.universidadeafit.appeafit.Model;
 import java.io.Serializable;
 
 public class Solicitud implements Serializable {
-    String placa;
-    String marca;
+    String pregunta;
+    String motivo;
     int photoId;
-    String tipo;
-    String color;
+    String observacion;
+    String fecha;
 
-    public Solicitud(String placa, String marcaRef, int photoId, String tipo, String color) {
-        this.placa = placa;
-        this.marca = marcaRef;
+    public Solicitud(String pregunta, String motivo, int photoId, String observacion, String fecha) {
+        this.pregunta = pregunta;
+        this.motivo = motivo;
         this.photoId = photoId;
-        this.tipo = tipo;
-        this.color = color;
+        this.observacion = observacion;
+        this.fecha = fecha;
     }
 
-    public String getPlaca()    {
-        return placa;
+    public String getPregunta()    {
+        return pregunta;
     }
 
-    public String getMarca()    {
-        return marca;
+    public String getMotivo()    {
+        return motivo;
     }
 
-    public String getTipo()    {
-        return tipo;
+    public String getObservacion()    {
+        return observacion;
     }
 
-    public String getColor() {
-        return color;
+    public String getFecha() {
+        return fecha;
     }
 
     public int getPhoto() {

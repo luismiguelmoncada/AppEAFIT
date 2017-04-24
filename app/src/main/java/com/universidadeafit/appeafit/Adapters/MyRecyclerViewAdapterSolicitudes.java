@@ -73,11 +73,11 @@ public class MyRecyclerViewAdapterSolicitudes extends RecyclerView
 
     @Override
     public void onBindViewHolder(DataObjectHolder holder, int position) {
-        holder.placa.setText(mDataset.get(position).getPlaca());
+        holder.placa.setText(mDataset.get(position).getPregunta());
         holder.imagen.setBackgroundResource(mDataset.get(position).getPhoto());
-        holder.marca.setText(mDataset.get(position).getMarca());
-        holder.tipo.setText(mDataset.get(position).getTipo());
-        holder.color.setText(mDataset.get(position).getColor());
+        holder.marca.setText(mDataset.get(position).getMotivo());
+        holder.tipo.setText(mDataset.get(position).getObservacion());
+        holder.color.setText(mDataset.get(position).getFecha());
     }
 
     public void addItem(Solicitud dataObj, int index) {

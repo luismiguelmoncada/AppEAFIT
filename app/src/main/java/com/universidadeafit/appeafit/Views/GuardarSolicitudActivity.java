@@ -81,13 +81,23 @@ public class GuardarSolicitudActivity extends AppCompatActivity {
         String observacion = Observacion.getText().toString();
         //Toast.makeText(GuardarSolicitudActivity.this,Pregunta_Usuario+email+String.valueOf(spinnerMotivo.getSelectedItem())+observacion+getDateTime() , Toast.LENGTH_LONG).show();
 
-        InsertarSQlite(1,Pregunta_Usuario,String.valueOf(spinnerMotivo.getSelectedItem()),observacion,getDateTime());
+        boolean aux = mydb.PreguntaExiste(Pregunta_Usuario);
+
+        if (aux) {
+            //Toast.makeText(getApplicationContext(), "ya existe", Toast.LENGTH_SHORT).show();
+
+        } else {
+            //Toast.makeText(getApplicationContext(), " no existe", Toast.LENGTH_SHORT).show();
+            InsertarSQlite(Pregunta_Usuario,String.valueOf(spinnerMotivo.getSelectedItem()),observacion,getDateTime());
+            //ActualizarDatos();// si es un usuario nuevo
+        }
+
         InsertarPreguntaUsuario(Pregunta_Usuario,String.valueOf(spinnerMotivo.getSelectedItem()),observacion,email);
         GuardarSolicitudActivity.this.finish();
     }
 
-    public void InsertarSQlite(Integer idpregunta, String pregunta, String  motivo, String observacion, String fecha) {
-        mydb.InsertarPregunta(idpregunta, pregunta.toString(), motivo.toString(), observacion.toString(), fecha.toString());
+    public void InsertarSQlite(String pregunta, String  motivo, String observacion, String fecha) {
+        mydb.InsertarPregunta(pregunta.toString(), motivo.toString(), observacion.toString(), fecha.toString());
     }
 
     private void InsertarPreguntaUsuario(String pregunta, String  motivo, String observacion, String email){

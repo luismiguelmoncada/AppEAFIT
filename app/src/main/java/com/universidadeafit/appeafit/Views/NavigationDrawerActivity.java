@@ -20,6 +20,7 @@ import android.view.MenuItem;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.universidadeafit.appeafit.Adapters.ApiRest.ApiClient;
 import com.universidadeafit.appeafit.Adapters.MyRecyclerViewAdapterSolicitudes;
 import com.universidadeafit.appeafit.Model.Solicitud;
 import com.universidadeafit.appeafit.Model.UsuariosSQLiteHelper;
@@ -27,6 +28,11 @@ import com.universidadeafit.appeafit.R;
 import com.universidadeafit.appeafit.Adapters.ViewPagerAdapter;
 
 import java.util.ArrayList;
+import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class NavigationDrawerActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -63,7 +69,16 @@ public class NavigationDrawerActivity extends AppCompatActivity
             email = rs.getString(5);
         }
 
-
+        boolean aux1;// los carros se ingresan desde la posicion cero y esto sirve para saber si hay por lo menos 1
+        aux1 = mydb.HayPreguntas();
+        //aux es un vallor de tipo boolean y devuelve s
+        if (aux1) {
+            //Toast.makeText(getApplicationContext(), "hay preguntas guardados en sqlite", Toast.LENGTH_SHORT).show();
+            //ConsultaNumeroRegistros();
+        } else {
+            //Toast.makeText(getApplicationContext(), " no hay preguntas guardados en sqlite", Toast.LENGTH_SHORT).show();
+            ValidarUsuarioGET(email);
+        }
 
         //Toast.makeText(getApplicationContext(), nombres+email, Toast.LENGTH_SHORT).show();
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -144,6 +159,8 @@ public class NavigationDrawerActivity extends AppCompatActivity
         //TextView NombreNav = (TextView) findViewById(R.id.nombre);
         //TextView EmailNav = (TextView) findViewById(R.id.emailDrawer);
 
+
+
         if (auxtipousu) {
 
         }else{
@@ -152,6 +169,37 @@ public class NavigationDrawerActivity extends AppCompatActivity
             NavigationDrawerActivity.this.startActivity(mainIntent);
         }
 
+    }
+
+    private void ValidarUsuarioGET(String email){
+        Call<List<Solicitud>> call = ApiClient.get().getPreguntas(email);
+        call.enqueue(new Callback<List<Solicitud>>() {
+            @Override
+            public void onResponse(Call<List<Solicitud>> call, Response<List<Solicitud>> response) {
+                List<Solicitud> preguntas = response.body();
+                int i =0;
+                if(response.body().isEmpty()){
+                    //Toast.makeText(NavigationDrawerActivity.this,"No hay preguntas en la nube", Toast.LENGTH_LONG).show();
+                }else {
+                    for (Solicitud user : preguntas) {
+                        //Toast.makeText(NavigationDrawerActivity.this, user.getPregunta()+"fecha : "+user.getFecha(), Toast.LENGTH_SHORT).show();
+                        InsertarSQlite(user.getPregunta().toString(),user.getMotivo().toString(),user.getObservacion().toString(),user.getFecha());
+                    }
+                }
+            }
+            @Override
+            public void onFailure(Call<List<Solicitud>> call, Throwable t) {
+                //Log.d("my_tag", "ERROR: " + t.getMessage());
+                //Toast.makeText(LoginActivity.this, "Error: "+t.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(NavigationDrawerActivity.this," No tienes conexión a Internet ", Toast.LENGTH_LONG).show();
+
+            }
+        });
+
+    }
+
+    public void InsertarSQlite(String pregunta, String  motivo, String observacion, String fecha) {
+        mydb.InsertarPregunta(pregunta.toString(), motivo.toString(), observacion.toString(), fecha.toString());
     }
 
     private void setupViewPager(ViewPager viewPager) {
@@ -172,12 +220,12 @@ public class NavigationDrawerActivity extends AppCompatActivity
             @Override
             public void onItemClick(int position, View v) {
                 Intent i = new Intent(NavigationDrawerActivity.this, DetalleSolicitud.class);
-                i.putExtra("placa",((MyRecyclerViewAdapterSolicitudes) mAdapter).getObjeto(position).getPlaca());
+                i.putExtra("placa",((MyRecyclerViewAdapterSolicitudes) mAdapter).getObjeto(position).getPregunta());
                 startActivity(i);
                 //finish(); // Es necesario que las clases objetos o entidades que se usan en esta clase
                 //se implementen como Serializable (public class xxx implments Serializable)
-                //Toast.makeText(NavigationDrawerActivity.this, " Clicked on  " + ((MyRecyclerViewAdapterSolicitudes) mAdapter).getObjeto(position).getPlaca(), Toast.LENGTH_LONG).show();
-                //Log.i(LOG_TAG, " Clicked on  " + ((MyRecyclerViewAdapterSolicitudes) mAdapter).getObjeto(position).getPlaca());
+                //Toast.makeText(NavigationDrawerActivity.this, " Clicked on  " + ((MyRecyclerViewAdapterSolicitudes) mAdapter).getObjeto(position).getPregunta(), Toast.LENGTH_LONG).show();
+                //Log.i(LOG_TAG, " Clicked on  " + ((MyRecyclerViewAdapterSolicitudes) mAdapter).getObjeto(position).getPregunta());
             }
         });
     }
@@ -249,20 +297,25 @@ public class NavigationDrawerActivity extends AppCompatActivity
                         //se obtiene el numero de vehiculos ingresados por el usuario
                             boolean aux;
                             aux = mydb.HayPreguntas();
+                            boolean user = mydb.CLeanUsers();
+                            boolean tipouser = mydb.CLeanTipoUsers();
                             //aux es un vallor de tipo boolean y devuelve si hay vehiculos registrados o no
                             if(aux) {
                                 int numero = mydb.CantidadPreguntas();
                                 boolean numVehiculos = mydb.CLean(numero);
                                 if (numVehiculos) {
                                     Toast.makeText(getApplicationContext(), "¡Bye "+nombres+", Hasta pronto!", Toast.LENGTH_SHORT).show();
+
+                                    if (tipouser) {
+                                        //Toast.makeText(getApplicationContext(), "borro tipo user", Toast.LENGTH_SHORT).show();
+                                    }
+
                                 }
                             }else{//para borrar solo el usuario si no tiene vehiculos
-                                boolean user = mydb.CLeanUsers();
-                                boolean tipouser = mydb.CLeanTipoUsers();
+
                                 if (user) {
                                     Toast.makeText(getApplicationContext(), "¡Bye "+nombres+", Hasta pronto!", Toast.LENGTH_SHORT).show();
                                 }
-
                                 if (tipouser) {
                                     //Toast.makeText(getApplicationContext(), "borro tipo user", Toast.LENGTH_SHORT).show();
                                 }
