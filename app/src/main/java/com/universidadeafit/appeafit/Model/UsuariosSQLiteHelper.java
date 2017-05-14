@@ -183,6 +183,24 @@ public class UsuariosSQLiteHelper extends SQLiteOpenHelper {
         return valor;
     }
 
+
+    public boolean CLean() {
+        SQLiteDatabase sqldb = this.getReadableDatabase();
+
+        //revisar ... es bueno pasar un parametro como user para poder eliminar tabn todos los vehiculos
+       /* for (int i = 1; i <= numeroVehiculos;i++) {
+            String consulta = KEY_IDPREGUNTA + "=" + i ;
+            sqldb.delete(Tablas.TABLE_PREGUNTAS, consulta, null);
+        }
+        */
+        sqldb.delete(Tablas.TABLE_USUARIO, null, null);//borra los datos de usuario en caso de tener preguntas guardadas
+
+        sqldb.delete(Tablas.TABLE_PREGUNTAS, null, null);
+
+        return true;
+    }
+
+
     public boolean PreguntaExiste(String pregunta) throws SQLException {
         SQLiteDatabase sqldb = this.getReadableDatabase();
         String Query = "Select * from " + Tablas.TABLE_PREGUNTAS + " where " + KEY_PREGUNTA + " = " + "'" +pregunta+ "'";
@@ -257,20 +275,6 @@ public class UsuariosSQLiteHelper extends SQLiteOpenHelper {
             db.close();
         }
         return cartList;
-    }
-
-    public boolean CLean(Integer numeroVehiculos) {
-        SQLiteDatabase sqldb = this.getReadableDatabase();
-
-        //revisar ... es bueno pasar un parametro como user para poder eliminar tabn todos los vehiculos
-       for (int i = 1; i <= numeroVehiculos;i++) {
-            String consulta = KEY_IDPREGUNTA + "=" + i ;
-            sqldb.delete(Tablas.TABLE_PREGUNTAS, consulta, null);
-        }
-        sqldb.delete(Tablas.TABLE_USUARIO, "IdAux=1", null);//borra los datos de usuario en caso de tener preguntas guardadas
-
-        sqldb.delete(Tablas.TABLE_PREGUNTAS, null, null);
-        return true;
     }
 
 

@@ -1,6 +1,7 @@
 package com.universidadeafit.appeafit.Adapters.ApiRest;
 
 
+import com.google.gson.annotations.SerializedName;
 import com.universidadeafit.appeafit.Model.Usuario;
 
 import java.lang.reflect.Array;
@@ -11,9 +12,13 @@ import java.util.List;
  */
 
 public class ServerResponse {
-
+    @SerializedName("result")
     private String result;
+
+    @SerializedName("message")
     private String message;
+
+    @SerializedName("user")
     private List user;
 
     public String getResult() {

@@ -1,9 +1,13 @@
 package com.universidadeafit.appeafit.Views;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.view.menu.MenuBuilder;
@@ -27,6 +31,7 @@ import com.universidadeafit.appeafit.R;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import com.ibm.mobilefirstplatform.clientsdk.android.core.api.*;
@@ -41,11 +46,14 @@ public class WatsonActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private RecyclerView.LayoutManager mLayoutManager;
 
+    String preguntanot = "";
+    String respuestaWatson = "";
     private MyRecyclerViewChatAdapter mAdapter;
     private ArrayList messageArrayList;
     private EditText inputMessage;
     private ImageButton btnSend;
     private Map<String,Object> context = new HashMap<>();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -96,8 +104,6 @@ public class WatsonActivity extends AppCompatActivity {
     // Sending a message to Watson Conversation Service
     private void sendMessage() {
 
-
-
         final String inputmessage = this.inputMessage.getText().toString().trim();
         Message inputMessage = new Message();
         inputMessage.setMessage(inputmessage);
@@ -121,7 +127,7 @@ public class WatsonActivity extends AppCompatActivity {
                         context.clear();
                         context = response.getContext();
                     }
-                    Message outMessage=new Message();
+                    Message outMessage = new Message();
                     if(response!=null)
                     {
                         if(response.getOutput()!=null && response.getOutput().containsKey("text"))
@@ -131,6 +137,7 @@ public class WatsonActivity extends AppCompatActivity {
                             outMessage.setMessage(outputmessage);
                             outMessage.setId("2");
                             messageArrayList.add(outMessage);
+
                         }
                         runOnUiThread(new Runnable() {
                             public void run() {
@@ -140,6 +147,8 @@ public class WatsonActivity extends AppCompatActivity {
                                 }
                             }
                         });
+
+
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -147,6 +156,8 @@ public class WatsonActivity extends AppCompatActivity {
             }
         });
         thread.start();
+
+
     }
 
     @Override
@@ -157,18 +168,19 @@ public class WatsonActivity extends AppCompatActivity {
             @Override
             public void onItemClick(int position, View v) {
 
-               if(mAdapter.getObjeto(position).getId()=="1"){
+               if(mAdapter.getObjeto(position).getId()=="1" && checkInternetConnection()){
 
-                   String respuestaWatson = (mAdapter.getObjeto(position + 1).getMessage());
+                   preguntanot = mAdapter.getObjeto(position).getMessage();
+                   respuestaWatson = (mAdapter.getObjeto(position + 1).getMessage());
                    Intent i = new Intent(WatsonActivity.this, GuardarSolicitudActivity.class);
                    Bundle bundle = new Bundle();
-                   bundle.putString("pregunta",  mAdapter.getObjeto(position).getMessage());
+                   bundle.putString("pregunta",  preguntanot);
                    bundle.putString("respuestaWatson",  respuestaWatson);
                    i.putExtras(bundle);
                    startActivity(i);
                    //Toast.makeText(WatsonActivity.this, " Clicked on  " + mAdapter.getObjeto(position).getMessage()+"respuesta"+respuestaWatson, Toast.LENGTH_LONG).show();
                }else{
-                   Toast.makeText(WatsonActivity.this, " Clicked on  " + mAdapter.getObjeto(position).getMessage(), Toast.LENGTH_LONG).show();
+                   //Toast.makeText(WatsonActivity.this, " Clicked on  " + mAdapter.getObjeto(position).getMessage(), Toast.LENGTH_LONG).show();
                }
             }
         });
@@ -234,8 +246,38 @@ public class WatsonActivity extends AppCompatActivity {
             case R.id.action_Limpiar:
                 Toast.makeText(this, "Limpiar", Toast.LENGTH_LONG ).show();
                 return true;
+            case android.R.id.home:
+                onBackPressed();
+                return true;
+
             default:
                 return super.onOptionsItemSelected(item);
         }
+
+    }
+
+    @Override
+    public void onBackPressed(){
+
+            new AlertDialog.Builder(this)
+                    .setIcon(android.R.drawable.ic_dialog_alert)
+                    .setTitle("Saliendo...")
+                    .setMessage("Esta seguro que desea salir?")
+                    .setPositiveButton("Si", new DialogInterface.OnClickListener()
+                    {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            List<Message> users = messageArrayList;
+                            for (Message user : users) {
+                                Toast.makeText(WatsonActivity.this, " Mensaje " + user.getId() +user.getMessage(), Toast.LENGTH_LONG).show();
+                            }
+                            finish();
+                        }
+
+                    })
+                    .setNegativeButton("No", null)
+                    .show();
+        // code here to show dialog
+
     }
 }

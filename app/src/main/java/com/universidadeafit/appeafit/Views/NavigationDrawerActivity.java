@@ -255,14 +255,13 @@ public class NavigationDrawerActivity extends AppCompatActivity
                         public void onClick(DialogInterface dialog, int which) {
 
                         //se obtiene el numero de vehiculos ingresados por el usuario
-                            boolean aux;
-                            aux = mydb.HayPreguntas();
+                            boolean aux = mydb.HayPreguntas();
                             boolean user = mydb.CLeanUsers();
                             boolean tipouser = mydb.CLeanTipoUsers();
                             //aux es un vallor de tipo boolean y devuelve si hay vehiculos registrados o no
                             if(aux) {
-                                int numero = mydb.CantidadPreguntas();
-                                boolean numVehiculos = mydb.CLean(numero);
+
+                                boolean numVehiculos = mydb.CLean();
                                 if (numVehiculos) {
                                     Toast.makeText(getApplicationContext(), "¡Bye "+nombres+", Hasta pronto!", Toast.LENGTH_SHORT).show();
 

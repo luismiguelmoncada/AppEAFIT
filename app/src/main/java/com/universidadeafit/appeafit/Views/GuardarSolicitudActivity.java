@@ -116,13 +116,13 @@ public class GuardarSolicitudActivity extends AppCompatActivity {
                 Toast.makeText(GuardarSolicitudActivity.this, message, Toast.LENGTH_LONG).show();
 
                 if (result.equals(Constants.SUCCESS)){
-                    //Toast.makeText(TypeUserActivity.this,"Datos Almacenados Correctamente en mysql", Toast.LENGTH_LONG).show();
+                    //Toast.makeText(GuardarSolicitudActivity.this,"Datos Almacenados Correctamente en mysql", Toast.LENGTH_LONG).show();
                 }
             }
             @Override
             public void onFailure(Call<ServerResponse> call, Throwable t) {
-                //Toast.makeText(RegisterActivity.this,"Server Error : "+ t.getMessage(), Toast.LENGTH_LONG).show();
-                Toast.makeText(GuardarSolicitudActivity.this," No tienes conexión a Internet ", Toast.LENGTH_LONG).show();
+                //Toast.makeText(GuardarSolicitudActivity.this,"Server Error : "+ t.getMessage(), Toast.LENGTH_LONG).show();
+                Toast.makeText(GuardarSolicitudActivity.this," Error de Servidor... ", Toast.LENGTH_LONG).show();
             }
         });
     }

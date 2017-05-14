@@ -12,7 +12,7 @@ public class Constants {
 
     //public static final String BASE_URL = "http://webserverandroid.site88.net/"; //http://192.168.0.109:64432//api/retrofit_users
 
-    public static final String BASE_URL = "http://appeafit.000webhostapp.com/"; //http://192.168.0.109:64432//api/retrofit_users
+    public static final String BASE_URL = "http://appeafitbot.me.pn/"; //http://192.168.0.109:64432//api/retrofit_users
     public static final String REGISTER_OPERATION = "register";
     public static final String LOGIN_OPERATION = "login";
 
