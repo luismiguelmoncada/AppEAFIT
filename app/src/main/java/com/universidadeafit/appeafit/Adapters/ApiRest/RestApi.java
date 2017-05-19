@@ -2,6 +2,7 @@ package com.universidadeafit.appeafit.Adapters.ApiRest;
 
 
 
+import com.universidadeafit.appeafit.Model.Intenciones;
 import com.universidadeafit.appeafit.Model.Solicitud;
 import com.universidadeafit.appeafit.Model.Usuario;
 
@@ -30,6 +31,12 @@ public interface RestApi {
 
     @POST("/Retrofit-Prueba/User_PreguntaInsertar.php")
     Call<ServerResponse> insertarPregunta(@Body Solicitud Solicitud);
+
+    @POST("/Retrofit-Prueba/User_IntencionesInsertar.php")
+    Call<ServerResponse> insertarIntencion(@Body Intenciones intencion);
+
+    @POST("/Retrofit-Prueba/User_Calificacion.php")
+    Call<ServerResponse> insertarCalificacion(@Body Usuario Usuario);
 
     @GET("/Retrofit-Prueba/getData.php")
     Call<List<Usuario>> getUsers(

@@ -74,22 +74,23 @@
             android:name=".Views.RecordarCuentaActivity"
             android:label="Recordar Contraseña"
             android:launchMode="singleInstance"
-            android:theme="@style/Theme.AppCompat.Light.Dialog">
-
-        </activity>
+            android:theme="@style/Theme.AppCompat.Light.Dialog"></activity>
         <activity
             android:name=".Views.GuardarSolicitudActivity"
             android:label="Notificar Consulta"
             android:launchMode="singleInstance"
-            android:theme="@style/Theme.AppCompat.Light.Dialog.Alert">
-        </activity>
-
-        <activity android:name=".Views.TypeUserActivity"
+            android:theme="@style/Theme.AppCompat.Light.Dialog.Alert"></activity>
+        <activity
+            android:name=".Views.TypeUserActivity"
             android:label="Tipo de Usuario"
             android:launchMode="singleInstance"
-            android:theme="@style/Theme.AppCompat.Light.Dialog.Alert">
+            android:theme="@style/Theme.AppCompat.Light.Dialog.Alert"></activity>
+        <activity
+            android:name=".Views.FinalizarChatActivity"
+            android:label="Calificación"
+            android:launchMode="singleInstance"
+            android:theme="@style/Theme.AppCompat.Light.Dialog.Alert"></activity>
 
-        </activity>
     </application>
 
 </manifest>

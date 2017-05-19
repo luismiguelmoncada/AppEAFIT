@@ -1,9 +1,11 @@
 package com.universidadeafit.appeafit.Views;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.Cursor;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.support.v4.view.GravityCompat;
@@ -14,6 +16,7 @@ import android.support.v7.view.menu.MenuBuilder;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -21,17 +24,28 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
+import com.google.firebase.crash.FirebaseCrash;
+import com.ibm.mobilefirstplatform.clientsdk.android.core.api.Response;
 import com.ibm.watson.developer_cloud.conversation.v1.ConversationService;
 import com.ibm.watson.developer_cloud.conversation.v1.model.MessageRequest;
 import com.ibm.watson.developer_cloud.conversation.v1.model.MessageResponse;
 
+import com.universidadeafit.appeafit.Adapters.ApiRest.ApiClient;
+import com.universidadeafit.appeafit.Adapters.ApiRest.ServerResponse;
 import com.universidadeafit.appeafit.Adapters.MyRecyclerViewChatAdapter;
+import com.universidadeafit.appeafit.Model.Constants;
+import com.universidadeafit.appeafit.Model.Intenciones;
 import com.universidadeafit.appeafit.Model.Message;
+import com.universidadeafit.appeafit.Model.Usuario;
+import com.universidadeafit.appeafit.Model.UsuariosSQLiteHelper;
 import com.universidadeafit.appeafit.R;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import com.ibm.mobilefirstplatform.clientsdk.android.core.api.*;
@@ -39,6 +53,8 @@ import com.ibm.mobilefirstplatform.clientsdk.android.analytics.api.*;
 import com.ibm.mobilefirstplatform.clientsdk.android.logger.api.*;
 
 import org.json.JSONObject;
+
+import retrofit2.*;
 
 
 public class WatsonActivity extends AppCompatActivity {
@@ -48,31 +64,42 @@ public class WatsonActivity extends AppCompatActivity {
 
     String preguntanot = "";
     String respuestaWatson = "";
+    String message,result,email;
     private MyRecyclerViewChatAdapter mAdapter;
     private ArrayList messageArrayList;
     private EditText inputMessage;
     private ImageButton btnSend;
     private Map<String,Object> context = new HashMap<>();
+    private UsuariosSQLiteHelper mydb ;
 
+    public static Activity fa;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_watson);
         verToolbar("usuario",true);
+        mydb = new UsuariosSQLiteHelper(this);
+        boolean aux;
+        aux = mydb.HayUsuarios(1);
+        fa = this;
 
+        if (aux) {
+            Cursor rs = mydb.ObtenerDatos(1);
+            email = rs.getString(5);
+        }
+/*
         BMSClient.getInstance().initialize(getApplicationContext(), BMSClient.REGION_US_SOUTH); // Make sure that you point to your region
         // In this code example, Analytics is configured to record lifecycle events.
         Analytics.init(getApplication(), "AppEAFIT", "f364b59f-f7d2-4d30-ab6f-0053770c7720", false, Analytics.DeviceEvent.ALL);
 
         Analytics.enable();
         enviarAlalytics();//Envia el registro de conexion de usuarios al bot
-
+*/
         inputMessage = (EditText) findViewById(R.id.message);
         btnSend = (ImageButton) findViewById(R.id.btn_send);
 
         messageArrayList = new ArrayList<>();
-
 
         recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
         recyclerView.setHasFixedSize(true);
@@ -98,7 +125,6 @@ public class WatsonActivity extends AppCompatActivity {
         getSupportActionBar().setTitle(titulo);
         getSupportActionBar().setIcon(R.drawable.ic_user_hombre);
         getSupportActionBar().setDisplayHomeAsUpEnabled(UpButton);
-
     }
 
     // Sending a message to Watson Conversation Service
@@ -147,17 +173,48 @@ public class WatsonActivity extends AppCompatActivity {
                                 }
                             }
                         });
-
-
                     }
+
+                    List<com.ibm.watson.developer_cloud.conversation.v1.model.Intent> listaintents = response.getIntents();
+                    for (com.ibm.watson.developer_cloud.conversation.v1.model.Intent in : listaintents ) {
+                        Intenciones intenciones = new Intenciones(email,in.getIntent().toString(),getDateTime());
+                        RegistrarIntenciones(intenciones);
+                        Log.d("intent", in.getIntent().toString());//creamos un objeto Fruta y lo insertamos en la lista
+                    }
+
+
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
         });
         thread.start();
+    }
+
+    private void RegistrarIntenciones(Intenciones intenciones){
+        Call<ServerResponse> call = ApiClient.get().insertarIntencion(intenciones);
+        call.enqueue(new Callback<ServerResponse>() {
+            @Override
+            public void onResponse(Call<ServerResponse> call, retrofit2.Response<ServerResponse> response) {
+                message = response.body().getMessage();
+                result = response.body().getResult();
+                //Toast.makeText(WatsonActivity.this, message, Toast.LENGTH_LONG).show();
+
+                if (result.equals(Constants.SUCCESS)){
+                   //RegisterActivity.this.finish();   saca error si se finaliza
+                }else{
+                    //prueba de captura de error con firebase, cuando el usuario ya existe
+
+                }
+            }
+            @Override
+            public void onFailure(Call<ServerResponse> call, Throwable t) {
+                //Toast.makeText(WatsonActivity.this,"Server Error : "+ t.getMessage(), Toast.LENGTH_LONG).show();
+                Toast.makeText(WatsonActivity.this,"Server Error Estadistics", Toast.LENGTH_LONG).show();
+            }
 
 
+        });
     }
 
     @Override
@@ -186,6 +243,12 @@ public class WatsonActivity extends AppCompatActivity {
         });
     }
 
+    private String getDateTime() {
+        SimpleDateFormat dateFormat = new SimpleDateFormat(
+                "yyyy-MM-dd HH:mm:ss", Locale.getDefault());
+        Date date = new Date();
+        return dateFormat.format(date);
+    }
     private void enviarAlalytics(){
         // Send recorded usage analytics to the Mobile Analytics Service
         Analytics.send(new ResponseListener() {
@@ -259,24 +322,18 @@ public class WatsonActivity extends AppCompatActivity {
     @Override
     public void onBackPressed(){
 
-            new AlertDialog.Builder(this)
-                    .setIcon(android.R.drawable.ic_dialog_alert)
-                    .setTitle("Saliendo...")
-                    .setMessage("Esta seguro que desea salir?")
-                    .setPositiveButton("Si", new DialogInterface.OnClickListener()
-                    {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
+
+        Intent i = new Intent(WatsonActivity.this, FinalizarChatActivity.class);
+        startActivity(i);
+
+
+        /*
                             List<Message> users = messageArrayList;
                             for (Message user : users) {
                                 Toast.makeText(WatsonActivity.this, " Mensaje " + user.getId() +user.getMessage(), Toast.LENGTH_LONG).show();
                             }
-                            finish();
-                        }
+                            */
 
-                    })
-                    .setNegativeButton("No", null)
-                    .show();
         // code here to show dialog
 
     }

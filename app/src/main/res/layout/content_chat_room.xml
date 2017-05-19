@@ -47,7 +47,7 @@
             android:layout_marginBottom="4dp"
             android:layout_marginRight="2dp"
             android:layout_below="@+id/recycler_view"
-            android:drawableLeft="@drawable/ic_face_asistent"/>
+            android:drawableLeft="@drawable/bot_face_new"/>
 
         <ImageButton
             android:id="@+id/btn_send"

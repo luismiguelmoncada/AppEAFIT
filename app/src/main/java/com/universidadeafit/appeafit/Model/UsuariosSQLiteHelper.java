@@ -193,7 +193,7 @@ public class UsuariosSQLiteHelper extends SQLiteOpenHelper {
             sqldb.delete(Tablas.TABLE_PREGUNTAS, consulta, null);
         }
         */
-        sqldb.delete(Tablas.TABLE_USUARIO, null, null);//borra los datos de usuario en caso de tener preguntas guardadas
+        sqldb.delete(Tablas.TABLE_USUARIO, null, null);//borra los datos de id en caso de tener preguntas guardadas
 
         sqldb.delete(Tablas.TABLE_PREGUNTAS, null, null);
 

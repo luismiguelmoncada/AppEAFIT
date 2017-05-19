@@ -57,4 +57,16 @@
         <item>INCOHERENCIA EN LA RESPUESTA</item>
     </string-array>
 
+    <string-array name="chat_satisfaccion">
+        <item>MUY SATISFACTORIA</item>
+        <item>MEDIANAMENTE SATISFACTORIA</item>
+        <item>NO SATISFACTORIA</item>
+    </string-array>
+
+    <string-array name="chat_motivo">
+        <item>AMPLIAR CONOCIMIENTO</item>
+        <item>MEJORAR LÓGICA DE RESPUESTA</item>
+        <item>CORREGIR RESPUESTAS</item>
+    </string-array>
+
 </resources>

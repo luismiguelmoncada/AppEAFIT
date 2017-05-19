@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout
+xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:app="http://schemas.android.com/apk/res-auto"
+xmlns:tools="http://schemas.android.com/tools"
+android:layout_width="match_parent"
+android:layout_height="match_parent"
+android:fitsSystemWindows="true"
+tools:context="com.universidadeafit.appeafit.Views.FinalizarChatActivity">
+
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:padding="@dimen/activity_horizontal_margin"
+            tools:ignore="ScrollViewSize">
+            <TextView
+                android:id="@+id/txt_pregunta"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="La solución fue: "
+                android:layout_marginLeft="8dp"
+                android:textColor="@android:color/black"/>
+
+            <Spinner
+                android:id="@+id/spinner_solucion"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:entries="@array/chat_satisfaccion"
+                android:popupBackground="#C5CAE9"
+                android:theme="@style/SpinnerText"
+                />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Sugerencias:"
+                android:layout_marginLeft="8dp"
+                android:textColor="@android:color/black"
+                android:layout_marginBottom="2dp"/>
+            <Spinner
+                android:id="@+id/spinner_sugerencia"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:entries="@array/chat_motivo"
+                android:popupBackground="#C5CAE9"
+                android:theme="@style/SpinnerText"
+                />
+
+            <TextView
+                android:id="@+id/txt_sugerencia"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Observación: "
+                android:textColor="@android:color/black"
+                android:layout_marginLeft="8dp"/>
+
+            <EditText
+                android:id="@+id/observacion_pregunta"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="4dp"
+                android:textColorHint="@color/colorPrimary"
+                android:hint="Ingresa una nota si lo deseas"
+                android:drawableRight="@drawable/ic_nota"
+                android:theme="@style/SpinnerText"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="Gracias por ayudar a mejorar nuestra App"/>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <Button
+                    android:id="@+id/enviar"
+                    android:layout_width="100dp"
+                    android:layout_height="50dp"
+                    android:text="Regresar "
+                    android:layout_marginTop="10dp"
+                    style="@style/RaisedButtonDark"/>
+
+                <Button
+                    android:id="@+id/volver_chat"
+                    android:layout_width="100dp"
+                    android:layout_height="50dp"
+                    android:text="Finalizar"
+                    android:layout_marginTop="10dp"
+                    android:layout_alignParentRight="true"
+                    style="@style/RaisedButtonDark"
+                    />
+            </RelativeLayout>
+
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>
+</android.support.design.widget.CoordinatorLayout>
