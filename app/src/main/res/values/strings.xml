@@ -47,7 +47,7 @@
     <string-array name="country_arrays">
         <item>ESTUDIANTE</item>
         <item>DOCENTE</item>
-        <item>ADMINISTRACION</item>
+        <item>ADMINISTRATIVO</item>
         <item>CEC</item>
     </string-array>
 
@@ -65,7 +65,7 @@
 
     <string-array name="chat_motivo">
         <item>AMPLIAR CONOCIMIENTO</item>
-        <item>MEJORAR LÓGICA DE RESPUESTA</item>
+        <item>MEJORAR LOGICA DE RESPUESTA</item>
         <item>CORREGIR RESPUESTAS</item>
     </string-array>
 

@@ -81,7 +81,7 @@ public class FinalizarChatActivity extends AppCompatActivity {
 
     private void RegistrarCalificacion(String email,String solucion,String sugerencia,String observacion,String fecha){
 
-        Toast.makeText(FinalizarChatActivity.this,email+solucion+sugerencia+observacion+fecha , Toast.LENGTH_LONG).show();
+        //Toast.makeText(FinalizarChatActivity.this,email+solucion+sugerencia+observacion+fecha , Toast.LENGTH_LONG).show();
 
         Usuario usuario = new Usuario(email,solucion,sugerencia,observacion,fecha,"","");
         Call<ServerResponse> call = ApiClient.get().insertarCalificacion(usuario);

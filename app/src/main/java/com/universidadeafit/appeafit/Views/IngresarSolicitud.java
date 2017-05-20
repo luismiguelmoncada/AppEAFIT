@@ -1,5 +1,6 @@
 package com.universidadeafit.appeafit.Views;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -13,10 +14,13 @@ import android.widget.Toast;
 
 import com.universidadeafit.appeafit.R;
 
+import java.util.ArrayList;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-
+import im.dacer.androidcharts.PieHelper;
+import im.dacer.androidcharts.PieView;
 
 
 public class IngresarSolicitud extends AppCompatActivity {

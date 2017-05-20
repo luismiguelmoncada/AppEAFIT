@@ -117,20 +117,27 @@ public class RegisterActivity extends AppCompatActivity {
         call.enqueue(new Callback<ServerResponse>() {
             @Override
             public void onResponse(Call<ServerResponse> call, Response<ServerResponse> response) {
-                message = response.body().getMessage();
-                result = response.body().getResult();
-                Toast.makeText(RegisterActivity.this, message, Toast.LENGTH_LONG).show();
 
-                if (result.equals(Constants.SUCCESS)){
-                    sendEmail(nombreLog,apellidosLog,emailLog,contraseñaLog);
-                    LoginActivity login = new LoginActivity();
-                    EditText emailLogin = login.retornarEmail();
-                    emailLogin.setText(emailLog);
-                    //RegisterActivity.this.finish();   saca error si se finaliza
-                }else{
-                    //prueba de captura de error con firebase, cuando el usuario ya existe
-                    FirebaseCrash.report(new Exception("AppEAFIT: Register Error, User Exist"));
+                try {
+                    message = response.body().getMessage();
+                    result = response.body().getResult();
+                    Toast.makeText(RegisterActivity.this, message, Toast.LENGTH_LONG).show();
+
+                    if (result.equals(Constants.SUCCESS)){
+                        sendEmail(nombreLog,apellidosLog,emailLog,contraseñaLog);
+                        LoginActivity login = new LoginActivity();
+                        EditText emailLogin = login.retornarEmail();
+                        emailLogin.setText(emailLog);
+                        //RegisterActivity.this.finish();   saca error si se finaliza
+                    }else{
+                        //prueba de captura de error con firebase, cuando el usuario ya existe
+                        //FirebaseCrash.report(new Exception("AppEAFIT: Register Error, User Exist"));
+                    }
                 }
+                catch (Exception e) {
+                    Toast.makeText(RegisterActivity.this,"Error de Conexión al Servidor", Toast.LENGTH_LONG).show();
+                }
+
             }
             @Override
             public void onFailure(Call<ServerResponse> call, Throwable t) {

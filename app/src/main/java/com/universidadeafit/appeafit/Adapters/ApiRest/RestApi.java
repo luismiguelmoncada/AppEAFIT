@@ -50,6 +50,15 @@ public interface RestApi {
     @GET("/Retrofit-Prueba/getDataRecordarCuenta.php")
     Call<List<Usuario>> getRecordarUsers(@Query("email") String email);
 
+    @GET("/Retrofit-Prueba/getGrafico.php")
+    Call<List<Solicitud>> getGrafico(@Query("email") String email);
+
+
+    @GET("/Retrofit-Prueba/getIntenciones.php")
+    Call<List<Intenciones>> getIntenciones(@Query("email") String email);
+
+    @GET("/Retrofit-Prueba/getCalificaciones.php")
+    Call<List<Usuario>> getCalificaciones(@Query("email") String email);
 
     @POST("/Retrofit-Prueba/User_Login.php")
     Call<ServerResponse> obtenerUsuario(@Body Usuario Usuario);

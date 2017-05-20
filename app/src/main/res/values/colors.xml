@@ -8,4 +8,8 @@
 
     <color name="icons">#FFFFFF</color>
     <color name="bg_bubble_self">#E1E1E1</color>
+
+    <color name="colorcharred">#F20C0C</color>
+    <color name="colorchargren">#84D111</color>
+    <color name="colorblue">#07DDFF</color>
 </resources>

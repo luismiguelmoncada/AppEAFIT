@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -22,7 +23,9 @@ import android.widget.Toast;
 
 import com.universidadeafit.appeafit.Adapters.ApiRest.ApiClient;
 import com.universidadeafit.appeafit.Adapters.MyRecyclerViewAdapterSolicitudes;
+import com.universidadeafit.appeafit.Model.Intenciones;
 import com.universidadeafit.appeafit.Model.Solicitud;
+import com.universidadeafit.appeafit.Model.Usuario;
 import com.universidadeafit.appeafit.Model.UsuariosSQLiteHelper;
 import com.universidadeafit.appeafit.R;
 import com.universidadeafit.appeafit.Adapters.ViewPagerAdapter;
@@ -56,6 +59,8 @@ public class NavigationDrawerActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_navigation_drawer);
+        GETIntenciones();
+        GETCalificaciones();
         mydb = new UsuariosSQLiteHelper(this);
         boolean aux;
         boolean auxtipousu;
@@ -73,9 +78,11 @@ public class NavigationDrawerActivity extends AppCompatActivity
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle("EAFIT INTERACTIVA");
 
-        resumen.add(new Solicitud("Galeria", " Biblioteca", R.drawable.ic_menu_camera, " Fotos", " Enero 2017",""));
-        resumen.add(new Solicitud("Materias", " Registradas: 1", R.drawable.ic_menu_manage, " Semestre: 2017-1", " Creditos: 4",""));
-        frecuentes.add(new Solicitud("Lo Nuevo", " Noticia 1", R.drawable.ic_menu_slideshow, " ", " ",""));
+
+
+
+
+
         sinresponder.add(new Solicitud("Nuevo", " Nuevo 1", R.drawable.ic_menu_share, " ", " ",""));
 
         viewPager = (ViewPager) findViewById(R.id.viewpager);
@@ -91,6 +98,7 @@ public class NavigationDrawerActivity extends AppCompatActivity
                     case 0:
                         //Log.e("TAG", "TAB1");
                         onResume(resumen);
+
                         break;
                     case 1:
                         //Log.e("TAG", "TAB2");
@@ -159,17 +167,74 @@ public class NavigationDrawerActivity extends AppCompatActivity
 
     }
 
+    private void GETIntenciones(){
+        Call<List<Intenciones>> call = ApiClient.get().getIntenciones("email");
+        call.enqueue(new Callback<List<Intenciones>>() {
+            @Override
+            public void onResponse(Call<List<Intenciones>> call, Response<List<Intenciones>> response) {
+                try {
+                    List<Intenciones> preguntas = response.body();
+                    if(response.body().isEmpty()){
+                        //Toast.makeText(NavigationDrawerActivity.this,"No hay preguntas en la nube", Toast.LENGTH_LONG).show();
+                    }else {
+                        for (Intenciones user : preguntas) {
+                            //Toast.makeText(NavigationDrawerActivity.this, user.getIntencion()+"fecha : "+user.getFecha(), Toast.LENGTH_SHORT).show();
+                            resumen.add(new Solicitud(user.getIntencion(), user.getUsuario(), R.drawable.ic_ini, " ", " ",""));
+                        }
+                    }
+                }
+                catch (Exception e) {
+                    // Toast.makeText(LoginActivity.this,"Error de Conexión al Servidor", Toast.LENGTH_LONG).show();
+                }
+            }
+            @Override
+            public void onFailure(Call<List<Intenciones>> call, Throwable t) {
+                //Log.d("my_tag", "ERROR: " + t.getMessage());
+                //Toast.makeText(LoginActivity.this, "Error: "+t.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(NavigationDrawerActivity.this," No tienes conexión a Internet ", Toast.LENGTH_LONG).show();
+            }
+        });
+    }
 
+    private void GETCalificaciones(){
+        Call<List<Usuario>> call = ApiClient.get().getCalificaciones("email");
+        call.enqueue(new Callback<List<Usuario>>() {
+            @Override
+            public void onResponse(Call<List<Usuario>> call, Response<List<Usuario>> response) {
+                try {
+                    List<Usuario> users = response.body();
+                    if(response.body().isEmpty()){
 
+                    }else {
+
+                        for (Usuario user : users) {
+                            frecuentes.add(new Solicitud(user.getName(), user.getUsername(), R.drawable.ic_start,user.getEmail() ,user.getPassword() ,""));
+
+                        }
+                    }
+                }
+                catch (Exception e) {
+                    //Toast.makeText(NavigationDrawerActivity.this,"Error de Conexión al Servidor", Toast.LENGTH_LONG).show();
+                }
+            }
+            @Override
+            public void onFailure(Call<List<Usuario>> call, Throwable t) {
+                Toast.makeText(NavigationDrawerActivity.this," No tienes conexión a Internet ", Toast.LENGTH_LONG).show();
+            }
+        });
+    }
 
     private void setupViewPager(ViewPager viewPager) {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
         adapter.addFragment(FragmentDrawer.newInstance(resumen), "INICIO"); //se pasan los carros para el fragment
-        adapter.addFragment(FragmentDrawer.newInstance(frecuentes), "FRECUENTE");
-        adapter.addFragment(FragmentDrawer.newInstance(sinresponder), "MAS");
+        adapter.addFragment(FragmentDrawer.newInstance(frecuentes), "OPINIONES");
+        //adapter.addFragment(FragmentDrawer.newInstance(sinresponder), "MAS");
         viewPager.setAdapter(adapter);
         onResume(resumen);// se debe ingresar el primer arreglo para el primer fragment, los otros se asignan cada vez que se mueve el tablayout
     }//es necesario para que el metodo que devuelve la posicion lo haga del fragment cvorrecto
+
+
+
 
     protected void onResume(ArrayList  solicitudes) {
         super.onResume();
@@ -179,9 +244,13 @@ public class NavigationDrawerActivity extends AppCompatActivity
                 .MyClickListener() {
             @Override
             public void onItemClick(int position, View v) {
+
+                /*
                 Intent i = new Intent(NavigationDrawerActivity.this, DetalleSolicitud.class);
                 i.putExtra("placa",((MyRecyclerViewAdapterSolicitudes) mAdapter).getObjeto(position).getPregunta());
                 startActivity(i);
+
+                */
                 //finish(); // Es necesario que las clases objetos o entidades que se usan en esta clase
                 //se implementen como Serializable (public class xxx implments Serializable)
                 //Toast.makeText(NavigationDrawerActivity.this, " Clicked on  " + ((MyRecyclerViewAdapterSolicitudes) mAdapter).getObjeto(position).getPregunta(), Toast.LENGTH_LONG).show();
@@ -189,6 +258,7 @@ public class NavigationDrawerActivity extends AppCompatActivity
             }
         });
     }
+
 
     @Override
     public void onBackPressed() {
@@ -234,11 +304,12 @@ public class NavigationDrawerActivity extends AppCompatActivity
             Intent i = new Intent(NavigationDrawerActivity.this, MisSolicitudesActivity.class);
             startActivity(i);
         } else if (id == R.id.nav_informacion) {
-            Toast.makeText(NavigationDrawerActivity.this, " about icons8 https://icons8.com/web-app/5764/Message", Toast.LENGTH_LONG).show();
+            Intent i = new Intent(NavigationDrawerActivity.this, GraficoActivity.class);
+            startActivity(i);
         } else if (id == R.id.nav_contacto) {
 
         } else if (id == R.id.nav_mas) {
-
+            Toast.makeText(NavigationDrawerActivity.this, " about icons8 https://icons8.com/web-app/5764/Message", Toast.LENGTH_LONG).show();
         } else if (id == R.id.nav_config) {
 
         } else if (id == R.id.nav_share) {
