@@ -95,6 +95,13 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".Views.NavigationDrawerActivity" />
         </activity>
+        <activity android:name=".Views.Calendario">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".Views.NavigationDrawerActivity" />
+        </activity>
+        <activity android:name=".Views.SettingsActivity" />
+        <activity android:name=".Views.AppCompatPreferenceActivity"></activity>
     </application>
 
 </manifest>

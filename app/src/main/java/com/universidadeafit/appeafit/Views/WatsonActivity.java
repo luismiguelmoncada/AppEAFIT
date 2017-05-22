@@ -141,9 +141,9 @@ public class WatsonActivity extends AppCompatActivity {
             public void run() {
                 try {
                     ConversationService service = new ConversationService(ConversationService.VERSION_DATE_2016_09_20);
-                    service.setUsernameAndPassword("f02de191-0ecc-4068-9808-a2951f0da1eb", "4MXcS5njjnRt");
+                    service.setUsernameAndPassword("d84c191b-c6a6-459a-9755-9d822ea47b36", "w6Vh1SY4OVx2");
                     MessageRequest newMessage = new MessageRequest.Builder().inputText(inputmessage).context(context).build();
-                    MessageResponse response = service.message("643f8863-1c26-4333-928c-11c129d13f0c", newMessage).execute();
+                    MessageResponse response = service.message("d07dc9d6-ef7f-4b9b-9e85-99bdf92f8657", newMessage).execute();
 
                     //service.setUsernameAndPassword("f5eda796-e9ad-4589-b3a0-cadd73b732c3", "mym035f6rZlD");
                     // MessageResponse response = service.message("bf57b417-8b86-439b-b216-75cbe32bc079", newMessage).execute();

@@ -92,4 +92,6 @@ public class PerfilActivity extends AppCompatActivity {
         getSupportActionBar().setTitle(titulo);
         getSupportActionBar().setDisplayHomeAsUpEnabled(UpButton);
     }
+
+
 }

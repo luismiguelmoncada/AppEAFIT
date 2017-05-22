@@ -66,16 +66,7 @@
             fab:fab_colorRipple="@color/colorPrimary"
             fab:fab_size="mini" />
 
-        <com.github.clans.fab.FloatingActionButton
-            android:id="@+id/menu_item_1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/ic_float_icon_button"
-            fab:fab_label="Ingresar Solicitud"
-            fab:fab_colorNormal="@color/colorAccent"
-            fab:fab_colorPressed="@color/colorPrimary"
-            fab:fab_colorRipple="@color/colorPrimary"
-            fab:fab_size="mini" />
+
 
 
     </com.github.clans.fab.FloatingActionMenu>

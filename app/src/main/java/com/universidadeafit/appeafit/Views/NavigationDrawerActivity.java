@@ -3,6 +3,7 @@ package com.universidadeafit.appeafit.Views;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
@@ -59,8 +60,10 @@ public class NavigationDrawerActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_navigation_drawer);
+
         GETIntenciones();
         GETCalificaciones();
+
         mydb = new UsuariosSQLiteHelper(this);
         boolean aux;
         boolean auxtipousu;
@@ -78,12 +81,35 @@ public class NavigationDrawerActivity extends AppCompatActivity
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle("EAFIT INTERACTIVA");
 
-
-
-
-
-
         sinresponder.add(new Solicitud("Nuevo", " Nuevo 1", R.drawable.ic_menu_share, " ", " ",""));
+
+        com.github.clans.fab.FloatingActionButton fab = (com.github.clans.fab.FloatingActionButton) findViewById(R.id.menu_item);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+               Intent i = new Intent(NavigationDrawerActivity.this, WatsonActivity.class);
+               startActivity(i);
+            }
+        });
+
+
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawer.setDrawerListener(toggle);
+        toggle.syncState();
+
+        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(this);
+        //Para poder acceder al textview del header en navigation drawer
+        View hView =  navigationView.getHeaderView(0);
+        TextView nav_username = (TextView)hView.findViewById(R.id.nombre);
+        nav_username.setText(nombres +" "+ apellidos);
+        TextView nav_useremail = (TextView)hView.findViewById(R.id.email);
+        nav_useremail.setText(email);
+
+        //TextView NombreNav = (TextView) findViewById(R.id.nombre);
+        //TextView EmailNav = (TextView) findViewById(R.id.emailDrawer);
 
         viewPager = (ViewPager) findViewById(R.id.viewpager);
         setupViewPager(viewPager);
@@ -91,9 +117,11 @@ public class NavigationDrawerActivity extends AppCompatActivity
         tabLayout.setupWithViewPager(viewPager);
 
         tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 viewPager.setCurrentItem(tab.getPosition());
+
                 switch (tab.getPosition()) {
                     case 0:
                         //Log.e("TAG", "TAB1");
@@ -120,43 +148,6 @@ public class NavigationDrawerActivity extends AppCompatActivity
             }
         });
 
-        com.github.clans.fab.FloatingActionButton fab = (com.github.clans.fab.FloatingActionButton) findViewById(R.id.menu_item);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-               Intent i = new Intent(NavigationDrawerActivity.this, WatsonActivity.class);
-               startActivity(i);
-            }
-        });
-
-        com.github.clans.fab.FloatingActionButton fab1 = (com.github.clans.fab.FloatingActionButton) findViewById(R.id.menu_item_1);
-        fab1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent i = new Intent(NavigationDrawerActivity.this, IngresarSolicitud.class);
-                startActivity(i);
-            }
-        });
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.setDrawerListener(toggle);
-        toggle.syncState();
-
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(this);
-        //Para poder acceder al textview del header en navigation drawer
-        View hView =  navigationView.getHeaderView(0);
-        TextView nav_username = (TextView)hView.findViewById(R.id.nombre);
-        nav_username.setText(nombres +" "+ apellidos);
-        TextView nav_useremail = (TextView)hView.findViewById(R.id.email);
-        nav_useremail.setText(email);
-
-        //TextView NombreNav = (TextView) findViewById(R.id.nombre);
-        //TextView EmailNav = (TextView) findViewById(R.id.emailDrawer);
-
-
-
         if (auxtipousu) {
 
         }else{
@@ -179,8 +170,46 @@ public class NavigationDrawerActivity extends AppCompatActivity
                     }else {
                         for (Intenciones user : preguntas) {
                             //Toast.makeText(NavigationDrawerActivity.this, user.getIntencion()+"fecha : "+user.getFecha(), Toast.LENGTH_SHORT).show();
-                            resumen.add(new Solicitud(user.getIntencion(), user.getUsuario(), R.drawable.ic_ini, " ", " ",""));
+                            resumen.add(new Solicitud("Clasificación Solicitud: "+user.getIntencion(), "Usuario: "+user.getUsuario(), R.drawable.ic_ini, "Fecha: "+ user.getFecha(), " ",""));
                         }
+
+
+                        viewPager = (ViewPager) findViewById(R.id.viewpager);
+                        setupViewPager(viewPager);
+                        tabLayout = (TabLayout) findViewById(R.id.tabs);
+                        tabLayout.setupWithViewPager(viewPager);
+
+                        tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+
+                            @Override
+                            public void onTabSelected(TabLayout.Tab tab) {
+                                viewPager.setCurrentItem(tab.getPosition());
+
+                                switch (tab.getPosition()) {
+                                    case 0:
+                                        //Log.e("TAG", "TAB1");
+                                        onResume(resumen);
+
+                                        break;
+                                    case 1:
+                                        //Log.e("TAG", "TAB2");
+                                        onResume(frecuentes);
+                                        break;
+                                    case 2:
+                                        //Log.e("TAG", "TAB3");
+                                        onResume(sinresponder);
+                                        break;
+                                }
+                            }
+
+                            @Override
+                            public void onTabUnselected(TabLayout.Tab tab) {
+                            }
+
+                            @Override
+                            public void onTabReselected(TabLayout.Tab tab) {
+                            }
+                        });
                     }
                 }
                 catch (Exception e) {
@@ -208,9 +237,47 @@ public class NavigationDrawerActivity extends AppCompatActivity
                     }else {
 
                         for (Usuario user : users) {
-                            frecuentes.add(new Solicitud(user.getName(), user.getUsername(), R.drawable.ic_start,user.getEmail() ,user.getPassword() ,""));
+                            frecuentes.add(new Solicitud("Usuario: "+user.getName(),"Calificación: "+ user.getUsername(), R.drawable.ic_start,"Sugerencia: "+user.getRol(),"Fecha: "+ user.getEmail() ,""));
+                            //Toast.makeText(NavigationDrawerActivity.this, user.getRol(), Toast.LENGTH_SHORT).show();
 
                         }
+
+                        viewPager = (ViewPager) findViewById(R.id.viewpager);
+                        setupViewPager(viewPager);
+                        tabLayout = (TabLayout) findViewById(R.id.tabs);
+                        tabLayout.setupWithViewPager(viewPager);
+
+                        tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+
+                            @Override
+                            public void onTabSelected(TabLayout.Tab tab) {
+                                viewPager.setCurrentItem(tab.getPosition());
+
+                                switch (tab.getPosition()) {
+                                    case 0:
+                                        //Log.e("TAG", "TAB1");
+                                        onResume(resumen);
+
+                                        break;
+                                    case 1:
+                                        //Log.e("TAG", "TAB2");
+                                        onResume(frecuentes);
+                                        break;
+                                    case 2:
+                                        //Log.e("TAG", "TAB3");
+                                        onResume(sinresponder);
+                                        break;
+                                }
+                            }
+
+                            @Override
+                            public void onTabUnselected(TabLayout.Tab tab) {
+                            }
+
+                            @Override
+                            public void onTabReselected(TabLayout.Tab tab) {
+                            }
+                        });
                     }
                 }
                 catch (Exception e) {
@@ -226,7 +293,7 @@ public class NavigationDrawerActivity extends AppCompatActivity
 
     private void setupViewPager(ViewPager viewPager) {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
-        adapter.addFragment(FragmentDrawer.newInstance(resumen), "INICIO"); //se pasan los carros para el fragment
+        adapter.addFragment(FragmentDrawer.newInstance(resumen), "FRECUENTES"); //se pasan los carros para el fragment
         adapter.addFragment(FragmentDrawer.newInstance(frecuentes), "OPINIONES");
         //adapter.addFragment(FragmentDrawer.newInstance(sinresponder), "MAS");
         viewPager.setAdapter(adapter);
@@ -238,7 +305,6 @@ public class NavigationDrawerActivity extends AppCompatActivity
 
     protected void onResume(ArrayList  solicitudes) {
         super.onResume();
-
         mAdapter = new MyRecyclerViewAdapterSolicitudes(solicitudes);
         ((MyRecyclerViewAdapterSolicitudes) mAdapter).setOnItemClickListener(new MyRecyclerViewAdapterSolicitudes
                 .MyClickListener() {
@@ -286,6 +352,7 @@ public class NavigationDrawerActivity extends AppCompatActivity
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
+            finish();
             return true;
         }
         return super.onOptionsItemSelected(item);
@@ -295,6 +362,7 @@ public class NavigationDrawerActivity extends AppCompatActivity
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
+
         int id = item.getItemId();
 
         if (id == R.id.nav_perfil) {
@@ -308,11 +376,22 @@ public class NavigationDrawerActivity extends AppCompatActivity
             startActivity(i);
         } else if (id == R.id.nav_contacto) {
 
+            Intent i = new Intent(NavigationDrawerActivity.this, Calendario.class);
+            startActivity(i);
+
         } else if (id == R.id.nav_mas) {
-            Toast.makeText(NavigationDrawerActivity.this, " about icons8 https://icons8.com/web-app/5764/Message", Toast.LENGTH_LONG).show();
+            Toast.makeText(NavigationDrawerActivity.this, "Iconos tomados de: www.icons8.com", Toast.LENGTH_LONG).show();
         } else if (id == R.id.nav_config) {
 
+            Intent i = new Intent(NavigationDrawerActivity.this, SettingsActivity.class);
+            startActivity(i);
+
         } else if (id == R.id.nav_share) {
+
+            Intent intent = new Intent(Intent.ACTION_SEND);
+            intent.setType("text/plain");
+            intent.putExtra(Intent.EXTRA_TEXT, "Prueba la nueva aplicación AppEAFIT Bot. ! Puedes solucionar todas tus inquietudes sobre EAFIT INTERACTIVA !");
+            startActivity(Intent.createChooser(intent, "Compartir con.."));
 
         } else if (id == R.id.nav_cerrarsesion) {
             // Validacion para cerrar sesion usando la base de datos y el registro de usuaio

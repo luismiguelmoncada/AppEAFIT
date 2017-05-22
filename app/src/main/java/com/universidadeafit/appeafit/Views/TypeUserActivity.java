@@ -67,7 +67,8 @@ public class TypeUserActivity extends AppCompatActivity {
             Codigo.setError(getString(R.string.error_field_required));
             focusView = Codigo;
             cancel = true;
-        } else if (TextUtils.isEmpty(identificacion)) {
+        } else
+            if (TextUtils.isEmpty(identificacion)) {
             Identificacion.setError(getString(R.string.error_field_required));
             focusView = Identificacion;
             cancel = true;
@@ -76,10 +77,9 @@ public class TypeUserActivity extends AppCompatActivity {
             focusView.requestFocus();
 
         } else {
-            InsertarSQlite(1, String.valueOf(spinner1.getSelectedItem()), codigo, identificacion);
             RegistrarTipoUsuario(String.valueOf(spinner1.getSelectedItem()), codigo,identificacion,email);
             //Toast.makeText(getApplicationContext(), String.valueOf(spinner1.getSelectedItem()) + codigo + identificacion, Toast.LENGTH_SHORT).show();
-            TypeUserActivity.this.finish();
+
         }
     }
 
@@ -87,7 +87,7 @@ public class TypeUserActivity extends AppCompatActivity {
         mydb.InsertarTipoUsuario(id, rol.toString(), codigo.toString(), identificacion.toString());
     }
 
-    private void RegistrarTipoUsuario(String rol,String codigo,String identificacion,String email){
+    private void RegistrarTipoUsuario(String rol, final String codigo, final String identificacion, String email){
 
         Usuario usuario = new Usuario(rol,codigo,identificacion,email,"","","");
         Call<ServerResponse> call = ApiClient.get().insertarTipoUser(usuario);
@@ -99,6 +99,8 @@ public class TypeUserActivity extends AppCompatActivity {
                 Toast.makeText(TypeUserActivity.this, message, Toast.LENGTH_LONG).show();
 
                 if (result.equals(Constants.SUCCESS)){
+                    InsertarSQlite(1, String.valueOf(spinner1.getSelectedItem()), codigo, identificacion);
+                    TypeUserActivity.this.finish();
                     //Toast.makeText(TypeUserActivity.this,"Datos Almacenados Correctamente en mysql", Toast.LENGTH_LONG).show();
                 }
             }

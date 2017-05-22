@@ -50,6 +50,8 @@ tools:context="com.universidadeafit.appeafit.Views.TypeUserActivity">
                 android:layout_height="wrap_content"
                 android:drawableRight="@drawable/ic_codigo"
                 android:inputType="number"
+                android:text="No Aplica"
+
                 android:layout_marginLeft="3dp"
                 />
 
