@@ -40,6 +40,7 @@ import com.universidadeafit.appeafit.Model.Usuario;
 import com.universidadeafit.appeafit.Model.UsuariosSQLiteHelper;
 import com.universidadeafit.appeafit.R;
 
+import java.text.Normalizer;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -131,6 +132,7 @@ public class WatsonActivity extends AppCompatActivity {
     private void sendMessage() {
 
         final String inputmessage = this.inputMessage.getText().toString().trim();
+        final String[] out = new String[1];
         Message inputMessage = new Message();
         inputMessage.setMessage(inputmessage);
         inputMessage.setId("1");
@@ -160,6 +162,7 @@ public class WatsonActivity extends AppCompatActivity {
                         {
 
                             final String outputmessage = response.getOutput().get("text").toString().replace("[","").replace("]","");
+                            out[0] = outputmessage;
                             outMessage.setMessage(outputmessage);
                             outMessage.setId("2");
                             messageArrayList.add(outMessage);
@@ -177,11 +180,11 @@ public class WatsonActivity extends AppCompatActivity {
 
                     List<com.ibm.watson.developer_cloud.conversation.v1.model.Intent> listaintents = response.getIntents();
                     for (com.ibm.watson.developer_cloud.conversation.v1.model.Intent in : listaintents ) {
-                        Intenciones intenciones = new Intenciones(email,in.getIntent().toString(),getDateTime());
+                        Intenciones intenciones = new Intenciones(email,in.getIntent().toString(),getDateTime(),cleanString(inputmessage),cleanString(out[0]));
                         RegistrarIntenciones(intenciones);
                         Log.d("intent", in.getIntent().toString());//creamos un objeto Fruta y lo insertamos en la lista
+                        Log.d("intent", inputmessage + " ,"+out[0]);
                     }
-
 
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -215,6 +218,12 @@ public class WatsonActivity extends AppCompatActivity {
 
 
         });
+    }
+
+    public static String cleanString(String texto) {
+        texto = Normalizer.normalize(texto, Normalizer.Form.NFD);
+        texto = texto.replaceAll("[\\p{InCombiningDiacriticalMarks}]", "");
+        return texto;
     }
 
     @Override

@@ -19,11 +19,19 @@ public class Intenciones implements Serializable {
     @SerializedName("fecha")
     private String fecha;
 
+    @SerializedName("pregunta")
+    private String pregunta;
 
-    public Intenciones(String usuario, String intencion, String fecha) {
+    @SerializedName("respuesta")
+    private String respuesta;
+
+
+    public Intenciones(String usuario, String intencion, String fecha,String pregunta, String respuesta) {
         this.usuario = usuario;
         this.intencion = intencion;
         this.fecha = fecha;
+        this.pregunta = pregunta;
+        this.respuesta = respuesta;
     }
 
     public String getUsuario() {
@@ -48,5 +56,21 @@ public class Intenciones implements Serializable {
 
     public void setFecha(String fecha) {
         this.fecha = fecha;
+    }
+
+    public String getPregunta() {
+        return pregunta;
+    }
+
+    public void setPregunta(String pregunta) {
+        this.pregunta = pregunta;
+    }
+
+    public String getRespuesta() {
+        return respuesta;
+    }
+
+    public void setRespuesta(String respuesta) {
+        this.respuesta = respuesta;
     }
 }
