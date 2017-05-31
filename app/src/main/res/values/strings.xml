@@ -69,6 +69,14 @@
         <item>CORREGIR RESPUESTAS</item>
     </string-array>
 
+    <string-array name="chat_calificacion">
+        <item>5 - Excelente</item>
+        <item>4 - Buena</item>
+        <item>3 - Regular</item>
+        <item>2 - Mala</item>
+        <item>1 - Muy Mala</item>
+    </string-array>
+
     <string name="pref_ringtone_silent">Silencion</string>
 
 

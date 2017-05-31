@@ -60,7 +60,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/bot_face_new"
-            fab:fab_label="Consulta ChatBot"
+            fab:fab_label="Consulta"
             fab:fab_colorNormal="@color/colorAccent"
             fab:fab_colorPressed="@color/colorPrimary"
             fab:fab_colorRipple="@color/colorPrimary"

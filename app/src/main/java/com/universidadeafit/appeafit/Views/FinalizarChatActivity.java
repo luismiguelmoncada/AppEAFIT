@@ -31,7 +31,7 @@ import retrofit2.Response;
 
 public class FinalizarChatActivity extends AppCompatActivity {
 
-    private Spinner spinnerSolucion,spinnerSugerencia;
+    private Spinner spinnerSolucion,spinnerSugerencia,spinnerNota;
     String message,result,email;
     private UsuariosSQLiteHelper mydb ;
 
@@ -65,9 +65,10 @@ public class FinalizarChatActivity extends AppCompatActivity {
 
         spinnerSolucion = (Spinner) findViewById(R.id.spinner_solucion);
         spinnerSugerencia = (Spinner) findViewById(R.id.spinner_sugerencia);
+        spinnerNota = (Spinner) findViewById(R.id.spinner_nota);
         String observacion = Observacion.getText().toString();
        //Toast.makeText(FinalizarChatActivity.this,String.valueOf(spinnerSolucion.getSelectedItem())+String.valueOf(spinnerSugerencia.getSelectedItem())+observacion , Toast.LENGTH_LONG).show();
-        RegistrarCalificacion(email,String.valueOf(spinnerSolucion.getSelectedItem()),String.valueOf(spinnerSugerencia.getSelectedItem()),observacion,getDateTime());
+        RegistrarCalificacion(email,String.valueOf(spinnerSolucion.getSelectedItem()),String.valueOf(spinnerSugerencia.getSelectedItem()),observacion,getDateTime(),String.valueOf(spinnerNota.getSelectedItem()));
 
         FinalizarChatActivity.this.finish();
         WatsonActivity.fa.finish();
@@ -79,11 +80,11 @@ public class FinalizarChatActivity extends AppCompatActivity {
     }
 
 
-    private void RegistrarCalificacion(String email,String solucion,String sugerencia,String observacion,String fecha){
+    private void RegistrarCalificacion(String email,String solucion,String sugerencia,String observacion,String fecha,String nota){
 
         //Toast.makeText(FinalizarChatActivity.this,email+solucion+sugerencia+observacion+fecha , Toast.LENGTH_LONG).show();
 
-        Usuario usuario = new Usuario(email,solucion,sugerencia,observacion,fecha,"","");
+        Usuario usuario = new Usuario(email,solucion,sugerencia,observacion,fecha,nota,"");
         Call<ServerResponse> call = ApiClient.get().insertarCalificacion(usuario);
         call.enqueue(new Callback<ServerResponse>() {
             @Override
