@@ -1,6 +1,8 @@
 package com.universidadeafit.appeafit.Views;
 
+import android.app.Activity;
 import android.content.Intent;
+import android.os.Build;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -40,6 +42,9 @@ public class TypeUserActivity extends AppCompatActivity {
     @BindView(R.id.buttonini)
     Button button_ini;
 
+    @BindView(R.id.volver)
+    Button button_guardar;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,6 +52,11 @@ public class TypeUserActivity extends AppCompatActivity {
         ButterKnife.bind(this);
         mydb = new UsuariosSQLiteHelper(this);
         email = getIntent().getExtras().getString("email");
+    }
+
+    @OnClick(R.id.volver)
+    public void Volver(){
+        TypeUserActivity.this.finish();
     }
 
     @OnClick(R.id.buttonini)
@@ -103,8 +113,11 @@ public class TypeUserActivity extends AppCompatActivity {
                     if (tipouser) {
                         InsertarSQlite(1, String.valueOf(spinner1.getSelectedItem()), codigo, identificacion);
                     }
+
                     InsertarSQlite(1, String.valueOf(spinner1.getSelectedItem()), codigo, identificacion);
+                    PerfilActivity.getInstance().recreate();
                     TypeUserActivity.this.finish();
+
                     //Toast.makeText(TypeUserActivity.this,"Datos Almacenados Correctamente en mysql", Toast.LENGTH_LONG).show();
                 }
             }
@@ -115,4 +128,5 @@ public class TypeUserActivity extends AppCompatActivity {
             }
         });
     }
+
 }

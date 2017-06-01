@@ -6,4 +6,6 @@
     android:layout_height="match_parent"
     tools:context="com.universidadeafit.appeafit.Views.SettingsActivity">
 
+    <include layout="@layout/actionbar_toolbar" />
+
 </android.support.constraint.ConstraintLayout>

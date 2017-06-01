@@ -68,15 +68,27 @@ tools:context="com.universidadeafit.appeafit.Views.TypeUserActivity">
                 android:drawableRight="@drawable/ic_identificacion"
                 android:layout_marginLeft="3dp"/>
 
-            <Button
-                android:id="@+id/buttonini"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="ACTUALIZAR"
-                android:layout_gravity="center"
-                style="@style/RaisedButtonDark"
-                />
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <Button
+                    android:id="@+id/volver"
+                    android:layout_width="110dp"
+                    android:layout_height="50dp"
+                    android:text="Regresar "
+                    android:layout_marginTop="10dp"
+                    style="@style/RaisedButtonDark"/>
 
+                <Button
+                    android:id="@+id/buttonini"
+                    android:layout_width="110dp"
+                    android:layout_height="50dp"
+                    android:text="Actualizar"
+                    android:layout_marginTop="10dp"
+                    android:layout_alignParentRight="true"
+                    style="@style/RaisedButtonDark"
+                    />
+            </RelativeLayout>
         </LinearLayout>
     </ScrollView>
 </LinearLayout>

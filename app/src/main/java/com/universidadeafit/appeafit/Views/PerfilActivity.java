@@ -61,12 +61,16 @@ public class PerfilActivity extends AppCompatActivity {
     @BindView(R.id.image_perfil)
     CircleImageView profile;
 
+    static PerfilActivity activityA;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_perfil);
         ButterKnife.bind(this);
         verToolbar("",true);
+
+        activityA = this;
 
         mydb = new UsuariosSQLiteHelper(this);
         boolean aux;
@@ -120,6 +124,10 @@ public class PerfilActivity extends AppCompatActivity {
 
     }
 
+    public static PerfilActivity getInstance(){
+        return   activityA;
+    }
+
     @OnClick(R.id.editar)
     public void editarperfil(){
         Intent mainIntent = new Intent(PerfilActivity.this, TypeUserActivity.class);
@@ -152,9 +160,11 @@ public class PerfilActivity extends AppCompatActivity {
          * Se revisa si la imagen viene de la c‡mara (TAKE_PICTURE) o de la galer’a (SELECT_PICTURE)
          */
        if (requestCode == SELECT_PICTURE){
-            Uri selectedImage = data.getData();
-            InputStream is;
+
             try {
+                Uri selectedImage = data.getData();
+                InputStream is;
+
                 is = getContentResolver().openInputStream(selectedImage);
                 BufferedInputStream bis = new BufferedInputStream(is);
                 Bitmap bitmap = BitmapFactory.decodeStream(bis);
@@ -169,7 +179,9 @@ public class PerfilActivity extends AppCompatActivity {
                 CircleImageView im = (CircleImageView)findViewById(R.id.image_perfil);
                 im.setImageBitmap(bitmap);
 
-            } catch (FileNotFoundException e) {}
+            } catch (Exception e) {
+
+            }
         }
     }
 
