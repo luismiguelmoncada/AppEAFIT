@@ -8,6 +8,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.universidadeafit.appeafit.Adapters.MyRecyclerViewAdapterPerfil;
 import com.universidadeafit.appeafit.Adapters.MyRecyclerViewAdapterSolicitudes;
@@ -20,6 +21,7 @@ import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 public class PerfilActivity extends AppCompatActivity {
 
@@ -36,6 +38,9 @@ public class PerfilActivity extends AppCompatActivity {
 
     @BindView(R.id.text_toolbar_nombre)
     TextView nombretoolbar;
+
+    @BindView(R.id.editar)
+    TextView update_account;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,6 +89,13 @@ public class PerfilActivity extends AppCompatActivity {
         mAdapter = new MyRecyclerViewAdapterPerfil(datosusuario);
         mRecyclerView.setAdapter(mAdapter);
 
+    }
+
+    @OnClick(R.id.editar)
+    public void editarperfil(){
+        Intent mainIntent = new Intent(PerfilActivity.this, TypeUserActivity.class);
+        mainIntent.putExtra("email",email);
+        PerfilActivity.this.startActivity(mainIntent);
     }
 
     public  void verToolbar(String titulo,Boolean UpButton){

@@ -89,6 +89,9 @@ public class TypeUserActivity extends AppCompatActivity {
 
     private void RegistrarTipoUsuario(String rol, final String codigo, final String identificacion, String email){
 
+        final boolean tipouser = mydb.CLeanTipoUsers();
+
+
         Usuario usuario = new Usuario(rol,codigo,identificacion,email,"","","");
         Call<ServerResponse> call = ApiClient.get().insertarTipoUser(usuario);
         call.enqueue(new Callback<ServerResponse>() {
@@ -99,6 +102,10 @@ public class TypeUserActivity extends AppCompatActivity {
                 Toast.makeText(TypeUserActivity.this, message, Toast.LENGTH_LONG).show();
 
                 if (result.equals(Constants.SUCCESS)){
+
+                    if (tipouser) {
+                        InsertarSQlite(1, String.valueOf(spinner1.getSelectedItem()), codigo, identificacion);
+                    }
                     InsertarSQlite(1, String.valueOf(spinner1.getSelectedItem()), codigo, identificacion);
                     TypeUserActivity.this.finish();
                     //Toast.makeText(TypeUserActivity.this,"Datos Almacenados Correctamente en mysql", Toast.LENGTH_LONG).show();

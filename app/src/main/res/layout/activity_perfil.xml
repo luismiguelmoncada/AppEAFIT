@@ -47,7 +47,18 @@ tools:context="com.universidadeafit.appeafit.Views.PerfilActivity">
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
                     android:gravity="center"
-                    android:text="Integrante de la comunidad EAFIT desde el año 2009. Ingenieria de Sistemas "/>
+                    android:text="Comunidad EAFIT"/>
+
+                <TextView
+                    android:id="@+id/editar"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/text_update_account"
+                    android:textColor="@android:color/white"
+                    android:textStyle="bold"
+                    android:layout_gravity="end"
+                    android:textSize="@dimen/text_size_noaccount"
+                    tools:ignore="RtlHardcoded" />
 
             </LinearLayout>
 

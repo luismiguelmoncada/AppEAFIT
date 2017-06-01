@@ -28,6 +28,8 @@
     <string name="desc_in_activity_splash">BIENVENIDO</string>
     <string name="string_prueba_card">Nombre1 Apellidos</string>
 
+    <string name="text_update_account"><u>Editar Perfil</u></string>
+
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="transition_name">transition1</string>
