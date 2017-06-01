@@ -101,7 +101,8 @@
                 android:value=".Views.NavigationDrawerActivity" />
         </activity>
         <activity android:name=".Views.SettingsActivity" />
-        <activity android:name=".Views.AppCompatPreferenceActivity"></activity>
+        <activity android:name=".Views.AppCompatPreferenceActivity" />
+        <activity android:name=".Views.GaleryActivity"></activity>
     </application>
 
 </manifest>

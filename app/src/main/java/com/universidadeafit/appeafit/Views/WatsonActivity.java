@@ -5,7 +5,13 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.res.Resources;
 import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.support.v4.view.GravityCompat;
@@ -16,6 +22,7 @@ import android.support.v7.view.menu.MenuBuilder;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Base64;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -56,6 +63,8 @@ import com.ibm.mobilefirstplatform.clientsdk.android.logger.api.*;
 import org.json.JSONObject;
 
 import retrofit2.*;
+
+import static com.universidadeafit.appeafit.Views.PerfilActivity.decodeBase64;
 
 
 public class WatsonActivity extends AppCompatActivity {
@@ -123,11 +132,31 @@ public class WatsonActivity extends AppCompatActivity {
     };
 
     public  void verToolbar(String titulo,Boolean UpButton){
+
+
+        SharedPreferences myPrefrence = getPreferences(MODE_PRIVATE);
+        String imageS = myPrefrence.getString("imagePreferance", "");
+        Bitmap imageB = null;
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle(titulo);
-        getSupportActionBar().setIcon(R.drawable.ic_user_hombre);
+
+        if(!imageS.equals("")) {
+            imageB = decodeBase64(imageS);
+            Drawable drawable = new BitmapDrawable(getResources(), imageB);
+            getSupportActionBar().setIcon(drawable);
+        }else{
+            getSupportActionBar().setIcon(R.drawable.ic_user_hombre);
+        }
+
         getSupportActionBar().setDisplayHomeAsUpEnabled(UpButton);
+    }
+
+    public static Bitmap decodeBase64(String input) {
+        byte[] decodedByte = Base64.decode(input, 0);
+        return BitmapFactory
+                .decodeByteArray(decodedByte, 0, decodedByte.length);
     }
 
     // Sending a message to Watson Conversation Service

@@ -51,7 +51,6 @@ public class TypeUserActivity extends AppCompatActivity {
 
     @OnClick(R.id.buttonini)
     public void Ingresar(){
-
         //Toast.makeText(getApplicationContext(), email, Toast.LENGTH_SHORT).show();
 
         Codigo.setError(null);
@@ -79,7 +78,6 @@ public class TypeUserActivity extends AppCompatActivity {
         } else {
             RegistrarTipoUsuario(String.valueOf(spinner1.getSelectedItem()), codigo,identificacion,email);
             //Toast.makeText(getApplicationContext(), String.valueOf(spinner1.getSelectedItem()) + codigo + identificacion, Toast.LENGTH_SHORT).show();
-
         }
     }
 
@@ -90,7 +88,6 @@ public class TypeUserActivity extends AppCompatActivity {
     private void RegistrarTipoUsuario(String rol, final String codigo, final String identificacion, String email){
 
         final boolean tipouser = mydb.CLeanTipoUsers();
-
 
         Usuario usuario = new Usuario(rol,codigo,identificacion,email,"","","");
         Call<ServerResponse> call = ApiClient.get().insertarTipoUser(usuario);

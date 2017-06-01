@@ -76,6 +76,7 @@ tools:context="com.universidadeafit.appeafit.Views.PerfilActivity">
     <include layout="@layout/content_perfil"/>
 
     <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/image_perfil"
         android:layout_width="120dp"
         android:layout_height="120dp"
         android:src="@drawable/image_paisaje"
@@ -92,6 +93,13 @@ tools:context="com.universidadeafit.appeafit.Views.PerfilActivity">
         app:targetY="8dp"
         app:targetWidth="40dp"
         app:targetHeight="40dp"/>
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_below="@+id/rgrp01"
+        android:layout_height="wrap_content"
+        android:id="@+id/imgView">
+    </ImageView>
 
     <TextView
         android:id="@+id/text_toolbar_nombre"
