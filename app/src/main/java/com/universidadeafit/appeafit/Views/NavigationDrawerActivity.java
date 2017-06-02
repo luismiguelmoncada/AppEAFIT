@@ -1,10 +1,13 @@
 package com.universidadeafit.appeafit.Views;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
@@ -44,7 +47,7 @@ public class NavigationDrawerActivity extends AppCompatActivity
     private RecyclerView.Adapter mAdapter;
     private TabLayout tabLayout;
     private ViewPager viewPager;
-
+    static NavigationDrawerActivity activityA;
     int id = 1;
     String nombres;
     String apellidos;
@@ -55,15 +58,13 @@ public class NavigationDrawerActivity extends AppCompatActivity
     ArrayList<Solicitud> resumen = new ArrayList<>();
     ArrayList<Solicitud> frecuentes = new ArrayList<>();
     ArrayList<Solicitud> sinresponder = new ArrayList<>();
-
+    ArrayList<Solicitud> calificaciones = new ArrayList<>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_navigation_drawer);
-
-        GETIntenciones();
+        activityA = this;
         GETCalificaciones();
-
         mydb = new UsuariosSQLiteHelper(this);
         boolean aux;
         boolean auxtipousu;
@@ -76,22 +77,27 @@ public class NavigationDrawerActivity extends AppCompatActivity
             apellidos = rs.getString(3);
             email = rs.getString(5);
         }
+
         //Toast.makeText(getApplicationContext(), nombres+email, Toast.LENGTH_SHORT).show();
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle("EAFIT INTERACTIVA");
 
-        sinresponder.add(new Solicitud("Nuevo", " Nuevo 1", R.drawable.ic_menu_share, " ", " ",""));
-
         com.github.clans.fab.FloatingActionButton fab = (com.github.clans.fab.FloatingActionButton) findViewById(R.id.menu_item);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-               Intent i = new Intent(NavigationDrawerActivity.this, WatsonActivity.class);
-               startActivity(i);
+
+                if( checkInternetConnection()){
+                    Intent i = new Intent(NavigationDrawerActivity.this, WatsonActivity.class);
+                    startActivity(i);
+                    //Toast.makeText(WatsonActivity.this, " Clicked on  " + mAdapter.getObjeto(position).getMessage()+"respuesta"+respuestaWatson, Toast.LENGTH_LONG).show();
+                }else{
+                   // Toast.makeText(NavigationDrawerActivity.this," No tienes conexión a Internet ", Toast.LENGTH_LONG).show();
+                }
+
             }
         });
-
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -111,42 +117,55 @@ public class NavigationDrawerActivity extends AppCompatActivity
         //TextView NombreNav = (TextView) findViewById(R.id.nombre);
         //TextView EmailNav = (TextView) findViewById(R.id.emailDrawer);
 
-        viewPager = (ViewPager) findViewById(R.id.viewpager);
-        setupViewPager(viewPager);
-        tabLayout = (TabLayout) findViewById(R.id.tabs);
-        tabLayout.setupWithViewPager(viewPager);
+        boolean auxcalificaciones = mydb.HayCalificaciones();
 
-        tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+        if (auxcalificaciones) {
+            //Toast.makeText(getApplicationContext(), "hay preguntas guardados en sqlite", Toast.LENGTH_SHORT).show();
+            ConsultaVehiculosSQlite(); //si es usuario antiguo con base de datos ya creada
 
-            @Override
-            public void onTabSelected(TabLayout.Tab tab) {
-                viewPager.setCurrentItem(tab.getPosition());
+            viewPager = (ViewPager) findViewById(R.id.viewpager);
+            setupViewPager(viewPager);
+            tabLayout = (TabLayout) findViewById(R.id.tabs);
+            tabLayout.setupWithViewPager(viewPager);
 
-                switch (tab.getPosition()) {
-                    case 0:
-                        //Log.e("TAG", "TAB1");
-                        onResume(resumen);
+            tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
 
-                        break;
-                    case 1:
-                        //Log.e("TAG", "TAB2");
-                        onResume(frecuentes);
-                        break;
-                    case 2:
-                        //Log.e("TAG", "TAB3");
-                        onResume(sinresponder);
-                        break;
+                @Override
+                public void onTabSelected(TabLayout.Tab tab) {
+                    viewPager.setCurrentItem(tab.getPosition());
+
+                    switch (tab.getPosition()) {
+                        case 0:
+                            //Log.e("TAG", "TAB1");
+                            onResume(resumen);
+
+                            break;
+                        case 1:
+                            //Log.e("TAG", "TAB2");
+                            onResume(frecuentes);
+                            break;
+                        case 2:
+                            //Log.e("TAG", "TAB3");
+                            onResume(sinresponder);
+                            break;
+                    }
                 }
-            }
 
-            @Override
-            public void onTabUnselected(TabLayout.Tab tab) {
-            }
+                @Override
+                public void onTabUnselected(TabLayout.Tab tab) {
+                }
 
-            @Override
-            public void onTabReselected(TabLayout.Tab tab) {
-            }
-        });
+                @Override
+                public void onTabReselected(TabLayout.Tab tab) {
+                }
+            });
+
+        } else {
+            //GETCalificaciones();
+            //NavigationDrawerActivity.getInstance().recreate();
+            //Toast.makeText(getApplicationContext(), " No Se encontraron Calificaciones", Toast.LENGTH_SHORT).show();
+        }
+
 
         if (auxtipousu) {
 
@@ -158,71 +177,8 @@ public class NavigationDrawerActivity extends AppCompatActivity
 
     }
 
-    private void GETIntenciones(){
-        Call<List<Intenciones>> call = ApiClient.get().getIntenciones("email");
-        call.enqueue(new Callback<List<Intenciones>>() {
-            @Override
-            public void onResponse(Call<List<Intenciones>> call, Response<List<Intenciones>> response) {
-                try {
-                    List<Intenciones> preguntas = response.body();
-                    if(response.body().isEmpty()){
-                        //Toast.makeText(NavigationDrawerActivity.this,"No hay preguntas en la nube", Toast.LENGTH_LONG).show();
-                    }else {
-                        for (Intenciones user : preguntas) {
-                            //Toast.makeText(NavigationDrawerActivity.this, user.getIntencion()+"fecha : "+user.getFecha(), Toast.LENGTH_SHORT).show();
-                            resumen.add(new Solicitud("Clasificación Solicitud: "+user.getIntencion(), "Usuario: "+user.getUsuario(), R.drawable.ic_ini, "Fecha: "+ user.getFecha(), " ",""));
-                        }
-
-
-                        viewPager = (ViewPager) findViewById(R.id.viewpager);
-                        setupViewPager(viewPager);
-                        tabLayout = (TabLayout) findViewById(R.id.tabs);
-                        tabLayout.setupWithViewPager(viewPager);
-
-                        tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
-
-                            @Override
-                            public void onTabSelected(TabLayout.Tab tab) {
-                                viewPager.setCurrentItem(tab.getPosition());
-
-                                switch (tab.getPosition()) {
-                                    case 0:
-                                        //Log.e("TAG", "TAB1");
-                                        onResume(resumen);
-
-                                        break;
-                                    case 1:
-                                        //Log.e("TAG", "TAB2");
-                                        onResume(frecuentes);
-                                        break;
-                                    case 2:
-                                        //Log.e("TAG", "TAB3");
-                                        onResume(sinresponder);
-                                        break;
-                                }
-                            }
-
-                            @Override
-                            public void onTabUnselected(TabLayout.Tab tab) {
-                            }
-
-                            @Override
-                            public void onTabReselected(TabLayout.Tab tab) {
-                            }
-                        });
-                    }
-                }
-                catch (Exception e) {
-                    // Toast.makeText(LoginActivity.this,"Error de Conexión al Servidor", Toast.LENGTH_LONG).show();
-                }
-            }
-            @Override
-            public void onFailure(Call<List<Intenciones>> call, Throwable t) {
-                //Log.d("my_tag", "ERROR: " + t.getMessage());
-                //Toast.makeText(LoginActivity.this, "Error: "+t.getMessage(), Toast.LENGTH_SHORT).show();
-                Toast.makeText(NavigationDrawerActivity.this," No tienes conexión a Internet ", Toast.LENGTH_LONG).show();
-            }
-        });
+    public static NavigationDrawerActivity getInstance(){
+        return   activityA;
     }
 
     private void GETCalificaciones(){
@@ -236,48 +192,56 @@ public class NavigationDrawerActivity extends AppCompatActivity
 
                     }else {
 
-                        for (Usuario user : users) {
-                            frecuentes.add(new Solicitud("Usuario: "+user.getName(),"Calificación: "+ user.getUsername(), R.drawable.ic_start,"Sugerencia: "+user.getRol(),"Fecha: "+ user.getEmail() ,""));
-                            //Toast.makeText(NavigationDrawerActivity.this, user.getRol(), Toast.LENGTH_SHORT).show();
+                        boolean calificaciones = mydb.CLeanCalificaciones();
+                        if (calificaciones) {
+                            for (Usuario user : users) {
 
+                                frecuentes.clear();
+                                //Toast.makeText(NavigationDrawerActivity.this, user.getRol(), Toast.LENGTH_SHORT).show();
+                                InsertarSQlite(user.getName(),user.getUsername(),user.getRol(),user.getEmail());
+
+                                //frecuentes.add(new Solicitud("Usuario: "+user.getName(),"Calificación: "+ user.getUsername(), R.drawable.ic_start,"Sugerencia: "+user.getRol(),"Fecha: "+ user.getEmail() ,""));
+                            }
+
+                            ConsultaVehiculosSQlite();
+                            viewPager = (ViewPager) findViewById(R.id.viewpager);
+                            setupViewPager(viewPager);
+                            tabLayout = (TabLayout) findViewById(R.id.tabs);
+                            tabLayout.setupWithViewPager(viewPager);
+
+                            tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+
+                                @Override
+                                public void onTabSelected(TabLayout.Tab tab) {
+                                    viewPager.setCurrentItem(tab.getPosition());
+
+                                    switch (tab.getPosition()) {
+                                        case 0:
+                                            //Log.e("TAG", "TAB1");
+                                            onResume(resumen);
+
+                                            break;
+                                        case 1:
+                                            //Log.e("TAG", "TAB2");
+                                            onResume(frecuentes);
+                                            break;
+                                        case 2:
+                                            //Log.e("TAG", "TAB3");
+                                            onResume(sinresponder);
+                                            break;
+                                    }
+                                }
+
+                                @Override
+                                public void onTabUnselected(TabLayout.Tab tab) {
+                                }
+
+                                @Override
+                                public void onTabReselected(TabLayout.Tab tab) {
+                                }
+                            });
                         }
 
-                        viewPager = (ViewPager) findViewById(R.id.viewpager);
-                        setupViewPager(viewPager);
-                        tabLayout = (TabLayout) findViewById(R.id.tabs);
-                        tabLayout.setupWithViewPager(viewPager);
-
-                        tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
-
-                            @Override
-                            public void onTabSelected(TabLayout.Tab tab) {
-                                viewPager.setCurrentItem(tab.getPosition());
-
-                                switch (tab.getPosition()) {
-                                    case 0:
-                                        //Log.e("TAG", "TAB1");
-                                        onResume(resumen);
-
-                                        break;
-                                    case 1:
-                                        //Log.e("TAG", "TAB2");
-                                        onResume(frecuentes);
-                                        break;
-                                    case 2:
-                                        //Log.e("TAG", "TAB3");
-                                        onResume(sinresponder);
-                                        break;
-                                }
-                            }
-
-                            @Override
-                            public void onTabUnselected(TabLayout.Tab tab) {
-                            }
-
-                            @Override
-                            public void onTabReselected(TabLayout.Tab tab) {
-                            }
-                        });
                     }
                 }
                 catch (Exception e) {
@@ -286,22 +250,54 @@ public class NavigationDrawerActivity extends AppCompatActivity
             }
             @Override
             public void onFailure(Call<List<Usuario>> call, Throwable t) {
-                Toast.makeText(NavigationDrawerActivity.this," No tienes conexión a Internet ", Toast.LENGTH_LONG).show();
+                //Toast.makeText(NavigationDrawerActivity.this," No tienes conexión a Internet ", Toast.LENGTH_LONG).show();
             }
         });
     }
 
+    public void InsertarSQlite(String usuario1, String calificacion, String sugerencia, String fecha1) {
+        mydb.InsertarCalificacion(usuario1.toString(), calificacion.toString(), sugerencia.toString(), fecha1.toString());
+    }
+
+    public void ConsultaVehiculosSQlite() {
+        //int numero = mydb.CantidadPreguntas(); //se sabe cuantos carros hay almacenados en la tabla sqlite de vehiculos
+        //String numerodecarros = String.valueOf(numero) ;
+        //Toast.makeText(getApplicationContext(), numerodecarros, Toast.LENGTH_SHORT).show();
+        calificaciones = mydb.getCalificacionesList();
+        for( int i = 0 ; i < calificaciones.size() ; i++ ){
+            //Toast.makeText(getApplicationContext(), preguntas.get( i ).getPregunta(), Toast.LENGTH_SHORT).show();
+            frecuentes.add(new Solicitud("Usuario: "+calificaciones.get( i ).getPregunta(),"Calificación: "+ calificaciones.get( i ).getMotivo(), R.drawable.ic_start,"Sugerencia: "+calificaciones.get( i ).getObservacion(),"Fecha: "+ calificaciones.get( i ).getFecha() ,""));
+        }
+    }
+
+
     private void setupViewPager(ViewPager viewPager) {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
-        adapter.addFragment(FragmentDrawer.newInstance(resumen), "FRECUENTES"); //se pasan los carros para el fragment
+        //adapter.addFragment(FragmentDrawer.newInstance(resumen), "FRECUENTES"); //se pasan los carros para el fragment
         adapter.addFragment(FragmentDrawer.newInstance(frecuentes), "OPINIONES");
         //adapter.addFragment(FragmentDrawer.newInstance(sinresponder), "MAS");
         viewPager.setAdapter(adapter);
-        onResume(resumen);// se debe ingresar el primer arreglo para el primer fragment, los otros se asignan cada vez que se mueve el tablayout
+        //onResume(resumen);// se debe ingresar el primer arreglo para el primer fragment, los otros se asignan cada vez que se mueve el tablayout
     }//es necesario para que el metodo que devuelve la posicion lo haga del fragment cvorrecto
 
 
+    private boolean checkInternetConnection() {
+        // get Connectivity Manager object to check connection
+        ConnectivityManager cm =
+                (ConnectivityManager)getSystemService(Context.CONNECTIVITY_SERVICE);
 
+        NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
+        boolean isConnected = activeNetwork != null &&
+                activeNetwork.isConnectedOrConnecting();
+        // Check for network connections
+        if (isConnected){
+            return true;
+        }
+        else {
+            Toast.makeText(this, " No tienes conexión a Internet ", Toast.LENGTH_LONG).show();
+            return false;
+        }
+    }
 
     protected void onResume(ArrayList  solicitudes) {
         super.onResume();
@@ -409,6 +405,12 @@ public class NavigationDrawerActivity extends AppCompatActivity
                             boolean user = mydb.CLeanUsers();
                             boolean tipouser = mydb.CLeanTipoUsers();
                             //aux es un vallor de tipo boolean y devuelve si hay vehiculos registrados o no
+
+                            boolean calificaciones = mydb.CLeanCalificaciones();
+                            if (calificaciones) {
+
+                            }
+
                             if(aux) {
 
                                 boolean numVehiculos = mydb.CLean();

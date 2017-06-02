@@ -40,6 +40,13 @@ public class UsuariosSQLiteHelper extends SQLiteOpenHelper {
     private static final String KEY_OBSERVACION = "Observacion";
     private static final String KEY_FECHA = "Fecha";
 
+    //para tabla CALIFICACIONES, Ingreso de Calificaciones
+    private static final String KEY_IDCALIFICACION = "IdCalificacion";
+    private static final String KEY_USUARIO1= "Usuario1";
+    private static final String KEY_CALIFICACION = "Calificacion";
+    private static final String KEY_SUGERENCIA = "Sugerencia";
+    private static final String KEY_FECHA1 = "Fecha1";
+
 
     public UsuariosSQLiteHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -49,7 +56,7 @@ public class UsuariosSQLiteHelper extends SQLiteOpenHelper {
         String TABLE_USUARIO = "PerfilUsuario";
         String TABLE_TIPO_USUARIO= "TipoUsuario";
         String TABLE_PREGUNTAS = "Preguntas";
-
+        String TABLE_CALIFICACIONES = "Calificaciones";
     }
 
     interface Referencias{
@@ -76,9 +83,16 @@ public class UsuariosSQLiteHelper extends SQLiteOpenHelper {
                 + KEY_OBSERVACION + " TEXT,"
                 + KEY_FECHA + " TEXT" + ")";
 
+        String CREATE_CALIFICACIONES_TABLE = "CREATE TABLE " + Tablas.TABLE_CALIFICACIONES + "("
+                + KEY_IDCALIFICACION + " INTEGER PRIMARY KEY AUTOINCREMENT," + KEY_USUARIO1 + " TEXT,"
+                + KEY_CALIFICACION + " TEXT,"
+                + KEY_SUGERENCIA + " TEXT,"
+                + KEY_FECHA1 + " TEXT" + ")";
+
         db.execSQL(CREATE_CONTACTS_TABLE);
         db.execSQL(CREATE_PREGUNTAS_TABLE);
         db.execSQL(CREATE_TIPOUSUARIO_TABLE);
+        db.execSQL(CREATE_CALIFICACIONES_TABLE);
     }
 
     @Override
@@ -87,6 +101,7 @@ public class UsuariosSQLiteHelper extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS " + Tablas.TABLE_USUARIO);
         db.execSQL("DROP TABLE IF EXISTS " + Tablas.TABLE_TIPO_USUARIO);
         db.execSQL("DROP TABLE IF EXISTS " + Tablas.TABLE_PREGUNTAS);
+        db.execSQL("DROP TABLE IF EXISTS " + Tablas.TABLE_CALIFICACIONES);
         // Creating tables again
         onCreate(db);
     }
@@ -130,6 +145,19 @@ public class UsuariosSQLiteHelper extends SQLiteOpenHelper {
         db.close(); // Closing database connection
     }
 
+    public void InsertarCalificacion(String usuario1, String calificacion, String sugerencia, String fecha1) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        //values.put(KEY_IDPREGUNTA, idpregunta);
+        values.put(KEY_USUARIO1, usuario1); // Shop Name
+        values.put(KEY_CALIFICACION, calificacion);
+        values.put(KEY_SUGERENCIA, sugerencia);
+        values.put(KEY_FECHA1, fecha1);
+        // Inserting Row
+        db.insert(Tablas.TABLE_CALIFICACIONES, null, values);
+        db.close(); // Closing database connection
+    }
+
 
     public boolean HayUsuarios(Integer fieldValue) {
         SQLiteDatabase sqldb = this.getReadableDatabase();
@@ -161,11 +189,30 @@ public class UsuariosSQLiteHelper extends SQLiteOpenHelper {
         sqldb.delete(Tablas.TABLE_TIPO_USUARIO, "IdTipoUsuario=1", null);
         return true;
     }
+
+    public boolean CLeanCalificaciones() {
+        SQLiteDatabase sqldb = this.getReadableDatabase();
+        sqldb.delete(Tablas.TABLE_CALIFICACIONES, null, null);
+        return true;
+    }
+
     public boolean HayPreguntas() {
         // devuelve si hay por lo menos un registro en la tabla
         SQLiteDatabase sqldb = this.getReadableDatabase();
 
         String Query = "Select * from " + Tablas.TABLE_PREGUNTAS;
+        Cursor cursor = sqldb.rawQuery(Query, null);
+        if(cursor.getCount() <= 0){
+            return false;
+        }
+        return true;
+    }
+
+    public boolean HayCalificaciones() {
+        // devuelve si hay por lo menos un registro en la tabla
+        SQLiteDatabase sqldb = this.getReadableDatabase();
+
+        String Query = "Select * from " + Tablas.TABLE_CALIFICACIONES;
         Cursor cursor = sqldb.rawQuery(Query, null);
         if(cursor.getCount() <= 0){
             return false;
@@ -277,6 +324,36 @@ public class UsuariosSQLiteHelper extends SQLiteOpenHelper {
         return cartList;
     }
 
+    public ArrayList<Solicitud> getCalificacionesList() {
+
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        ArrayList<Solicitud> cartList = new ArrayList<>();
+
+        try {
+            String query = "SELECT * FROM " + Tablas.TABLE_CALIFICACIONES + ";";
+
+            Cursor cursor = db.rawQuery(query, null);
+
+            for (cursor.moveToFirst(); !cursor.isAfterLast(); cursor.moveToNext()) {
+
+                cartList.add(new Solicitud(
+                        cursor.getString(cursor.getColumnIndex(KEY_USUARIO1)),
+                        cursor.getString(cursor.getColumnIndex(KEY_CALIFICACION)),
+                        0,
+                        cursor.getString(cursor.getColumnIndex(KEY_SUGERENCIA)),
+                        cursor.getString(cursor.getColumnIndex(KEY_FECHA1)),
+                        ""
+                ));
+            }
+
+            db.close();
+
+        } catch (SQLiteException e) {
+            db.close();
+        }
+        return cartList;
+    }
 
 
 

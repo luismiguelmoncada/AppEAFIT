@@ -97,7 +97,7 @@ public class TypeUserActivity extends AppCompatActivity {
 
     private void RegistrarTipoUsuario(String rol, final String codigo, final String identificacion, String email){
 
-        final boolean tipouser = mydb.CLeanTipoUsers();
+
 
         Usuario usuario = new Usuario(rol,codigo,identificacion,email,"","","");
         Call<ServerResponse> call = ApiClient.get().insertarTipoUser(usuario);
@@ -108,18 +108,25 @@ public class TypeUserActivity extends AppCompatActivity {
                 result = response.body().getResult();
                 Toast.makeText(TypeUserActivity.this, message, Toast.LENGTH_LONG).show();
 
-                if (result.equals(Constants.SUCCESS)){
+                try {
+                    if (result.equals(Constants.SUCCESS)){
+                        final boolean tipouser = mydb.CLeanTipoUsers();
+                        if (tipouser) {
+                            InsertarSQlite(1, String.valueOf(spinner1.getSelectedItem()), codigo, identificacion);
+                        }
 
-                    if (tipouser) {
                         InsertarSQlite(1, String.valueOf(spinner1.getSelectedItem()), codigo, identificacion);
+                        PerfilActivity.getInstance().recreate();
+                        TypeUserActivity.this.finish();
+
+                        //Toast.makeText(TypeUserActivity.this,"Datos Almacenados Correctamente en mysql", Toast.LENGTH_LONG).show();
                     }
-
-                    InsertarSQlite(1, String.valueOf(spinner1.getSelectedItem()), codigo, identificacion);
-                    PerfilActivity.getInstance().recreate();
-                    TypeUserActivity.this.finish();
-
-                    //Toast.makeText(TypeUserActivity.this,"Datos Almacenados Correctamente en mysql", Toast.LENGTH_LONG).show();
                 }
+                catch (Exception e) {
+                    Toast.makeText(TypeUserActivity.this,"Error de Conexión al Servidor", Toast.LENGTH_LONG).show();
+                }
+
+
             }
             @Override
             public void onFailure(Call<ServerResponse> call, Throwable t) {

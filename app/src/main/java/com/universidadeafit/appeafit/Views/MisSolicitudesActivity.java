@@ -44,8 +44,6 @@ public class MisSolicitudesActivity extends AppCompatActivity {
         verToolbar("Mis Solicitudes",true);
         mydb = new UsuariosSQLiteHelper(this);
 
-
-
         boolean aux;// los carros se ingresan desde la posicion cero y esto sirve para saber si hay por lo menos 1
         aux = mydb.HayPreguntas();
         //aux es un vallor de tipo boolean y devuelve s
