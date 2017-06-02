@@ -118,7 +118,7 @@ public class WatsonActivity extends AppCompatActivity {
         mAdapter = new MyRecyclerViewChatAdapter(messageArrayList);
         recyclerView.setAdapter(mAdapter);
 
-        sendMessage(); //Para q watson inicie la conversacion
+        //sendMessage(); //Para q watson inicie la conversacion
 
         btnSend.setOnClickListener(new View.OnClickListener(){
             @Override
