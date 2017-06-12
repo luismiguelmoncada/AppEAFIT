@@ -266,7 +266,7 @@ public class NavigationDrawerActivity extends AppCompatActivity
         calificaciones = mydb.getCalificacionesList();
         for( int i = 0 ; i < calificaciones.size() ; i++ ){
             //Toast.makeText(getApplicationContext(), preguntas.get( i ).getPregunta(), Toast.LENGTH_SHORT).show();
-            frecuentes.add(new Solicitud("Usuario: "+calificaciones.get( i ).getPregunta(),"Calificación: "+ calificaciones.get( i ).getMotivo(), R.drawable.ic_start,"Sugerencia: "+calificaciones.get( i ).getObservacion(),"Fecha: "+ calificaciones.get( i ).getFecha() ,""));
+            frecuentes.add(new Solicitud("Usuario: "+calificaciones.get( i ).getPregunta(),"Calificación: "+ calificaciones.get( i ).getMotivo(), R.drawable.informacion,"Sugerencia: "+calificaciones.get( i ).getObservacion(),"Fecha: "+ calificaciones.get( i ).getFecha() ,""));
         }
     }
 

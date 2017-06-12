@@ -48,7 +48,7 @@ tools:context="com.universidadeafit.appeafit.Views.TypeUserActivity">
                 android:id="@+id/codigo"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:drawableRight="@drawable/ic_codigo"
+                android:drawableRight="@drawable/codigo"
                 android:inputType="number"
                 android:text="No Aplica"
 
@@ -65,7 +65,7 @@ tools:context="com.universidadeafit.appeafit.Views.TypeUserActivity">
                 android:id="@+id/identificacion"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:drawableRight="@drawable/ic_identificacion"
+                android:drawableRight="@drawable/identificacion"
                 android:layout_marginLeft="3dp"/>
 
             <RelativeLayout

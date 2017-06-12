@@ -37,7 +37,7 @@
                         android:layout_height="wrap_content"
                         android:hint="@string/hint_username"
                         android:textSize="@dimen/text_size_label_login"
-                        android:drawableRight="@drawable/ic_user_white"
+                        android:drawableRight="@drawable/estudiante"
                         android:inputType="textPersonName"
                         tools:ignore="RtlHardcoded" />
                 </android.support.design.widget.TextInputLayout>
@@ -52,7 +52,7 @@
                         android:layout_height="wrap_content"
                         android:hint="Apellidos"
                         android:textSize="@dimen/text_size_label_login"
-                        android:drawableRight="@drawable/ic_user_general_white"
+                        android:drawableRight="@drawable/docente"
                         android:inputType="textPersonName"
                         tools:ignore="RtlHardcoded" />
                 </android.support.design.widget.TextInputLayout>
@@ -67,7 +67,7 @@
                         android:layout_height="wrap_content"
                         android:hint="@string/hint_email"
                         android:textSize="@dimen/text_size_label_login"
-                        android:drawableRight="@drawable/ic_email"
+                        android:drawableRight="@drawable/correo"
                         android:inputType="textEmailAddress"
                         tools:ignore="RtlHardcoded" />
                 </android.support.design.widget.TextInputLayout>

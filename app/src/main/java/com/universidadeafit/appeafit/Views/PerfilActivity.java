@@ -99,11 +99,11 @@ public class PerfilActivity extends AppCompatActivity {
         nombrecompleto.setText(nombres + " " + apellidos);
         nombretoolbar.setText(nombres);
 
-        datosusuario.add(new Solicitud("Email", email, R.drawable.ic_email_perfil, "", "",""));
-        datosusuario.add(new Solicitud("Rol", rol, R.drawable.ic_perfil_perfil, "", "",""));
-        datosusuario.add(new Solicitud("Identificación", identificacion, R.drawable.ic_identificacion, "", "",""));
-        datosusuario.add(new Solicitud("Codigo", codigo, R.drawable.ic_codigo, "", "",""));
-        datosusuario.add(new Solicitud("Solicitudes", "12", R.drawable.ic_pregunta_perfil, "", "",""));
+        datosusuario.add(new Solicitud("Email", email, R.drawable.correo, "", "",""));
+        datosusuario.add(new Solicitud("Rol", rol, R.drawable.administrativo, "", "",""));
+        datosusuario.add(new Solicitud("Identificación", identificacion, R.drawable.identificacion, "", "",""));
+        datosusuario.add(new Solicitud("Codigo", codigo, R.drawable.codigo, "", "",""));
+        datosusuario.add(new Solicitud("Solicitudes", "12", R.drawable.solicitudes, "", "",""));
 
         mRecyclerView = (RecyclerView) findViewById(R.id.my_recycler_view_perfil);
         mRecyclerView.setHasFixedSize(true);

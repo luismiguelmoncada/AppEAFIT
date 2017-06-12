@@ -49,7 +49,7 @@
                         android:layout_height="wrap_content"
                         android:hint="@string/hint_user"
                         android:textSize="@dimen/text_size_label_login"
-                        android:drawableRight="@drawable/ic_user_white"
+                        android:drawableRight="@drawable/correo"
                         android:inputType="textEmailAddress"
                         tools:ignore="RtlHardcoded" />
                 </android.support.design.widget.TextInputLayout>

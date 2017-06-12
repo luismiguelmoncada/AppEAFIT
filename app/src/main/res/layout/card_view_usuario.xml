@@ -47,7 +47,7 @@
                 android:id="@+id/imageView"
                 android:layout_width="25dp"
                 android:layout_height="25dp"
-                android:src="@drawable/ic_iconlogo"
+                android:src="@drawable/launcher96x96_43"
                 android:layout_alignParentEnd="true" />
 
         </RelativeLayout>
